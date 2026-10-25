@@ -354,6 +354,9 @@ IRToCK3_game_start_onaction_effects = {
 			REGION = irtock3_rome_empire_division_serica_deserti
 			EMPIRE = e_roman_prefecture_serica_deserti
 		}
+		{% if tfe %}
+		title:e_roman_prefecture_serica_deserti = { set_capital_county = title:c_guazhou } # As of now, TFE uses this as the capital county for the only kingdom under e_yongliang
+		{% endif %}
 		{% endunless %}
 
 
@@ -394,7 +397,7 @@ IRToCK3_game_start_onaction_effects = {
 								title_province = { geographical_region = scope:region_temp }
 							}
 						}
-					} # Just to make sure it's properly setup
+					}
 					order_by = {
 						value = 0
 						save_temporary_scope_as = prefecture_temp
@@ -426,28 +429,374 @@ IRToCK3_game_start_onaction_effects = {
 			}
 		}
 
-		## If anyone holds the Rome hegemony titles at game start, they should have the Augustus trait and naming flag, and their vassals should get flags so their titles are properly named as well
+		{% if tfe %}
+		## Make sure all of the setup TFE Diocese titles are properly given holders, and overlapping Imperator governorships are destroyed, when relevant
 		if = {
-			limit = { exists = title:h_roman_empire.holder }
-			title:h_roman_empire.holder = {
-				add_trait = augustus
-				set_variable = uses_custom_caesar_flavourization
+			limit = {
+				any_in_list = { list = setup_diocese_titles }
+			}
+
+			### Get a list of all Roman Emperors
+			every_ruler = {
+				limit = { is_roman_emperor_trigger = yes }
+				add_to_list = roman_emperors
+				capital_county = { add_to_list = roman_counties_to_ignore } # Capitals of the Emperors shouldn't be changed
+
+				# Go through their vassals. If any of their vassals converted from an Imperator subject country, their counties shouldn't be changed
+				every_vassal = {
+					limit = {
+						any_held_title = { has_variable = imperator_tag }
+					}
+					add_to_list = imperator_subject_vassals
+					every_sub_realm_county = { add_to_list = roman_counties_to_ignore }
+				}
+			}
+
+			every_in_list = {
+				list = setup_diocese_titles
+				save_scope_as = diocese_title_scope
+
+				### Get a list of all counties that should be under this diocese
+				every_de_jure_county = {
+					limit = {
+						NOT = { is_in_list = roman_counties_to_ignore }
+						holder ?= {
+							OR = {
+								is_in_list = roman_emperors
+								any_liege_or_above = { is_in_list = roman_emperors }
+							}
+						}
+					}
+					add_to_list = diocese_counties
+				}
+
+				### Figure out which of the Roman Emperors should have the Diocese setup in their realm
+				ordered_in_list = {
+					list = roman_emperors
+					order_by = {
+						value = 0
+						save_temporary_scope_as = temp_roman_emperor_scope
+						# Increase score for every de jure county the Emperor already has in their realm
+						every_in_list = {
+							list = diocese_counties
+							if = {
+								limit = {
+									holder ?= {
+										OR = {
+											this = scope:temp_roman_emperor_scope
+											any_liege_or_above = { this = scope:temp_roman_emperor_scope }
+										}
+									}
+								}
+								add = 10
+							}
+						}
+						# Add a little extra if the diocese should technically be controlled by that Emperor, for tie breaking
+						if = {
+							limit = {
+								OR = {
+									AND = {
+										scope:diocese_title_scope.empire ?= {
+											OR = {
+												this = title:e_prafectura_gallia
+												this = title:e_prafectura_italia
+											}
+										}
+										scope:temp_roman_emperor_scope = { has_title = title:e_western_roman_empire }
+									}
+									AND = {
+										scope:diocese_title_scope.empire ?= {
+											OR = {
+												this = title:e_prafectura_illyricum
+												this = title:e_prafectura_oriens
+											}
+										}
+										scope:temp_roman_emperor_scope = { has_title = title:e_byzantium }
+									}
+								}
+							}
+							add = 5
+						}
+						# Add 1 extra if the diocese' capital is in the Emperor's realm to break some potential ties
+						if = {
+							limit = {
+								scope:diocese_title_scope.title_capital_county.holder ?= {
+									OR = {
+										this = scope:temp_roman_emperor_scope
+										any_liege_or_above = { this = scope:temp_roman_emperor_scope }
+									}
+								}
+							}
+							add = 1
+						}
+					}
+					max = 1
+					save_scope_as = chosen_roman_emperor
+				}
+
+				### Remove all diocese counties from the list if they aren't in the chosen emperor's realm
+				every_in_list = {
+					list = diocese_counties
+					if = {
+						limit = {
+							NOT = {
+								holder ?= {
+									OR = {
+										this = scope:chosen_roman_emperor
+										any_liege_or_above = { this = scope:chosen_roman_emperor }
+									}
+								}
+							}
+						}
+						remove_from_list = diocese_counties
+					}
+				}
+
+				### Get what the diocese's capital county should be after setup
+				ordered_in_list = {
+					list = diocese_counties
+					limit = { scope:diocese_title_scope.title_capital_county ?= this } # Prioritize the Diocese's actual capital first
+					alternative_limit = { duchy.title_capital_county ?= this } # Then the de jure capital of a duchy
+					alternative_limit = { always = yes } # Fallback to any possible county
+					order_by = development_level
+					save_scope_as = diocese_capital_county
+				}
+
+				### Imperator governor vassals should only be direct vassals, so figure out which of those vassals overlap with the diocese
+				scope:chosen_roman_emperor = {
+					ordered_vassal = {
+						# Prioritize vassals who control all of the relevant diocese counties already
+						limit = {
+							save_temporary_scope_as = temp_vassal_scope
+							NOR = {
+								any_held_title = { is_in_list = setup_diocese_titles } # Don't want someone who was already given a diocese
+								is_in_list = imperator_subject_vassals # Don't want someone who converted from an Imperator subject country
+							}
+							any_in_list = {
+								list = diocese_counties
+								count = all
+								holder ?= {
+									OR = {
+										this = scope:temp_vassal_scope
+										any_liege_or_above = { this = scope:temp_vassal_scope }
+									}
+								}
+							}
+						}
+						# Otherwise, just search for all vassals that overlap the region
+						alternative_limit = {
+							NOR = {
+								any_held_title = { is_in_list = setup_diocese_titles } # Don't want someone who was already given a diocese
+								is_in_list = imperator_subject_vassals # Don't want someone who converted from an Imperator subject country
+							}
+							any_sub_realm_county = { is_in_list = diocese_counties }
+						}
+						order_by = {
+							value = 0
+							save_temporary_scope_as = temp_vassal_scope
+							# Increase score for every diocese county they already control
+							every_in_list = {
+								list = diocese_counties
+								limit = {
+									holder ?= {
+										OR = {
+											this = scope:temp_vassal_scope
+											any_liege_or_above = { this = scope:temp_vassal_scope }
+										}
+									}
+								}
+								add = 10
+							}
+							# Add a slight increase if the chosen capital is in their realm, to break ties
+							if = {
+								limit = {
+									scope:diocese_capital_county.holder ?= {
+										OR = {
+											this = scope:temp_vassal_scope
+											any_liege_or_above = { this = scope:temp_vassal_scope }
+										}
+									}
+								}
+								add = 1
+							}
+						}
+						max = 1
+						save_scope_as = chosen_roman_vassal
+					}
+
+					### If, somehow, a vassal wasn't chosen, need to choose/create a fallback
+					if = {
+						limit = {
+							NOT = { exists = scope:chosen_roman_vassal }
+						}
+
+						### Use a courtier from the Emperor
+						if = {
+							limit = {
+								any_courtier = {
+									NOR = {
+										is_heir_of = scope:chosen_roman_emperor
+										is_spouse_of = scope:chosen_roman_emperor
+										is_diarch = yes
+									}
+								}
+							}
+							random_courtier = {
+								limit = {
+									NOR = {
+										is_heir_of = scope:chosen_roman_emperor
+										is_spouse_of = scope:chosen_roman_emperor
+										is_diarch = yes
+									}
+								}
+								save_scope_as = chosen_roman_vassal
+							}
+						}
+						# Just create a new character
+						else = {
+							create_character = {
+								template = administrator_character
+								gender_female_chance = {
+									if = {
+										limit = { scope:chosen_roman_emperor.faith = { has_doctrine = doctrine_gender_male_dominated } }
+										add = 0
+									}
+									else_if = {
+										limit = { scope:chosen_roman_emperor.faith = { has_doctrine = doctrine_gender_female_dominated } }
+										add = 100
+									}
+									else = {
+										add = 50
+									}
+								}
+								dynasty = generate
+								location = scope:diocese_capital_county.title_province
+								faith = scope:chosen_roman_emperor.faith
+								culture = scope:chosen_roman_emperor.culture
+								save_scope_as = chosen_roman_vassal
+							}
+						}
+					}
+				}
+
+				### Make sure the chosen vassal has all of the appropriate diocese land
+				create_title_and_vassal_change = {
+					type = granted
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				every_in_list = {
+					list = diocese_counties
+					if = {
+						limit = {
+							NOT = {
+								holder ?= {
+									OR = {
+										this = scope:chosen_roman_vassal
+										any_liege_or_above = { this = scope:chosen_roman_vassal }
+									}
+								}
+							}
+						}
+						change_title_holder_include_vassals = {
+							holder = scope:chosen_roman_vassal
+							change = scope:change
+						}
+					}
+				}
+
+				scope:diocese_title_scope = {
+					change_title_holder_include_vassals = {
+						holder = scope:chosen_roman_vassal
+						change = scope:change
+					}
+					resolve_title_and_vassal_change = scope:change
+				}
+				scope:chosen_roman_vassal = {
+					if = {
+						limit = {
+							NOT = { has_title = scope:diocese_capital_county }
+						}
+						scope:diocese_capital_county = {
+							create_title_and_vassal_change = {
+								type = granted
+								save_scope_as = change
+								add_claim_on_loss = no
+							}
+							change_title_holder_include_vassals = {
+								holder = scope:chosen_roman_vassal
+								change = scope:change
+							}
+							resolve_title_and_vassal_change = scope:change
+						}
+					}
+
+					set_realm_capital = scope:diocese_capital_county
+					set_primary_title_to = scope:diocese_title_scope
+				}
+
+				## Make sure they are the Emperor's vassal (in case a courtier was chosen, or a character created), and give any land they control outside of the diocese to the emperor
+				scope:chosen_roman_vassal = {
+					if = {
+						limit = {
+							NOT = { liege ?= scope:chosen_roman_emperor }
+						}
+						create_title_and_vassal_change = {
+							type = granted
+							save_scope_as = change
+							add_claim_on_loss = no
+						}
+						change_liege = {
+							liege = scope:chosen_roman_emperor
+							change = scope:change
+						}
+						resolve_title_and_vassal_change = scope:change
+					}
+
+					every_sub_realm_county = {
+						limit = {
+							NOT = { is_in_list = diocese_counties }
+						}
+						scope:chosen_roman_emperor = { get_title = prev }
+					}
+
+					### Destroy every other kingdom title they may have. This *should* only target titles given to them for being a governor in Imperator, since at this point, that should be the only other kingdoms they should have possibly gotten
+					every_held_title = {
+						title_tier = kingdom
+						limit = {
+							NOT = { is_in_list = setup_diocese_titles }
+						}
+						scope:chosen_roman_vassal = { destroy_title = prev }
+					}
+				}
+
+				clear_saved_scope = diocese_title_scope
+				clear_saved_scope = chosen_roman_emperor
+				clear_saved_scope = chosen_roman_vassal
+				clear_saved_scope = diocese_capital_county
+				every_in_list = {
+					list = diocese_counties
+					remove_from_list = diocese_counties
+				}
+			}
+			every_in_list = {
+				list = setup_diocese_titles
+				remove_from_list = setup_diocese_titles
+			}
+			every_in_list = {
+				list = roman_emperors
+				remove_from_list = roman_emperors
+			}
+			every_in_list = {
+				list = roman_counties_to_ignore
+				remove_from_list = roman_counties_to_ignore
+			}
+			every_in_list = {
+				list = imperator_subject_vassals
+				remove_from_list = imperator_subject_vassals
 			}
 		}
-		if = {
-			limit = { exists = title:h_western_roman_empire.holder }
-			title:h_western_roman_empire.holder = {
-				add_trait = augustus
-				set_variable = uses_custom_caesar_flavourization
-			}
-		}
-		if = {
-			limit = { exists = title:h_eastern_roman_empire.holder }
-			title:h_eastern_roman_empire.holder = {
-				add_trait = augustus
-				set_variable = uses_custom_caesar_flavourization
-			}
-		}
+		{% endif %}
 
 		####################
 		### Title Naming ###
@@ -865,7 +1214,7 @@ IRToCK3_game_start_onaction_effects = {
 		# For now, making it so that any de jure hegemony that borders h_china has it's land given to China, since they would prioritize becoming Emperor of China anyway
 		if = {
 			limit = {
-				NOT = { global_var:irtock3_enabled ?= flag:wtwsms }
+				NOT = { global_var:irtock3_enabled = flag:wtwsms }
 			}
 
 			# Get a list of every Chinese-ruled hegemony
@@ -926,23 +1275,6 @@ IRToCK3_game_start_onaction_effects = {
 
 		# Government Setup
 		irtock3_setup_governments = yes
-
-
-		##########################
-		### Mod-Specific Setup ###
-		##########################
-		{% if tfe %}
-		# TFE
-
-		### Make sure all of the setup Diocese titles are properly given holders, and any Imperator governorships are destroyed, when relevant
-		every_in_list = {
-			list = setup_diocese_titles
-			save_scope_as = diocese_title_scope
-
-			
-		}
-
-		{% endif %}
 	}
 }
 

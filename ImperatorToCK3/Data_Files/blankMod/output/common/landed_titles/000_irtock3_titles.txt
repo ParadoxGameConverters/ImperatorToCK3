@@ -1049,11 +1049,7 @@ e_roman_prefecture_serica_septentrionalis = {
 e_roman_prefecture_serica_deserti = {
 	color = { 177 146 152 }
 
-	{% if tfe %} # As of now, TFE uses this as the capital county for the only kingdom under e_yongliang
-	capital = c_guazhou
-	{% else %}
 	capital = c_jingzhao
-	{% endif %}
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes

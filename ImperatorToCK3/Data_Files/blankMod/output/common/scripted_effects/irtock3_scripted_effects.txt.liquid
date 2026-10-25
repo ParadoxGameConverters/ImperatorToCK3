@@ -276,6 +276,12 @@ irtock3_setup_governments = {
 	every_ruler = {
 		# Handling this through if/else_if statements to prevent one block from overwriting the effects of another
 
+		# Some useful info for handling characters:
+		## If they have the variable "irtock3_uncolonized_filler", that means they are a "filler" character, someone the converter created to give the uncolonized/out-of-scope counties to
+		## If a title they have has the variable "imperator_tag", that means they are the ruler of a country imported from Imperator. The tag of the country they ruled is saved as a flag in this variable (i.e. Rome would have "flag:ROM")
+		### This can be used to determine if someone was a subject in Imperator, because it would mean they are someone's vassal in CK3 but have a title with the "imperator_tag" variable
+		## If they don't have the "irtock3_uncolonized_filler" variable and don't have a title with the "imperator_tag" variable, that means they were a governor in Imperator, and the country they belonged to can be found by finding the first liege above them that has a title with the "imperator_tag" variable (this will likely just be their direct liege, since I don't think the converter creates subvassals)
+
 		#######################
 		### Mod Governments ###
 		#######################
@@ -695,6 +701,13 @@ irtock3_setup_governments = {
 			{% endif %}
 		}
 		{% endif %}
+
+		if = {
+			limit = { is_roman_emperor_trigger = yes }
+			#add_trait = augustus
+			set_variable = uses_custom_caesar_flavourization
+		}
+
 
 		###############
 		### Cleanup ###
