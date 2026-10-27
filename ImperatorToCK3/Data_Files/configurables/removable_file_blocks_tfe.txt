@@ -1058,6 +1058,28 @@ garamantes_flavour_effect = {
 	}
 
 	{
+		#Alemannic Confederation set up
+		if = {
+			limit = {
+				game_start_date >= 361.1.1
+				game_start_date <= 396.1.1
+			}
+			title:d_west_franconia.holder = {
+				create_confederation = {
+					name = alemannic_confederation_name_setup
+				}
+				confederation = {
+					set_coa = title:k_east_francia_germanic
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:d_brisgavia.holder
+					add_confederation_member = title:d_raetovaria.holder
+					add_confederation_member = title:d_lentienses.holder
+					add_confederation_member = title:d_nordgau.holder
+					add_confederation_member = title:c_wurzburg.holder
+				}
+			}
+		}
 		#Saxon Confederation set up
 		if = {
 			limit = {
@@ -1739,6 +1761,10 @@ TFE_on_game_start_limes = {
 	}
 	{
 		TFE_on_game_start_limes
+	}
+
+	{
+		TFE_on_game_start_landless_adventurers_effect = yes
 	}
 
 } # End of "common/on_action/TFE_game_start.txt"
@@ -28793,5 +28819,40 @@ TFE_claim_descent_from_li_ling = {
 		}
 	}
 }
+	}
+}
+
+
+"common/on_action/TFE_roman_imperial_on_actions.txt" = {
+	# TFE_roman_imperial_game_start; Setting up Ministers/Prefects at game start will be handled by the converter
+	{
+		# Fill any ministry gaps not covered by bookmark title-history.
+		# Static WRE/ERE minister titles + PPs are mostly pre-seeded from
+		# history/titles/tfe_roman_minister_titles.txt + e_byzantium.txt +
+		# e_western_roman_empire.txt, but slots where the historical
+		# holder is dead / has a `holder = 0` reset or no bookmark-adjacent
+		# entry get filled here via the shared populate helper. Per-slot
+		# `NOT = { exists = cp:$POSITION$ }` guards inside the helper make
+		# this a no-op for already-seated council slots.
+		#
+		# The sentinel makes the on_title_gain minister dispatcher and the
+		# civil/military divide enforcement pulse inert while populate runs:
+		# populate's fresh-pick branch grants minister titles, whose on_title_gain
+		# would otherwise re-enter the dispatcher (double-seating) and the divide
+		# pulse (confiscating the fresh grant). Populate seats and caps each
+		# minister itself. Mirrors tfe_ministry_populate.0001.
+		set_global_variable = { name = tfe_ministry_populate_in_progress  value = yes }
+		every_ruler = {
+			limit = {
+				government_has_flag = government_is_roman_imperial
+				is_roman_emperor_trigger = yes
+			}
+			tfe_populate_roman_emperor_ministry_effect = yes
+		}
+
+		# Praetorian Prefects are diocese-driven, not populated per emperor: seat
+		# each PP under whichever emperor holds its dioceses, prune any with none.
+		tfe_reconcile_all_pp_effect = yes
+		remove_global_variable = tfe_ministry_populate_in_progress
 	}
 }

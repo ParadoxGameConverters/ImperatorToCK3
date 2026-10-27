@@ -55,6 +55,9 @@ on_title_gain = {
 	on_actions = {
 		IRToCK3_ritsuryo_multiple_empires
 		IRToCK3_change_persia_name
+		{% if tfe %}
+		IRToCK3_TFE_minister_title_law_setup
+		{% endif %}
 	}
 }
 
@@ -361,7 +364,7 @@ IRToCK3_game_start_onaction_effects = {
 
 
 		{% if tfe %}
-		# TFE Prefecture/Diocese setup (want it done before the regular Prefecture setup effect to try and hopefully fix weird de jure messes from odd governorship borders)
+		## TFE Prefecture/Diocese setup (want it done before the regular Prefecture setup effect to try and hopefully fix weird de jure messes from odd governorship borders)
 		irtock3_tfe_rome_prefecture_setup = yes
 		{% endif %}
 
@@ -639,6 +642,36 @@ IRToCK3_game_start_onaction_effects = {
 										is_spouse_of = scope:chosen_roman_emperor
 										is_diarch = yes
 									}
+									trigger_if = {
+										limit = {
+											scope:chosen_roman_emperor.primary_title.state_faith ?= { has_doctrine = doctrine_gender_male_dominated }
+										}
+										is_male = yes
+									}
+									trigger_if = {
+										limit = {
+											scope:chosen_roman_emperor.primary_title.state_faith ?= { has_doctrine = doctrine_gender_female_dominated }
+										}
+										is_female = yes
+									}
+									trigger_if = {
+										limit = {
+											scope:chosen_roman_emperor.primary_title.state_faith ?= { has_doctrine = doctrine_gender_equal }
+										}
+										always = yes
+									}
+									trigger_if = {
+										limit = {
+											scope:chosen_roman_emperor.faith ?= { has_doctrine = doctrine_gender_male_dominated }
+										}
+										is_male = yes
+									}
+									trigger_if = {
+										limit = {
+											scope:chosen_roman_emperor.faith ?= { has_doctrine = doctrine_gender_female_dominated }
+										}
+										is_female = yes
+									}
 								}
 							}
 							random_courtier = {
@@ -647,6 +680,36 @@ IRToCK3_game_start_onaction_effects = {
 										is_heir_of = scope:chosen_roman_emperor
 										is_spouse_of = scope:chosen_roman_emperor
 										is_diarch = yes
+									}
+									trigger_if = {
+										limit = {
+											scope:chosen_roman_emperor.primary_title.state_faith ?= { has_doctrine = doctrine_gender_male_dominated }
+										}
+										is_male = yes
+									}
+									trigger_if = {
+										limit = {
+											scope:chosen_roman_emperor.primary_title.state_faith ?= { has_doctrine = doctrine_gender_female_dominated }
+										}
+										is_female = yes
+									}
+									trigger_if = {
+										limit = {
+											scope:chosen_roman_emperor.primary_title.state_faith ?= { has_doctrine = doctrine_gender_equal }
+										}
+										always = yes
+									}
+									trigger_if = {
+										limit = {
+											scope:chosen_roman_emperor.faith ?= { has_doctrine = doctrine_gender_male_dominated }
+										}
+										is_male = yes
+									}
+									trigger_if = {
+										limit = {
+											scope:chosen_roman_emperor.faith ?= { has_doctrine = doctrine_gender_female_dominated }
+										}
+										is_female = yes
 									}
 								}
 								save_scope_as = chosen_roman_vassal
@@ -1275,6 +1338,11 @@ IRToCK3_game_start_onaction_effects = {
 
 		# Government Setup
 		irtock3_setup_governments = yes
+
+		{% if tfe %}
+		## TFE special title setup (making sure things like ministry titles are properly setup)
+		irtock3_tfe_special_title_setup = yes
+		{% endif %}
 	}
 }
 
@@ -1761,3 +1829,94 @@ IRToCK3_reset_persia_name = {
 		}
 	}
 }
+
+{% if tfe %}
+# This on_action is just to make sure that the special Roman titles (like the Minister titles) have the appropriate title laws
+IRToCK3_TFE_minister_title_law_setup = {
+	trigger = {
+		scope:title = {
+			trigger_if = {
+				limit = {
+					OR = {
+						# Ministers
+						var:tfe_roman_minister_slot ?= flag:grand_marshal
+						var:tfe_roman_minister_slot ?= flag:comes_domesticorum
+					}
+				}
+				NOT = { has_title_law = roman_imperial_grand_marshal_appointment_succession_law }
+			}
+			trigger_else_if = {
+				limit = {
+					OR = {
+						# Praetorian Prefectures
+						is_roman_pp_title_trigger = yes
+						# Ministers
+						var:tfe_roman_minister_slot ?= flag:magister_officiorum
+						var:tfe_roman_minister_slot ?= flag:comes_sacrarum_largitionum
+						var:tfe_roman_minister_slot ?= flag:quaestor_sacri_palatii
+						var:tfe_roman_minister_slot ?= flag:primicerius_notariorum
+					}
+				}
+				NOT = { has_title_law = roman_imperial_ministry_appointment_succession_law }
+			}
+			trigger_else_if = {
+				limit = {
+					# Ministers
+					var:tfe_roman_minister_slot ?= flag:praepositus_sacri_cubiculi
+				}
+				NOT = { has_title_law = roman_imperial_psc_appointment_succession_law }
+			}
+			trigger_else_if = {
+				limit = {
+					# Border/Field Armies
+					has_variable = is_military_command
+				}
+				NOT = { has_title_law = tfe_roman_imperial_military_appointment_succession_law }
+			}
+			trigger_else = { always = no }
+		}
+	}
+	effect = {
+		scope:title = {
+			if = {
+				limit = {
+					OR = {
+						# Ministers
+						var:tfe_roman_minister_slot ?= flag:grand_marshal
+						var:tfe_roman_minister_slot ?= flag:comes_domesticorum
+					}
+				}
+				add_title_law = roman_imperial_grand_marshal_appointment_succession_law
+			}
+			else_if = {
+				limit = {
+					OR = {
+						# Praetorian Prefectures
+						is_roman_pp_title_trigger = yes
+						# Ministers
+						var:tfe_roman_minister_slot ?= flag:magister_officiorum
+						var:tfe_roman_minister_slot ?= flag:comes_sacrarum_largitionum
+						var:tfe_roman_minister_slot ?= flag:quaestor_sacri_palatii
+						var:tfe_roman_minister_slot ?= flag:primicerius_notariorum
+					}
+				}
+				add_title_law = roman_imperial_ministry_appointment_succession_law
+			}
+			else_if = {
+				limit = {
+					# Ministers
+					var:tfe_roman_minister_slot ?= flag:praepositus_sacri_cubiculi
+				}
+				add_title_law = roman_imperial_psc_appointment_succession_law
+			}
+			else_if = {
+				limit = {
+					# Border/Field Armies
+					has_variable = is_military_command
+				}
+				add_title_law = tfe_roman_imperial_military_appointment_succession_law
+			}
+		}
+	}
+}
+{% endif %}

@@ -5428,4 +5428,495 @@ irtock3_tfe_rome_prefecture_setup = {
 		title:k_daciae = { set_title_name = MOESIA }
 	}
 }
+
+# This effect is to make sure TFE's special titles, like Rome's ministry titles, are properly setup
+irtock3_tfe_special_title_setup = {
+	###############
+	## Ministers ##
+	###############
+	# ERE/Roman Hegemony
+	title:k_minister_magister_officiorum = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:magister_officiorum }
+		add_title_law = roman_imperial_ministry_appointment_succession_law
+	}
+	title:k_minister_comes_sacrarum_largitionum = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:comes_sacrarum_largitionum }
+		add_title_law = roman_imperial_ministry_appointment_succession_law
+	}
+	title:k_minister_quaestor_sacri_palatii = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:quaestor_sacri_palatii }
+		add_title_law = roman_imperial_ministry_appointment_succession_law
+	}
+	title:k_minister_comes_domesticorum = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:comes_domesticorum }
+		add_title_law = roman_imperial_grand_marshal_appointment_succession_law
+	}
+	title:k_minister_primicerius_notariorum = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:primicerius_notariorum }
+		add_title_law = roman_imperial_ministry_appointment_succession_law
+	}
+	title:k_minister_magister_militum_praesentalis = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:grand_marshal }
+		add_title_law = roman_imperial_grand_marshal_appointment_succession_law
+	}
+	title:k_minister_praepositus_sacri_cubiculi = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:praepositus_sacri_cubiculi }
+		add_title_law = roman_imperial_psc_appointment_succession_law
+	}
+	if = {
+		limit = {
+			OR = {
+				exists = title:h_roman_empire.holder
+				exists = title:e_byzantium.holder
+			}
+		}
+
+		if = {
+			limit = { exists = title:h_roman_empire.holder }
+			title:h_roman_empire.holder = { save_scope_as = ere_minister_emperor }
+		}
+		else = {
+			title:e_byzantium.holder = { save_scope_as = ere_minister_emperor }
+		}
+
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = scope:ere_minister_emperor
+			TITLE = title:k_minister_magister_officiorum
+			SKILL = diplomacy
+		}
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = scope:ere_minister_emperor
+			TITLE = title:k_minister_comes_sacrarum_largitionum
+			SKILL = stewardship
+		}
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = scope:ere_minister_emperor
+			TITLE = title:k_minister_quaestor_sacri_palatii
+			SKILL = learning
+		}
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = scope:ere_minister_emperor
+			TITLE = title:k_minister_comes_domesticorum
+			SKILL = martial
+		}
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = scope:ere_minister_emperor
+			TITLE = title:k_minister_primicerius_notariorum
+			SKILL = diplomacy
+		}
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = scope:ere_minister_emperor
+			TITLE = title:k_minister_magister_militum_praesentalis
+			SKILL = martial
+		}
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = scope:ere_minister_emperor
+			TITLE = title:k_minister_praepositus_sacri_cubiculi
+			SKILL = intrigue
+		}
+
+		clear_saved_scope = ere_minister_emperor
+	}
+
+	# WRE
+	title:k_minister_wre_praepositus_sacri_cubiculi = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:praepositus_sacri_cubiculi }
+		add_title_law = roman_imperial_psc_appointment_succession_law
+	}
+	title:k_minister_magister_utriusque_militiae = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:grand_marshal }
+		add_title_law = roman_imperial_grand_marshal_appointment_succession_law
+	}
+	title:k_minister_wre_magister_officiorum = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:magister_officiorum }
+		add_title_law = roman_imperial_ministry_appointment_succession_law
+	}
+	title:k_minister_wre_primicerius_notariorum = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:primicerius_notariorum }
+		add_title_law = roman_imperial_ministry_appointment_succession_law
+	}
+	title:k_minister_wre_comes_domesticorum = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:comes_domesticorum }
+		add_title_law = roman_imperial_grand_marshal_appointment_succession_law
+	}
+	title:k_minister_wre_comes_sacrarum_largitionum = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:comes_sacrarum_largitionum }
+		add_title_law = roman_imperial_ministry_appointment_succession_law
+	}
+	title:k_minister_wre_quaestor_sacri_palatii = {
+		set_variable = is_roman_minister_title
+		set_variable = { name = tfe_roman_minister_slot value = flag:quaestor_sacri_palatii }
+		add_title_law = roman_imperial_ministry_appointment_succession_law
+	}
+	if = {
+		limit = { exists = title:e_western_roman_empire.holder }
+
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = title:e_western_roman_empire.holder
+			TITLE = title:k_minister_wre_magister_officiorum
+			SKILL = diplomacy
+		}
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = title:e_western_roman_empire.holder
+			TITLE = title:k_minister_wre_comes_sacrarum_largitionum
+			SKILL = stewardship
+		}
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = title:e_western_roman_empire.holder
+			TITLE = title:k_minister_wre_quaestor_sacri_palatii
+			SKILL = learning
+		}
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = title:e_western_roman_empire.holder
+			TITLE = title:k_minister_wre_comes_domesticorum
+			SKILL = martial
+		}
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = title:e_western_roman_empire.holder
+			TITLE = title:k_minister_wre_primicerius_notariorum
+			SKILL = diplomacy
+		}
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = title:e_western_roman_empire.holder
+			TITLE = title:k_minister_magister_utriusque_militiae
+			SKILL = martial
+		}
+		irtock3_tfe_game_start_fill_minister_position = {
+			EMPEROR = title:e_western_roman_empire.holder
+			TITLE = title:k_minister_wre_praepositus_sacri_cubiculi
+			SKILL = intrigue
+		}
+	}
+
+	#########################
+	## Praetorian Prefects ##
+	#########################
+	# Praetorian Prefects seem to get properly setup after the game starts, so not handling that here
+	title:k_minister_prafectura_gallia = { add_title_law = roman_imperial_ministry_appointment_succession_law }
+	title:k_minister_prafectura_italia = { add_title_law = roman_imperial_ministry_appointment_succession_law }
+	title:k_minister_prafectura_illyricum = { add_title_law = roman_imperial_ministry_appointment_succession_law }
+	title:k_minister_prafectura_oriens = { add_title_law = roman_imperial_ministry_appointment_succession_law }
+
+	######################
+	## Military Command ##
+	######################
+	# ══════════════════════════════════════════════════════════════
+	# ERE Field Armies (Kingdom-tier — Magistri Militum)
+	# ══════════════════════════════════════════════════════════════
+	# Field Armies can be setup during the game, and it probably wouldn't be a good idea to setup all of them at game start and make Rome *too* powerful, so leaving them alone for now
+	k_mm_illyricum = { add_to_list = ere_field_armies }
+	k_mm_thraciae = { add_to_list = ere_field_armies }
+	k_mm_orientem = { add_to_list = ere_field_armies }
+	k_mm_aegypti = { add_to_list = ere_field_armies }
+	k_mm_armeniam = { add_to_list = ere_field_armies }
+
+	every_in_list = {
+		list = ere_field_armies
+		set_variable = is_military_command
+		add_title_law = tfe_roman_imperial_military_appointment_succession_law
+		# Need to make sure this effect is triggered after this title is properly given out
+		#if = {
+		#	limit = { exists = holder }
+		#	holder = {
+		#		vassal_contract_set_obligation_level = { type = roman_imperial_assignments level = roman_imperial_military_appointment }
+		#		save_scope_as = tfe_command_title
+		#		tfe_seed_regional_field_army_maa_effect = yes
+		#	}
+		#}
+	}
+
+	# ══════════════════════════════════════════════════════════════
+	# ERE Border Armies (Duchy-tier — Duces)
+	# ══════════════════════════════════════════════════════════════
+	# Border Armies can be setup during the game, and it probably wouldn't be a good idea to setup all of them at game start and make Rome *too* powerful, so leaving them alone for now
+	d_dux_moesiae_primae = { add_to_list = ere_border_armies }
+	d_dux_daciae_ripensis = { add_to_list = ere_border_armies }
+	d_dux_moesiae_secundae = { add_to_list = ere_border_armies }
+	d_dux_scythiae = { add_to_list = ere_border_armies }
+	d_dux_pontus = { add_to_list = ere_border_armies }
+	d_dux_armeniae = { add_to_list = ere_border_armies }
+	d_dux_osroenae = { add_to_list = ere_border_armies }
+	d_dux_mesopotamiae = { add_to_list = ere_border_armies }
+	d_dux_arabiae = { add_to_list = ere_border_armies }
+	d_dux_thebaidos = { add_to_list = ere_border_armies }
+
+	every_in_list = {
+		list = ere_border_armies
+		set_variable = is_military_command
+		add_title_law = tfe_roman_imperial_military_appointment_succession_law
+		# Need to make sure this effect is triggered after this title is properly given out
+		#if = {
+		#	limit = { exists = holder }
+		#	holder = {
+		#		vassal_contract_set_obligation_level = { type = roman_imperial_assignments level = roman_imperial_military_appointment }
+		#		save_scope_as = tfe_command_title
+		#		tfe_seed_border_garrison_maa_effect = yes
+		#	}
+		#}
+	}
+
+	# ══════════════════════════════════════════════════════════════
+	# WRE Field Armies (Kingdom-tier — Comites)
+	# ══════════════════════════════════════════════════════════════
+	# Field Armies can be setup during the game, and it probably wouldn't be a good idea to setup all of them at game start and make Rome *too* powerful, so leaving them alone for now
+	k_comes_galliae = { add_to_list = wre_field_armies }
+	k_comes_illyrici = { add_to_list = wre_field_armies }
+	k_comes_africae = { add_to_list = wre_field_armies }
+	k_comes_britanniae = { add_to_list = wre_field_armies }
+
+	every_in_list = {
+		list = wre_field_armies
+		set_variable = is_military_command
+		add_title_law = tfe_roman_imperial_military_appointment_succession_law
+		# Need to make sure this effect is triggered after this title is properly given out
+		#if = {
+		#	limit = { exists = holder }
+		#	holder = {
+		#		vassal_contract_set_obligation_level = { type = roman_imperial_assignments level = roman_imperial_military_appointment }
+		#		save_scope_as = tfe_command_title
+		#		tfe_seed_regional_field_army_maa_effect = yes
+		#	}
+		#}
+	}
+
+	# ══════════════════════════════════════════════════════════════
+	# WRE Border Armies (Duchy-tier — Duces)
+	# ══════════════════════════════════════════════════════════════
+	# Border Armies can be setup during the game, and it probably wouldn't be a good idea to setup all of them at game start and make Rome *too* powerful, so leaving them alone for now
+	d_dux_moguntiacensis = { add_to_list = wre_border_armies }
+	d_dux_pannoniae_ii = { add_to_list = wre_border_armies }
+	d_dux_germaniae_ii = { add_to_list = wre_border_armies }
+	d_dux_raetiae = { add_to_list = wre_border_armies }
+	d_dux_pannoniae = { add_to_list = wre_border_armies }
+	d_dux_tripolitaniae = { add_to_list = wre_border_armies }
+	d_dux_noricum = { add_to_list = wre_border_armies }
+	d_dux_britanniarum = { add_to_list = wre_border_armies }
+	d_dux_raetiae_ii = { add_to_list = wre_border_armies }
+	d_dux_tingitaniae = { add_to_list = wre_border_armies }
+
+	every_in_list = {
+		list = wre_border_armies
+		set_variable = is_military_command
+		add_title_law = tfe_roman_imperial_military_appointment_succession_law
+		# Need to make sure this effect is triggered after this title is properly given out
+		#if = {
+		#	limit = { exists = holder }
+		#	holder = {
+		#		vassal_contract_set_obligation_level = { type = roman_imperial_assignments level = roman_imperial_military_appointment }
+		#		save_scope_as = tfe_command_title
+		#		tfe_seed_border_garrison_maa_effect = yes
+		#	}
+		#}
+	}
+
+}
+
+# This effect is to help make sure the Minister positions for Roman Emperors are properly filled at game start
+## INPUTS:
+### $EMPEROR$ - The scope of the Roman Emperor getting the Minister
+### $TITLE$ - The Minister title being given out
+### $SKILL$ - The primary skill to focus on when sorting through the Emperor's courtiers
+irtock3_tfe_game_start_fill_minister_position = {
+	$EMPEROR$ = { save_scope_as = roman_emperor_scope }
+	$TITLE$ = { save_scope_as = minister_title }
+
+	scope:roman_emperor_scope = {
+		# Try to use a courtier
+		if = {
+			limit = {
+				any_courtier = {
+					NOR = {
+						is_heir_of = scope:roman_emperor_scope
+						is_spouse_of = scope:roman_emperor_scope
+						is_diarch = yes
+					}
+					trigger_if = {
+						limit = {
+							scope:roman_emperor_scope.primary_title.state_faith ?= { has_doctrine = doctrine_gender_male_dominated }
+						}
+						is_male = yes
+					}
+					trigger_if = {
+						limit = {
+							scope:roman_emperor_scope.primary_title.state_faith ?= { has_doctrine = doctrine_gender_female_dominated }
+						}
+						is_female = yes
+					}
+					trigger_if = {
+						limit = {
+							scope:roman_emperor_scope.primary_title.state_faith ?= { has_doctrine = doctrine_gender_equal }
+						}
+						always = yes
+					}
+					trigger_if = {
+						limit = {
+							scope:roman_emperor_scope.faith ?= { has_doctrine = doctrine_gender_male_dominated }
+						}
+						is_male = yes
+					}
+					trigger_if = {
+						limit = {
+							scope:roman_emperor_scope.faith ?= { has_doctrine = doctrine_gender_female_dominated }
+						}
+						is_female = yes
+					}
+				}
+			}
+			ordered_courtier = {
+				limit = {
+					NOR = {
+						is_heir_of = scope:roman_emperor_scope
+						is_spouse_of = scope:roman_emperor_scope
+						is_diarch = yes
+					}
+					trigger_if = {
+						limit = {
+							scope:roman_emperor_scope.primary_title.state_faith ?= { has_doctrine = doctrine_gender_male_dominated }
+						}
+						is_male = yes
+					}
+					trigger_if = {
+						limit = {
+							scope:roman_emperor_scope.primary_title.state_faith ?= { has_doctrine = doctrine_gender_female_dominated }
+						}
+						is_female = yes
+					}
+					trigger_if = {
+						limit = {
+							scope:roman_emperor_scope.primary_title.state_faith ?= { has_doctrine = doctrine_gender_equal }
+						}
+						always = yes
+					}
+					trigger_if = {
+						limit = {
+							scope:roman_emperor_scope.faith ?= { has_doctrine = doctrine_gender_male_dominated }
+						}
+						is_male = yes
+					}
+					trigger_if = {
+						limit = {
+							scope:roman_emperor_scope.faith ?= { has_doctrine = doctrine_gender_female_dominated }
+						}
+						is_female = yes
+					}
+				}
+				order_by = $SKILL$
+				max = 1
+				save_scope_as = new_minister
+			} 
+		}
+		# Otherwise, create a character
+		else = {
+			save_scope_as = tfe_roman_authority # For error supression, since the templates use it
+
+			# The template used to make the character will change depending on what position is being filled
+			if = {
+				limit = {
+					OR = {
+						scope:minister_title.var:tfe_roman_minister_slot ?= flag:grand_marshal
+						scope:minister_title.var:tfe_roman_minister_slot ?= flag:comes_domesticorum
+					}
+				}
+				create_character = {
+					template = tfe_roman_military_officer_template
+					location = scope:roman_emperor_scope.capital_province
+					employer = scope:roman_emperor_scope
+					dynasty = generate
+					save_scope_as = new_minister
+				}
+				# After making the character, this template has a chance of randomly making the military officer a random Germanic culture, which may not exist, so forcing them back to the Emperor's culture
+				scope:new_minister = { set_culture = scope:roman_emperor_scope.culture }
+			}
+			else = {
+				create_character = {
+					template = tfe_roman_officer_template
+					location = scope:roman_emperor_scope.capital_province
+					culture = scope:roman_emperor_scope.culture
+					faith = scope:roman_emperor_scope.faith
+					dynasty = generate
+					gender = male
+					employer = scope:roman_emperor_scope
+					save_scope_as = new_minister
+				}
+			}
+		}
+	}
+
+	create_title_and_vassal_change = {
+		type = appointment
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	scope:minister_title = {
+		change_title_holder = {
+			holder = scope:new_minister
+			change = scope:change
+		}
+	}
+	scope:new_minister = {
+		change_liege = {
+			liege = scope:roman_emperor_scope
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+
+	scope:minister_title = {
+		if = {
+			limit = {
+				OR = {
+					# Ministers
+					var:tfe_roman_minister_slot ?= flag:grand_marshal
+					var:tfe_roman_minister_slot ?= flag:comes_domesticorum
+				}
+			}
+			add_title_law = roman_imperial_grand_marshal_appointment_succession_law
+		}
+		else_if = {
+			limit = {
+				OR = {
+					# Praetorian Prefectures
+					is_roman_pp_title_trigger = yes
+					# Ministers
+					var:tfe_roman_minister_slot ?= flag:magister_officiorum
+					var:tfe_roman_minister_slot ?= flag:comes_sacrarum_largitionum
+					var:tfe_roman_minister_slot ?= flag:quaestor_sacri_palatii
+					var:tfe_roman_minister_slot ?= flag:primicerius_notariorum
+				}
+			}
+			add_title_law = roman_imperial_ministry_appointment_succession_law
+		}
+		else_if = {
+			limit = {
+				# Ministers
+				var:tfe_roman_minister_slot ?= flag:praepositus_sacri_cubiculi
+			}
+			add_title_law = roman_imperial_psc_appointment_succession_law
+		}
+		else_if = {
+			limit = {
+				# Border/Field Armies
+				has_variable = is_military_command
+			}
+			add_title_law = tfe_roman_imperial_military_appointment_succession_law
+		}
+	}
+
+	# TFE's on_title_gain on_actions should then hopefully make sure they are properly given the correct council position
+
+	clear_saved_scope = roman_emperor_scope
+}
 {% endif %}

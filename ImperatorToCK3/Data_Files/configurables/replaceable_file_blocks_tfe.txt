@@ -613,3 +613,132 @@ scripted_trigger valid_migrator = {
 		}
 	}
 }
+
+
+"common/on_action/TFE_game_start.txt" = {
+	replace = {
+		before = {
+		title:b_al-barkat.title_province = {
+			if = {
+				limit = {
+					OR = {
+						has_holding_type = city_holding
+						has_holding_type = church_holding
+					}
+				}
+				set_holding_type = castle_holding
+			}
+		}
+		title:b_benin-city.title_province = {
+			if = {
+				limit = {
+					OR = {
+						has_holding_type = city_holding
+						has_holding_type = church_holding
+					}
+				}
+				set_holding_type = castle_holding
+			}
+			add_special_building_slot = walls_of_benin_01
+		}
+		title:b_vemulavada.title_province = {
+			if = {
+				limit = {
+					OR = {
+						has_holding_type = city_holding
+						has_holding_type = church_holding
+					}
+				}
+				set_holding_type = castle_holding
+			}
+		}
+		title:b_bamiyan.title_province = {
+			if = {
+				limit = {
+					OR = {
+						has_holding_type = city_holding
+						has_holding_type = church_holding
+					}
+				}
+				set_holding_type = castle_holding
+			}
+			add_special_building_slot = buddhas_of_bamian_01
+		}
+		title:b_alamut.title_province = {
+			if = {
+				limit = {
+					OR = {
+						has_holding_type = city_holding
+						has_holding_type = church_holding
+					}
+				}
+				set_holding_type = castle_holding
+			}
+			add_special_building_slot = alamut_castle_01
+		}
+		title:b_pagan.title_province = {
+			if = {
+				limit = {
+					OR = {
+						has_holding_type = city_holding
+						has_holding_type = church_holding
+					}
+				}
+				set_holding_type = castle_holding
+			}
+			add_special_building_slot = ananda_temple_01
+		}
+		title:b_chanderi.title_province = {
+			if = {
+				limit = {
+					OR = {
+						has_holding_type = city_holding
+						has_holding_type = church_holding
+					}
+				}
+				set_holding_type = castle_holding
+			}
+			add_special_building_slot = khajuraho_01
+		}
+		title:b_tanjavur.title_province = {
+			if = {
+				limit = {
+					OR = {
+						has_holding_type = city_holding
+						has_holding_type = church_holding
+					}
+				}
+				set_holding_type = castle_holding
+			}
+			add_special_building_slot = brihadeeswarar_temple_01
+		}
+		}
+
+		after = {
+		title:b_benin-city.title_province = {
+			# IRToCK3: Made it so the province holding isn't forcefully changed, but left the building slot
+			add_special_building_slot = walls_of_benin_01
+		}
+		title:b_bamiyan.title_province = {
+			# IRToCK3: Made it so the province holding isn't forcefully changed, but left the building slot
+			add_special_building_slot = buddhas_of_bamian_01
+		}
+		title:b_alamut.title_province = {
+			# IRToCK3: Made it so the province holding isn't forcefully changed, but left the building slot
+			add_special_building_slot = alamut_castle_01
+		}
+		title:b_pagan.title_province = {
+			# IRToCK3: Made it so the province holding isn't forcefully changed, but left the building slot
+			add_special_building_slot = ananda_temple_01
+		}
+		title:b_chanderi.title_province = {
+			# IRToCK3: Made it so the province holding isn't forcefully changed, but left the building slot
+			add_special_building_slot = khajuraho_01
+		}
+		title:b_tanjavur.title_province = {
+			# IRToCK3: Made it so the province holding isn't forcefully changed, but left the building slot
+			add_special_building_slot = brihadeeswarar_temple_01
+		}
+		}
+	}
+}
