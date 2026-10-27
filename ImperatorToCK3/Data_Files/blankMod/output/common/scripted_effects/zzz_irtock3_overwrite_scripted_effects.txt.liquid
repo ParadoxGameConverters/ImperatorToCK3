@@ -299,9 +299,12 @@ split_byzantine_empire_effect = {
 					}
 				}
 
+				{% unless tfe %} # TFE merges Britannia into Galliarum
 				# Britannia
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_britannia }
-				# Gallarium
+				{% endunless %}
+
+				# Galliarium
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_galliarum }
 				# Germania
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_germania }
@@ -347,15 +350,14 @@ split_byzantine_empire_effect = {
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_india_extra_gangem }
 				# Magna Taprobana
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_magna_taprobana }
-{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
+				# Septentrionalis Deserti
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
+
+				{% unless wtwsms or tfe %} # WtWSMS/TFE don't have playable East Asia yet.
 				# Insulae Remotae
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_insulae_remotae }
 				# Insulae Solis
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_insulae_solis }
-{% endunless %}
-				# Septentrionalis Deserti
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
-{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 				# Serica Ultima
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_ultima }
 				# Serica Meridiana
@@ -366,9 +368,12 @@ split_byzantine_empire_effect = {
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_orientalis }
 				# Serica Septentrionalis
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_septentrionalis }
+				{% endunless %}
+
+				{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 				# Serica Deserti
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_deserti }
-{% endunless %}
+				{% endunless %}
 
 				# Leftover titles
 				## If a kingdom title under these empires is somehow split enough across multiple regions, it might not get put under one of the above prefectures, so need to check those

@@ -381,6 +381,13 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 			AddStateFaithHistoryEffectIfAdministrative(characters, conversionDate, lastCK3TermGov, ck3CountryGov);
 		}
+
+		string effectStr = $$"""
+			{
+			set_variable = { name = imperator_tag value = flag:{{irCountry.Tag.ToString()}} }
+			}
+			""";
+		History.AddFieldValue(conversionDate, "effects", "effect", new StringOfItem(effectStr));
 	}
 
 	private void AddStateFaithHistoryEffectIfAdministrative(CharacterCollection characters, Date conversionDate, string? lastCK3TermGov, string? ck3CountryGov) {
