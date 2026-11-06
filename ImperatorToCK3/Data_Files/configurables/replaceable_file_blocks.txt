@@ -1330,7 +1330,7 @@
 		# IRToCK3: Requires Rome to at least have elevated to hegemony rank, otherwise why would they be influential enough to mimic?
 		is_target_in_global_variable_list = {
 			name = unavailable_unique_decisions
-			target = flag:irtock3_elevate_roman_empire_decision
+			target = flag:irtock3_roman_empire_elevated
 		}
 		NOT = { culture = culture:greek }
 		NOT = { culture = culture:roman } # IRToCK3: Added roman as invalid culture

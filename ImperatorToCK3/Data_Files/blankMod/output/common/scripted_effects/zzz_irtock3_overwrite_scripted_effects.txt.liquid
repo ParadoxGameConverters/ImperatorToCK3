@@ -278,7 +278,7 @@ create_eastern_roman_empire_scripted_effect = {
 }
 
 
-# In the base game, this scripted effect is used to split e_byzantium into different regional empire titles to be put under h_roman_empire. Need to generalize this effect so it can be used to split various Rome empire titles apart and put them under various hegemony titles
+# In the base game, this scripted effect is used to split e_byzantium into different regional empire titles to be put under h_roman_empire. Need to generalize this effect so it can be used to split various Rome empire titles apart
 split_byzantine_empire_effect = {
 	hidden_effect = {
 		# Add the Rome empire titles to a list, to make sure they all properly get split up, since none should have de jure land after this effect is called
@@ -288,7 +288,7 @@ split_byzantine_empire_effect = {
 
 		# The base game goes through every held title in e_byzantium for specific kingdom titles. But, in a converted save, that should probably be avoided since titles can potentially end up anywhere
 
-		# Go through every de jure kingdom in the Rome empire titles
+		# Go through the Roman empire titles and get their de jure kingdoms
 		every_in_list = {
 			list = rome_empire_titles
 			if = {
@@ -299,134 +299,54 @@ split_byzantine_empire_effect = {
 					}
 				}
 
-				{% unless tfe %} # TFE merges Britannia into Galliarum
-				# Britannia
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_britannia }
-				{% endunless %}
-
-				# Galliarium
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_galliarum }
-				# Germania
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_germania }
-				# Italiae
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_italiae }
-				# Libya Interior
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_libya_interior }
-				# Libya Ulterior
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_libya_ulterior }
-				# Aethiopia
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_aethiopia }
-				# Orientis
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_orientis }
-				# Illyria
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_illyrici }
-				# Pannonia
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_pannonia }
-				# Vistulia
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_vistulia }
-				# Fennia
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_fennia }
-				# Scandia
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_scandia }
-				# Arabia
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_arabia }
-				# Persia
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_persia }
-				# Sarmatia
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_sarmatia }
-				# Uralia Interior
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_uralia_interior }
-				# Uralia Ulterior
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_uralia_ulterior }
-				# Tartaria
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_tartaria }
-				# Parthia
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_parthia }
-				# Imoan Montem
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_imoan_montem }
-				# India Intra Gangem
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_india_intra_gangem }
-				# India Extra Gangem
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_india_extra_gangem }
-				# Magna Taprobana
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_magna_taprobana }
-				# Septentrionalis Deserti
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
-
-				{% unless wtwsms or tfe %} # WtWSMS/TFE don't have playable East Asia yet.
-				# Insulae Remotae
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_insulae_remotae }
-				# Insulae Solis
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_insulae_solis }
-				# Serica Ultima
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_ultima }
-				# Serica Meridiana
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_meridiana }
-				# Serica Occidens
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_occidens }
-				# Serica Orientalis
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_orientalis }
-				# Serica Septentrionalis
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_septentrionalis }
-				{% endunless %}
-
-				{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
-				# Serica Deserti
-				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_deserti }
-				{% endunless %}
-
-				# Leftover titles
-				## If a kingdom title under these empires is somehow split enough across multiple regions, it might not get put under one of the above prefectures, so need to check those
 				every_in_de_jure_hierarchy = {
 					limit = {
 						tier = tier_kingdom
-						is_titular = no
+						# If the kingdom is titular, it needs to have a capital county defined (otherwise it'd be impossible to determine which prefecture it should go under)
+						trigger_if = {
+							limit = { is_titular = yes }
+							exists = title_capital_county
+						}
 					}
-					title_capital_county = { save_scope_as = county_temp }
-					save_scope_as = temp_kingdom
-					ordered_empire = {
-						# Prioritize praetorian prefectures whose region overlaps with what the kingdom's land controls
-						limit = {
-							hegemony ?= {
-								OR = {
-									this = title:h_roman_empire
-									this = title:h_western_roman_empire
-									this = title:h_eastern_roman_empire
-								}
-							}
-							save_temporary_scope_as = empire_temp
-							has_variable = prefecture_region
-							scope:temp_kingdom = {
-								any_de_jure_county = {
-									title_province = { geographical_region = scope:empire_temp.var:prefecture_region }
-								}
-							}
-						}
-						# If the kingdom doesn't overlap with any of the current prefectures, give it to the closest empire under a roman hegemony
-						alternative_limit = {
-							hegemony ?= {
-								OR = {
-									this = title:h_roman_empire
-									this = title:h_western_roman_empire
-									this = title:h_eastern_roman_empire
-								}
-							}
-						}
-						# If, somehow, none of the Roman hegemonies have any empires, just choose the closest empire
-						alternative_limit = { always = yes }
-						order_by = {
-							value = "title_capital_county.squared_distance(scope:county_temp)"
-							multiply = -1
-						}
-						max = 1
-						save_scope_as = new_empire
-					}
-					set_de_jure_liege_title = scope:new_empire
-					clear_saved_scope = new_empire
-					clear_saved_scope = temp_kingdom
-					clear_saved_scope = county_temp
+					add_to_list = kingdom_titles
 				}
 			}
+		}
+
+		# Go through the kingdoms and determine which prefecture they should be under
+		every_in_list = {
+			list = kingdom_titles
+			save_scope_as = kingdom_scope
+
+			ordered_in_global_list = {
+				variable = rome_prefecture_titles
+				order_by = {
+					value = 0
+					var:prefecture_region = { save_temporary_scope_as = prefecture_region_temp }
+					scope:kingdom_scope = {
+						# Add score for every county the kingdom has in the prefecture region
+						every_de_jure_county = {
+							limit = {
+								title_province = { geographical_region = scope:prefecture_region_temp }
+							}
+							add = 10
+						}
+						# Add a little extra if the kingdom's capital is in the region to break any ties
+						if = {
+							limit = {
+								title_capital_county.title_province ?= { geographical_region = scope:prefecture_region_temp }
+							}
+							add = 1
+						}
+					}
+				}
+				max = 1
+				save_scope_as = new_prefecture
+			}
+			set_de_jure_liege_title = scope:new_prefecture
+			
+			clear_saved_scope = kingdom_scope
+			clear_saved_scope = new_prefecture
 		}
 	}
 }

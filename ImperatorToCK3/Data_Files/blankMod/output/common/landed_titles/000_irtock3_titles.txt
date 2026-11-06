@@ -132,7 +132,7 @@ e_roman_empire = {
 			limit = {
 				is_target_in_global_variable_list = {
 					name = unavailable_unique_decisions
-					target = flag:irtock3_elevate_roman_empire_decision
+					target = flag:irtock3_roman_empire_elevated
 				}
 			}
 			custom_tooltip = {
@@ -181,7 +181,7 @@ k_rome = {
 					}
 					is_target_in_global_variable_list = {
 						name = unavailable_unique_decisions
-						target = flag:irtock3_elevate_roman_empire_decision
+						target = flag:irtock3_roman_empire_elevated
 					}
 				}
 			}
@@ -233,7 +233,7 @@ d_rome = {
 					}
 					is_target_in_global_variable_list = {
 						name = unavailable_unique_decisions
-						target = flag:irtock3_elevate_roman_empire_decision
+						target = flag:irtock3_roman_empire_elevated
 					}
 				}
 			}

@@ -49,30 +49,6 @@
 }
 
 
-"music/in_game/TFE_music.txt" = {
-	# Define TFE_General_Cue to avoid "music not defined in music/ or dlc/*/music/" ck3-tiger warnings.
-	replace = {
-		before = {
-mx_cue_senate = {
-	music = "file:/music/TFE/TFE_Senate.ogg"
-	pause_factor = 25
-}
-		} # end of before
-
-		after = {
-mx_cue_senate = {
-	music = "file:/music/TFE/TFE_Senate.ogg"
-	pause_factor = 25
-}
-TFE_General_Cue = {
-	music = "file:/music/TFE/TFE_General_Cue.ogg"
-	pause_factor = 25
-}
-		}
-	}
-}
-
-
 "common/genes/07_genes_special_accessories_misc.txt" = {
 	# from ck3-tiger:
 	# accessory female_clothes_secular_byzantine_war_nobility_01_low not defined in gfx/portraits/accessories/
@@ -607,7 +583,7 @@ scripted_trigger valid_migrator = {
 			}
 			is_target_in_global_variable_list = {
 				name = unavailable_unique_decisions
-				target = flag:irtock3_elevate_roman_empire_decision
+				target = flag:irtock3_roman_empire_elevated
 			}
 		}
 		}
