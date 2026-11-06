@@ -271,7 +271,6 @@ heritage_tyrrhenian = {
 
 heritage_tai = {
     REPLACED_BY = {
-		tfe = { heritage_tai }
 		roa = { heritage_tai }
 		vanilla_ck3 = { heritage_tai }
 	}
@@ -810,4 +809,251 @@ heritage_alasiyan = {
 		}
 	}
 	audio_parameter = mena
+}
+
+
+###############
+## TFE FIXES ##
+###############
+# The following heritage definitions are mainly just to supress errors when converting to 1.19.0.6 TFE. These should probably be removed once they are properly added back in TFE.
+## Since most of these heritages will likely exist in other mods/base game, these are just copying 1.17 TFE's definition, will keep all parameters exactly the same, and just make sure that it's replaced in every mod except TFE.
+## Some of these have heritage_group_fallback/heritage_family_fallback, which are just being used as fallbacks for error supression. Neither TFE nor the converter have cultures that use those heritages, so there's no need to add a lot of new groups/families if nothing is using them.
+heritage_phoenician = { # Copied TFE's hertiage_levantine, since that's what they use
+    REPLACED_BY = {
+		roa = { heritage_phoenician }
+		wtwsms = { heritage_phoenician }
+    	vanilla_ck3 = { heritage_phoenician }
+    }
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_phoenician
+		}
+	}
+	audio_parameter = mena
+	parameters = { 
+		heritage_group_levantine = yes
+		heritage_family_middle_eastern = yes 
+	}
+}
+
+heritage_egyptian = { # Copied TFE's heritage_kemetic, since that's what they use
+    REPLACED_BY = {
+		roa = { heritage_egyptian }
+		wtwsms = { heritage_egyptian }
+    	vanilla_ck3 = { heritage_egyptian }
+    }
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_egyptian
+		}
+	}
+	audio_parameter = mena
+	parameters = {
+		heritage_group_levantine = yes
+		heritage_family_middle_eastern = yes 
+	}
+}
+
+heritage_chinese = {
+    REPLACED_BY = {
+		roa = { heritage_chinese }
+		wtwsms = { heritage_chinese }
+    	vanilla_ck3 = { heritage_chinese }
+    }
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_chinese
+		}
+	}
+	audio_parameter = sea
+	parameters = { 
+		heritage_group_chinese = yes
+		heritage_family_east_asian = yes 
+	}
+}
+
+heritage_austronesian = {
+    REPLACED_BY = {
+		roa = { heritage_austronesian }
+		wtwsms = { heritage_austronesian }
+		vanilla_ck3 = { heritage_austronesian }
+	}
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_austronesian
+		}
+	}
+	audio_parameter = european
+	parameters = { 
+		heritage_group_fallback = yes
+		heritage_family_south_asian = yes 
+	}
+}
+
+heritage_korean = {
+    REPLACED_BY = {
+		roa = { heritage_korean }
+		wtwsms = { heritage_korean }
+		vanilla_ck3 = { heritage_korean }
+	}
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_korean
+		}
+	}
+	audio_parameter = sea
+	parameters = { 
+		heritage_group_fallback = yes
+		heritage_family_east_asian = yes 
+	}
+}
+
+heritage_buyeo = {
+    REPLACED_BY = {
+		roa = { heritage_buyeo }
+		wtwsms = { heritage_buyeo }
+		vanilla_ck3 = { heritage_buyeo }
+	}
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_buyeo
+		}
+	}
+	audio_parameter = sea
+	parameters = { 
+		heritage_group_fallback = yes
+		heritage_family_east_asian = yes 
+	}
+}
+
+heritage_hmongic = {
+    REPLACED_BY = {
+		roa = { heritage_hmongic }
+		wtwsms = { heritage_hmongic }
+		vanilla_ck3 = { heritage_hmongic }
+	}
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_hmongic
+		}
+	}
+	audio_parameter = sea
+	parameters = { 
+		heritage_group_fallback = yes
+		heritage_family_east_asian = yes 
+	}
+}
+
+heritage_tungusic = {
+    REPLACED_BY = {
+		roa = { heritage_tungusic }
+		wtwsms = { heritage_tungusic }
+		vanilla_ck3 = { heritage_tungusic }
+	}
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_tungusic
+		}
+	}
+	audio_parameter = sea
+	parameters = { 
+		heritage_group_fallback = yes
+		heritage_family_east_asian = yes 
+	}
+}
+
+heritage_nivkh = {
+    REPLACED_BY = {
+		roa = { heritage_nivkh }
+		wtwsms = { heritage_nivkh }
+		vanilla_ck3 = { heritage_nivkh }
+	}
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_nivkh
+		}
+	}
+	audio_parameter = sea
+	parameters = { 
+		heritage_group_fallback = yes
+		heritage_family_east_asian = yes 
+	}
+}
+
+heritage_japonic = {
+    REPLACED_BY = {
+		roa = { heritage_japonic }
+		wtwsms = { heritage_japonic }
+		vanilla_ck3 = { heritage_japonic }
+	}
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_japonic
+		}
+	}
+	audio_parameter = sea
+	parameters = { 
+		heritage_group_fallback = yes
+		heritage_family_east_asian = yes 
+	}
+}
+
+heritage_ainuic = {
+    REPLACED_BY = {
+		roa = { heritage_ainuic }
+		wtwsms = { heritage_ainuic }
+		vanilla_ck3 = { heritage_ainuic }
+	}
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_ainuic
+		}
+	}
+	audio_parameter = sea
+	parameters = { 
+		heritage_group_fallback = yes
+		heritage_family_east_asian = yes 
+	}
+}
+
+heritage_viet = {
+    REPLACED_BY = {
+		roa = { heritage_viet }
+		wtwsms = { heritage_viet }
+		vanilla_ck3 = { heritage_viet }
+	}
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_viet
+		}
+	}
+	audio_parameter = sea
+	parameters = { 
+		heritage_group_fallback = yes
+		heritage_family_east_asian = yes 
+	}
 }

@@ -253,6 +253,7 @@ e_roman_prefecture_galliarum = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -278,6 +279,7 @@ e_roman_prefecture_italiae = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -303,6 +305,7 @@ e_roman_prefecture_orientis = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -328,6 +331,7 @@ e_roman_prefecture_illyrici = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -353,6 +357,7 @@ e_roman_prefecture_britannia = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -378,6 +383,7 @@ e_roman_prefecture_germania = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -403,6 +409,7 @@ e_roman_prefecture_libya_interior = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -428,6 +435,7 @@ e_roman_prefecture_libya_ulterior = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -453,6 +461,7 @@ e_roman_prefecture_aethiopia = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -478,6 +487,7 @@ e_roman_prefecture_pannonia = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -503,6 +513,7 @@ e_roman_prefecture_vistulia = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -528,6 +539,7 @@ e_roman_prefecture_fennia = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -553,6 +565,7 @@ e_roman_prefecture_scandia = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -578,6 +591,7 @@ e_roman_prefecture_arabia = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -603,6 +617,7 @@ e_roman_prefecture_persia = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -628,6 +643,7 @@ e_roman_prefecture_sarmatia = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -653,6 +669,7 @@ e_roman_prefecture_uralia_interior = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -678,6 +695,7 @@ e_roman_prefecture_uralia_ulterior = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -703,6 +721,7 @@ e_roman_prefecture_tartaria = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -728,6 +747,7 @@ e_roman_prefecture_parthia = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -753,6 +773,7 @@ e_roman_prefecture_imoan_montem = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -778,6 +799,7 @@ e_roman_prefecture_india_intra_gangem = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -803,6 +825,7 @@ e_roman_prefecture_india_extra_gangem = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -828,6 +851,7 @@ e_roman_prefecture_magna_taprobana = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -853,6 +877,7 @@ e_roman_prefecture_septentrionalis_deserti = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -878,6 +903,7 @@ e_roman_prefecture_insulae_remotae = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -903,6 +929,7 @@ e_roman_prefecture_insulae_solis = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -928,6 +955,7 @@ e_roman_prefecture_serica_ultima = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -953,6 +981,7 @@ e_roman_prefecture_serica_meridiana = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -978,6 +1007,7 @@ e_roman_prefecture_serica_occidens = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -1003,6 +1033,7 @@ e_roman_prefecture_serica_orientalis = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -1028,6 +1059,7 @@ e_roman_prefecture_serica_septentrionalis = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {
@@ -1053,6 +1085,7 @@ e_roman_prefecture_serica_deserti = {
 	ruler_uses_title_name = no
 	can_be_named_after_dynasty = no
 	de_jure_drift_disabled = yes
+	definite_form = yes
 
 	ai_primary_priority = {
 		if = {

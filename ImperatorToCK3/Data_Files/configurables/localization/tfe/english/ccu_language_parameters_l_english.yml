@@ -13,6 +13,7 @@
  culture_parameter_language_group_lolo_burmese: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Lolo-Burmese [language_group|E]"
  culture_parameter_language_group_dongyi: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Dongyi [language_group|E]"
  culture_parameter_language_group_tujia: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Tujian [language_group|E]"
+ culture_parameter_language_group_fallback: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the #weak FALLBACK#! [language_group|E]"
 
 
  # Language families
@@ -24,4 +25,5 @@
  culture_parameter_language_family_pre_greek: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Pre-Greek [language_family|E]"
  culture_parameter_language_family_hatti: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Hattian [language_family|E]"
  culture_parameter_language_family_burushaski: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Burushaski [language_family|E]"
+ culture_parameter_language_family_fallback: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the #weak FALLBACK#! [language_family|E]"
 

@@ -33,6 +33,7 @@ language_families = {
 			language_family_pre_greek
 			language_family_hatti
 			language_family_burushaski
+			language_family_fallback
 		}
     }
 }
@@ -91,6 +92,7 @@ language_groups = {
 			language_group_lolo_burmese
 			language_group_dongyi
 			language_group_tujia
+			language_group_fallback
 		}
 		ELSE_IF wtwsms = {
 			language_group_sabellic

@@ -3,7 +3,13 @@
 # Currently, this includes "When the World Stopped Making Sense" (wtwsms), "The Fallen Eagle" (tfe), and "Rajas of Asia" (roa).
 
 
-heritage_families = {}
+heritage_families = {
+	MOD_DEPENDENT = {
+		IF tfe = {
+			heritage_family_fallback
+		}
+	}
+}
 
 heritage_groups = {
 	MOD_DEPENDENT = {
@@ -20,6 +26,7 @@ heritage_groups = {
 			heritage_group_austroasiatic
 			heritage_group_balko_anatolian
 			heritage_group_lolo_burmese
+			heritage_group_fallback
 		}
 	}
 }
