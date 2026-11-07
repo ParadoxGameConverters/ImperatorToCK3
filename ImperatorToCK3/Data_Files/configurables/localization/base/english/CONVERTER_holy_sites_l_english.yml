@@ -230,3 +230,8 @@
  holy_site_huhnuri_effect_name: "From [holy_site|E] #weak ($holy_site_huhnuri_name$)#!"
  holy_site_qirbit_name: "Qirbit" #Some Gutian Deity ?
  holy_site_qirbit_effect_name: "From [holy_site|E] #weak ($holy_site_qirbit_name$)#!"
+
+
+ # These are for TFE error supression, can remove later when TFE fixes their holy site definitions
+ holy_site_yijinai_irtock3_tfe_name: "Yijinai"
+ holy_site_xingqing_irtock3_tfe_name: "Xingqing"
