@@ -1,0 +1,182 @@
+﻿###########################
+## Religious Head Titles ##
+###########################
+d_cult_of_humban = {
+	1.1.1 = {
+		government = theocracy_government
+	}
+}
+
+{% if tfe %}
+#########################
+## TFE Minister Titles ##
+#########################
+# The minister titles seem to have issues getting the relevant laws after game start, so need to set them up here
+k_minister_magister_officiorum = {
+	1.1.1 = {
+		de_jure_liege = e_byzantium
+		succession_laws = { roman_imperial_ministry_appointment_succession_law }
+		government = roman_imperial_government
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:magister_officiorum }
+		}
+	}
+}
+
+k_minister_comes_sacrarum_largitionum = {
+	1.1.1 = {
+		de_jure_liege = e_byzantium
+		succession_laws = { roman_imperial_ministry_appointment_succession_law }
+		government = roman_imperial_government
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:comes_sacrarum_largitionum }
+		}
+	}
+}
+
+k_minister_quaestor_sacri_palatii = {
+	1.1.1 = {
+		de_jure_liege = e_byzantium
+		succession_laws = { roman_imperial_ministry_appointment_succession_law }
+		government = roman_imperial_government
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:quaestor_sacri_palatii }
+		}
+	}
+}
+
+k_minister_comes_domesticorum = {
+	1.1.1 = {
+		de_jure_liege = e_byzantium
+		succession_laws = { roman_imperial_grand_marshal_appointment_succession_law }
+		government = roman_imperial_government
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:comes_domesticorum }
+		}
+	}
+}
+
+k_minister_primicerius_notariorum = {
+	1.1.1 = {
+		de_jure_liege = e_byzantium
+		succession_laws = { roman_imperial_ministry_appointment_succession_law }
+		government = roman_imperial_government
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:primicerius_notariorum }
+		}
+	}
+}
+
+k_minister_magister_militum_praesentalis = {
+	1.1.1 = {
+		de_jure_liege = e_byzantium
+		succession_laws = { roman_imperial_grand_marshal_appointment_succession_law }
+		government = roman_imperial_government
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:grand_marshal }
+		}
+	}
+}
+
+k_minister_praepositus_sacri_cubiculi = {
+	1.1.1 = {
+		de_jure_liege = e_byzantium
+		government = roman_imperial_government
+		succession_laws = { roman_imperial_psc_appointment_succession_law }
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:praepositus_sacri_cubiculi }
+		}
+	}
+}
+
+k_minister_wre_praepositus_sacri_cubiculi = {
+	1.1.1 = {
+		de_jure_liege = e_western_roman_empire
+		succession_laws = { roman_imperial_psc_appointment_succession_law }
+		government = roman_imperial_government
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:praepositus_sacri_cubiculi }
+		}
+	}
+}
+
+k_minister_magister_utriusque_militiae = {
+	1.1.1 = {
+		de_jure_liege = e_western_roman_empire
+		succession_laws = { roman_imperial_grand_marshal_appointment_succession_law }
+		government = roman_imperial_government
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:grand_marshal }
+		}
+	}
+}
+
+k_minister_wre_magister_officiorum = {
+	1.1.1 = {
+		de_jure_liege = e_western_roman_empire
+		succession_laws = { roman_imperial_ministry_appointment_succession_law }
+		government = roman_imperial_government
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:magister_officiorum }
+		}
+	}
+}
+
+k_minister_wre_primicerius_notariorum = {
+	1.1.1 = {
+		de_jure_liege = e_western_roman_empire
+		succession_laws = { roman_imperial_ministry_appointment_succession_law }
+		government = roman_imperial_government
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:primicerius_notariorum }
+		}
+	}
+}
+
+k_minister_wre_comes_domesticorum = {
+	1.1.1 = {
+		de_jure_liege = e_western_roman_empire
+		succession_laws = { roman_imperial_grand_marshal_appointment_succession_law }
+		government = roman_imperial_government
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:comes_domesticorum }
+		}
+	}
+}
+
+k_minister_wre_comes_sacrarum_largitionum = {
+	1.1.1 = {
+		de_jure_liege = e_western_roman_empire
+		succession_laws = { roman_imperial_ministry_appointment_succession_law }
+		government = roman_imperial_government
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:comes_sacrarum_largitionum }
+		}
+	}
+}
+
+k_minister_wre_quaestor_sacri_palatii = {
+	1.1.1 = {
+		de_jure_liege = e_western_roman_empire
+		succession_laws = { roman_imperial_ministry_appointment_succession_law }
+		government = roman_imperial_government
+		effect = {
+			set_variable = is_roman_minister_title
+			set_variable = { name = tfe_roman_minister_slot value = flag:quaestor_sacri_palatii }
+		}
+	}
+}
+{% endif %}

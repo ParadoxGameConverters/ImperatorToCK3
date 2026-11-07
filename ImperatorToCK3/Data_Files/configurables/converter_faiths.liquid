@@ -6319,3 +6319,624 @@ baiyue_religion = {
 		}
 	}
 }
+
+
+
+
+
+
+{% if tfe  %}
+##########################
+## TFE Error Supression ##
+##########################
+# The below faiths are mainly being defined here because TFE copied the base game faith changes after AUH, but didn't remove the out-of-scope holy sites, causing some errors while converting. These are mainly to get rid of those errors by replacing those out-of-scope holy sites with their older in-scope sites.
+## The definitions will be copied from TFE 1.19.0.6, just changing the bad holy sites.
+buddhism_religion = {
+	faiths = {
+		mahayana = {
+			color = { 0.8 0.3 0.2 }
+			icon = mahayana
+
+			holy_site = kusinagara #borobudur
+			holy_site = bodh_gaya
+			holy_site = sarnath #bayon
+			holy_site = sanchi
+			holy_site = amaravati
+
+			doctrine = tenet_dharmic_pacifism
+			doctrine = tenet_mendicant_preachers
+			doctrine = tenet_asceticism
+		}
+
+		vajrayana = {
+			color = { 0.9 0.3 0.0 }
+			icon = vajrayana
+
+			holy_site = kusinagara #muara_takus
+			holy_site = bodh_gaya
+			holy_site = sarnath
+			holy_site = sanchi #kalasan
+			holy_site = ajanta
+
+			doctrine = doctrine_gender_equal
+			doctrine = doctrine_polygamy
+			doctrine = doctrine_adultery_men_accepted
+			doctrine = doctrine_adultery_women_accepted
+			doctrine = doctrine_deviancy_accepted
+			doctrine = doctrine_witchcraft_accepted
+
+			doctrine = tenet_dharmic_pacifism
+			doctrine = tenet_esotericism
+			doctrine = tenet_ritual_hospitality
+
+			localization = {
+				ReligiousText = vajrayana_religious_text
+				ReligiousText2 = vajrayana_religious_text_2
+				ReligiousText3 = vajrayana_religious_text_3
+
+				#Creator
+				CreatorName = vajrayana_creator_god_name
+				CreatorNamePossessive = vajrayana_creator_god_name_possessive
+				CreatorSheHe = CHARACTER_HERHIM_IT
+				CreatorHerHis = CHARACTER_HERHIS_ITS
+				CreatorHerHim = CHARACTER_HERHIM_IT
+
+				#HealthGod
+				HealthGodName = vajrayana_health_god_name
+				HealthGodNamePossessive = vajrayana_health_god_name_possessive
+				HealthGodSheHe = CHARACTER_SHEHE_HE
+				HealthGodHerHis = CHARACTER_HERHIS_HIS
+				HealthGodHerHim = CHARACTER_HERHIM_HIM
+
+				#FertilityGod
+				FertilityGodName = vajrayana_fertility_god_name
+				FertilityGodNamePossessive = vajrayana_fertility_god_name_possessive
+				FertilityGodSheHe = CHARACTER_SHEHE_HE
+				FertilityGodHerHis = CHARACTER_HERHIS_HIS
+				FertilityGodHerHim = CHARACTER_HERHIM_HIM
+
+				#WealthGod
+				WealthGodName = vajrayana_wealth_god_name
+				WealthGodNamePossessive = vajrayana_wealth_god_name_possessive
+				WealthGodSheHe = CHARACTER_SHEHE_HE
+				WealthGodHerHis = CHARACTER_HERHIS_HIS
+				WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+				#HouseholdGod
+				HouseholdGodName = vajrayana_household_god_name
+				HouseholdGodNamePossessive = vajrayana_household_god_name_possessive
+				HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+				HouseholdGodHerHis = CHARACTER_HERHIS_HER
+				HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+				#KnowledgeGod
+				KnowledgeGodName = vajrayana_knowledge_god_name
+				KnowledgeGodNamePossessive = vajrayana_knowledge_god_name_possessive
+				KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+				KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+				KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+				#WarGod
+				WarGodName = vajrayana_war_god_name
+				WarGodNamePossessive = vajrayana_war_god_name_possessive
+				WarGodSheHe = CHARACTER_SHEHE_HE
+				WarGodHerHis = CHARACTER_HERHIS_HIS
+				WarGodHerHim = CHARACTER_HERHIM_HIM
+
+				#NightGod
+				NightGodName = vajrayana_night_god_name
+				NightGodNamePossessive = vajrayana_night_god_name_possessive
+				NightGodSheHe = CHARACTER_SHEHE_HE
+				NightGodHerHis = CHARACTER_HERHIS_HIS
+				NightGodHerHim = CHARACTER_HERHIM_HIM
+
+				#WaterGod
+				WaterGodName = vajrayana_water_god_name
+				WaterGodNamePossessive = vajrayana_water_god_name_possessive
+				WaterGodSheHe = CHARACTER_SHEHE_SHE
+				WaterGodHerHis = CHARACTER_HERHIS_HER
+				WaterGodHerHim = CHARACTER_HERHIM_HER
+			}
+		}
+	}
+}
+
+dualism_religion = {
+	faiths = {
+		manichean = {
+			color = { 0.5 0.7 0.4 }
+			religious_head = d_manichean
+			icon = manichean
+
+			holy_site = ahvaz
+			holy_site = yijinai_irtock3_tfe #yijinai # As most of China is not on the map, this works to represent the large Chinese following of the faith
+			holy_site = khotan # While Jerusalem was important to early Manicheans, by CK's timeframe, Central Asia was much more important
+			holy_site = jerusalem # I guess that means Jerusalem was still of some importance to Manicheans during TFE's time period
+			holy_site = samarkand
+			holy_site = udabhanda
+			holy_site = lyon # Holy site to represent the faith's European following during TFE's time period
+
+			doctrine = tenet_mendicant_preachers # Manicheans preached very far East
+			doctrine = tenet_adaptive
+			doctrine = tenet_esotericism
+
+			localization = { # Manichean/Priscillianism Gods
+				#HighGodName
+				HighGodName = manicheanism_high_god_name
+				HighGodName2 = manicheanism_high_god_name_2
+				HighGodNamePossessive = manicheanism_high_god_name_possessive
+				HighGodNameSheHe = CHARACTER_SHEHE_HE
+				HighGodHerselfHimself = CHARACTER_HIMSELF
+				HighGodHerHis = CHARACTER_HERHIS_HIS
+				HighGodNameAlternate = manicheanism_high_god_name
+				HighGodNameAlternatePossessive = manicheanism_high_god_name_possessive
+
+				#Creator
+				CreatorName = manicheanism_creator_god_name
+				CreatorNamePossessive = manicheanism_creator_god_name_possessive
+				CreatorSheHe = CHARACTER_SHEHE_SHE
+				CreatorHerHis = CHARACTER_HERHIS_HER
+				CreatorHerHim = CHARACTER_HERHIM_HER
+
+				#HealthGod
+				HealthGodName = manicheanism_health_god_name
+				HealthGodNamePossessive = manicheanism_health_god_name_possessive
+				HealthGodSheHe = CHARACTER_SHEHE_IT
+				HealthGodHerHis = CHARACTER_HERHIS_ITS
+				HealthGodHerHim = CHARACTER_HERHIM_IT
+				
+				#FertilityGod
+				FertilityGodName = manicheanism_fertility_god_name
+				FertilityGodNamePossessive = manicheanism_fertility_god_name_possessive
+				FertilityGodSheHe = CHARACTER_SHEHE_SHE
+				FertilityGodHerHis = CHARACTER_HERHIS_HER
+				FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+				#WealthGod
+				WealthGodName = manicheanism_wealth_god_name
+				WealthGodNamePossessive = manicheanism_wealth_god_name_possessive
+				WealthGodSheHe = CHARACTER_SHEHE_HE
+				WealthGodHerHis = CHARACTER_HERHIS_HIS
+				WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+				#HouseholdGod
+				HouseholdGodName = manicheanism_household_god_name
+				HouseholdGodNamePossessive = manicheanism_household_god_name_possessive
+				HouseholdGodSheHe = CHARACTER_SHEHE_HE
+				HouseholdGodHerHis = CHARACTER_HERHIS_HIS
+				HouseholdGodHerHim = CHARACTER_HERHIM_HIM
+
+				#KnowledgeGod
+				KnowledgeGodName = manicheanism_knowledge_god_name
+				KnowledgeGodNamePossessive = manicheanism_knowledge_god_name_possessive
+				KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+				KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+				KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+				#WarGod
+				WarGodName = manicheanism_war_god_name
+				WarGodNamePossessive = manicheanism_war_god_name_possessive
+				WarGodSheHe = CHARACTER_SHEHE_HE
+				WarGodHerHis = CHARACTER_HERHIS_HIS
+				WarGodHerHim = CHARACTER_HERHIM_HIM
+
+				#NightGod
+				NightGodName = manicheanism_night_god_name
+				NightGodNamePossessive = manicheanism_night_god_name_possessive
+				NightGodSheHe = CHARACTER_SHEHE_HE
+				NightGodHerHis = CHARACTER_HERHIS_HIS
+				NightGodHerHim = CHARACTER_HERHIM_HIM
+
+				#WaterGod
+				WaterGodName = manicheanism_water_god_name
+				WaterGodNamePossessive = manicheanism_water_god_name_possessive
+				WaterGodSheHe = CHARACTER_SHEHE_HE
+				WaterGodHerHis = CHARACTER_HERHIS_HIS
+				WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+				#Yamags, not High Priests
+				ReligiousHeadName = manichean_religious_head_title
+				ReligiousHeadTitleName = manichean_religious_head_title_name
+
+				GoodGodNames = {
+					manicheanism_good_god_father_of_greatness
+					manicheanism_good_god_mother_of_life
+					manicheanism_good_god_first_man
+				}
+				DevilName = manicheanism_devil_name
+				DevilNamePossessive = manicheanism_devil_name_possessive
+				DevilSheHe = CHARACTER_SHEHE_HE
+				DevilHerHis = CHARACTER_HERHIS_HIS
+				DevilHerselfHimself = CHARACTER_HIMSELF
+				EvilGodNames = {
+					manicheanism_devil_name
+					dualism_devil_name
+					dualism_evil_god_archons
+					dualism_evil_god_matter
+					dualism_evil_god_ignorance
+				}
+				WitchGodName = manicheanism_devil_name
+				WitchGodNamePossessive = manicheanism_devil_name_possessive
+				WitchGodHerHis = CHARACTER_HERHIS_HIS
+				WitchGodSheHe = CHARACTER_SHEHE_HE
+				WitchGodHerHim = CHARACTER_HERHIM_HIM
+				WitchGodMistressMaster = master
+				WitchGodMotherFather = father
+			}
+		}
+	}
+}
+
+hinduism_religion = {
+	faiths = {
+		vaishnavism = {
+			color = { 158 28 25 }
+			icon = hinduism
+
+			holy_site = varanasi
+			holy_site = ayodhya
+			holy_site = mathura
+			holy_site = haridwar #bantey_srei
+			holy_site = kanchipuram
+			holy_site = ujjayini
+			holy_site = dwarka #khao_khlang_nai
+
+			doctrine = tenet_reincarnation
+			doctrine = tenet_bhakti
+			doctrine = tenet_preservation
+
+			doctrine = sampradaya_vaishnavism_doctrine
+
+			localization = {
+				HighGodName = vaishnavism_high_god_name
+				HighGodName2 = vaishnavism_high_god_name_2
+				HighGodNamePossessive = vaishnavism_high_god_name_possessive
+				HighGodNameSheHe = CHARACTER_SHEHE_HE
+				HighGodHerselfHimself = CHARACTER_HIMSELF
+				HighGodHerHis = CHARACTER_HERHIS_HIS
+
+				#WealthGod
+				WealthGodName = vaishnavism_wealth_god_name
+				WealthGodNamePossessive = vaishnavism_wealth_god_name_possessive
+				WealthGodSheHe = CHARACTER_SHEHE_SHE
+				WealthGodHerHis = CHARACTER_HERHIS_HER
+				WealthGodHerHim = CHARACTER_HERHIM_HER
+
+				#KnowledgeGod
+				KnowledgeGodName = vaishnavism_knowledge_god_name
+				KnowledgeGodNamePossessive = vaishnavism_knowledge_god_name_possessive
+				KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+				KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+				KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+				#WarGod
+				WarGodName = vaishnavism_war_god_name
+				WarGodNamePossessive = vaishnavism_war_god_name_possessive
+				WarGodSheHe = CHARACTER_SHEHE_HE
+				WarGodHerHis = CHARACTER_HERHIS_HIS
+				WarGodHerHim = CHARACTER_HERHIM_HIM
+
+				#TricksterGod
+				TricksterGodName = vaishnavism_trickster_god_name
+				TricksterGodNamePossessive = vaishnavism_trickster_god_name_possessive
+				TricksterGodSheHe = CHARACTER_SHEHE_HE
+				TricksterGodHerHis = CHARACTER_HERHIS_HIS
+				TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+				GoodGodNames = {
+					vaishnavism_high_god_name
+					hinduism_high_god_name_alternate
+					hinduism_good_god_brahma
+					hinduism_good_god_shiva
+					hinduism_good_god_krishna
+					hinduism_good_god_shakti
+					hinduism_good_god_narayana
+				}
+			}
+		}
+
+		shaivism = {
+			color = { 0.9 0.2 0.3 }
+			icon = shaivism
+
+			holy_site = varanasi
+			holy_site = ayodhya #angkor
+			holy_site = mathura
+			holy_site = haridwar
+			holy_site = kanchipuram
+			holy_site = ujjayini
+			holy_site = dwarka #my_son
+			#bumiayu
+			#preah_vihear
+
+			doctrine = tenet_reincarnation
+			doctrine = tenet_monasticism
+			doctrine = tenet_sacred_destruction
+
+			doctrine = sampradaya_shaivism_doctrine
+
+			localization = {
+				HighGodName = shaivism_high_god_name
+				HighGodName2 = shaivism_high_god_name_2
+				HighGodNamePossessive = shaivism_high_god_name_possessive
+				HighGodNameSheHe = CHARACTER_SHEHE_HE
+				HighGodHerselfHimself = CHARACTER_HIMSELF
+				HighGodHerHis = CHARACTER_HERHIS_HIS
+
+				#HealthGod
+				HealthGodName = shaivism_health_god_name
+				HealthGodNamePossessive = shaivism_health_god_name_possessive
+				HealthGodSheHe = CHARACTER_SHEHE_SHE
+				HealthGodHerHis = CHARACTER_HERHIS_HER
+				HealthGodHerHim = CHARACTER_HERHIM_HER
+				
+				#FertilityGod
+				FertilityGodName = shaivism_fertility_god_name
+				FertilityGodNamePossessive = shaivism_fertility_god_name_possessive
+				FertilityGodSheHe = CHARACTER_SHEHE_SHE
+				FertilityGodHerHis = CHARACTER_HERHIS_HER
+				FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+				#WealthGod
+				WealthGodName = shaivism_wealth_god_name
+				WealthGodNamePossessive = shaivism_wealth_god_name_possessive
+				WealthGodSheHe = CHARACTER_SHEHE_HE
+				WealthGodHerHis = CHARACTER_HERHIS_HIS
+				WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+				#HouseholdGod
+				HouseholdGodName = shaivism_household_god_name
+				HouseholdGodNamePossessive = shaivism_household_god_name_possessive
+				HouseholdGodSheHe = CHARACTER_SHEHE_HE
+				HouseholdGodHerHis = CHARACTER_HERHIS_HIS
+				HouseholdGodHerHim = CHARACTER_HERHIM_HIM
+
+				#KnowledgeGod
+				KnowledgeGodName = shaivism_knowledge_god_name
+				KnowledgeGodNamePossessive = shaivism_knowledge_god_name_possessive
+				KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+				KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+				KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+				#WarGod
+				WarGodName = shaivism_war_god_name
+				WarGodNamePossessive = shaivism_war_god_name_possessive
+				WarGodSheHe = CHARACTER_SHEHE_HE
+				WarGodHerHis = CHARACTER_HERHIS_HIS
+				WarGodHerHim = CHARACTER_HERHIM_HIM
+
+				GoodGodNames = {
+					shaivism_high_god_name
+					hinduism_high_god_name_alternate
+					hinduism_good_god_brahma
+					hinduism_good_god_vishnu
+					hinduism_good_god_shakti
+				}
+			}
+		}
+
+		krishnaism = {
+			color = { 152 88 99 }
+			icon = krishnaism
+
+			holy_site = varanasi
+			holy_site = ayodhya
+			holy_site = mathura
+			holy_site = haridwar #prambanan
+			holy_site = kanchipuram
+			holy_site = ujjayini
+			holy_site = dwarka
+
+			doctrine = tenet_reincarnation
+			doctrine = tenet_esotericism
+			doctrine = tenet_monasticism
+
+			doctrine = sampradaya_vaishnavism_doctrine
+
+			localization = {
+				HighGodName = krishnaism_high_god_name
+				HighGodName2 = krishnaism_high_god_name_2
+				HighGodNamePossessive = krishnaism_high_god_name_possessive
+				HighGodNameSheHe = CHARACTER_SHEHE_HE
+				HighGodHerselfHimself = CHARACTER_HIMSELF
+				HighGodHerHis = CHARACTER_HERHIS_HIS
+
+				#WealthGod
+				WealthGodName = vaishnavism_wealth_god_name
+				WealthGodNamePossessive = vaishnavism_wealth_god_name_possessive
+				WealthGodSheHe = CHARACTER_SHEHE_SHE
+				WealthGodHerHis = CHARACTER_HERHIS_HER
+				WealthGodHerHim = CHARACTER_HERHIM_HER
+
+				#KnowledgeGod
+				KnowledgeGodName = vaishnavism_knowledge_god_name
+				KnowledgeGodNamePossessive = vaishnavism_knowledge_god_name_possessive
+				KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+				KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+				KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+				#WarGod
+				WarGodName = vaishnavism_war_god_name
+				WarGodNamePossessive = vaishnavism_war_god_name_possessive
+				WarGodSheHe = CHARACTER_SHEHE_HE
+				WarGodHerHis = CHARACTER_HERHIS_HIS
+				WarGodHerHim = CHARACTER_HERHIM_HIM
+
+				#TricksterGod
+				TricksterGodName = vaishnavism_trickster_god_name
+				TricksterGodNamePossessive = vaishnavism_trickster_god_name_possessive
+				TricksterGodSheHe = CHARACTER_SHEHE_HE
+				TricksterGodHerHis = CHARACTER_HERHIS_HIS
+				TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+				GoodGodNames = {
+					krishnaism_high_god_name
+					hinduism_high_god_name_alternate
+					hinduism_good_god_brahma
+					hinduism_good_god_shiva
+					hinduism_good_god_vishnu
+					hinduism_good_god_shakti
+					hinduism_good_god_narayana
+				}
+			}
+		}
+	}
+}
+
+qiangic_religion = {
+	faiths = {
+		melieism = { #Tangut Root West Religion
+			color = { 0.61 0.6 0.7 }
+			icon = melieism
+			reformed_icon = melieism_reformed
+			
+			holy_site = xingqing_irtock3_tfe #xingqing
+			holy_site = yijinai_irtock3_tfe #yijinai
+			holy_site = alxa
+			holy_site = ngawa
+			holy_site = rebgong
+			
+			doctrine = unreformed_faith_doctrine
+			
+			doctrine = doctrine_gender_male_dominated
+			doctrine = doctrine_clerical_gender_male_only
+			
+			doctrine = tenet_ritual_celebrations
+			doctrine = tenet_astrology
+			doctrine = tenet_ancestor_worship
+			
+			localization = {
+				#HighGod
+				HighGodName = tangut_high_god_name
+				HighGodName2 = tangut_high_god_name_2
+				HighGodNamePossessive = tangut_high_god_name_possessive
+				HighGodNameSheHe = CHARACTER_SHEHE_HE
+				HighGodHerselfHimself = CHARACTER_HIMSELF
+				HighGodHerHis = CHARACTER_HERHIS_HIS
+				HighGodNameAlternate = tangut_high_god_name_alternate
+				HighGodNameAlternatePossessive = tangut_high_god_name_alternate_possessive
+				
+				#Creator
+				CreatorName = tangut_creator_god_name
+				CreatorNamePossessive = tangut_creator_god_name_possessive
+				CreatorSheHe = CHARACTER_SHEHE_HE
+				CreatorHerHis = CHARACTER_HERHIS_HIS
+				CreatorHerHim = CHARACTER_HERHIM_HIM
+
+				#HealthGod
+				HealthGodName = tangut_health_god_name
+				HealthGodNamePossessive = tangut_health_god_name_possessive
+				HealthGodSheHe = CHARACTER_SHEHE_HE
+				HealthGodHerHis = CHARACTER_HERHIS_HIS
+				HealthGodHerHim = CHARACTER_HERHIM_HIM
+		
+				#FertilityGod
+				FertilityGodName = tangut_fertility_god_name
+				FertilityGodNamePossessive = tangut_fertility_god_name_possessive
+				FertilityGodSheHe = CHARACTER_SHEHE_SHE
+				FertilityGodHerHis = CHARACTER_HERHIS_HER
+				FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+				#WealthGod
+				WealthGodName = tangut_wealth_god_name
+				WealthGodNamePossessive = tangut_wealth_god_name_possessive
+				WealthGodSheHe = CHARACTER_SHEHE_HE
+				WealthGodHerHis = CHARACTER_HERHIS_HIS
+				WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+				#HouseholdGod
+				HouseholdGodName = tangut_household_god_name
+				HouseholdGodNamePossessive = tangut_household_god_name_possessive
+				HouseholdGodSheHe = CHARACTER_SHEHE_HE
+				HouseholdGodHerHis = CHARACTER_HERHIS_HIS
+				HouseholdGodHerHim = CHARACTER_HERHIM_HIM
+
+				#FateGod
+				FateGodName = tangut_fate_god_name
+				FateGodNamePossessive = tangut_fate_god_name_possessive
+				FateGodSheHe = CHARACTER_SHEHE_HE
+				FateGodHerHis = CHARACTER_HERHIS_HIS
+				FateGodHerHim = CHARACTER_HERHIM_HIM
+
+				#KnowledgeGod
+				KnowledgeGodName = tangut_knowledge_god_name
+				KnowledgeGodNamePossessive = tangut_knowledge_god_name_possessive
+				KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+				KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+				KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+				#WarGod
+				WarGodName = tangut_war_god_name
+				WarGodNamePossessive = tangut_war_god_name_possessive
+				WarGodSheHe = CHARACTER_SHEHE_HE
+				WarGodHerHis = CHARACTER_HERHIS_HIS
+				WarGodHerHim = CHARACTER_HERHIM_HIM
+
+				#TricksterGod
+				TricksterGodName = tangut_trickster_god_name
+				TricksterGodNamePossessive = tangut_trickster_god_name_possessive
+				TricksterGodSheHe = CHARACTER_SHEHE_SHE
+				TricksterGodHerHis = CHARACTER_HERHIS_HER
+				TricksterGodHerHim = CHARACTER_HERHIM_HER
+
+				#NightGod
+				NightGodName = tangut_night_god_name
+				NightGodNamePossessive = tangut_night_god_name_possessive
+				NightGodSheHe = CHARACTER_SHEHE_HE
+				NightGodHerHis = CHARACTER_HERHIS_HIS
+				NightGodHerHim = CHARACTER_HERHIM_HIM
+
+				#WaterGod
+				WaterGodName = tangut_water_god_name
+				WaterGodNamePossessive = tangut_water_god_name_possessive
+				WaterGodSheHe = CHARACTER_SHEHE_SHE
+				WaterGodHerHis = CHARACTER_HERHIS_HER
+				WaterGodHerHim = CHARACTER_HERHIM_HER
+				
+				GoodGodNames = {
+					tangut_high_god_name
+					tangut_high_god_name_alternate
+					tangut_good_god_mewn
+					tangut_good_god_viei
+				}
+				
+				ReligiousSymbol = tangut_religious_symbol
+				ReligiousSymbol2 = tangut_religious_symbol_2
+				ReligiousSymbol3 = tangut_religious_symbol_3
+				ReligiousText = tangut_religious_text
+				ReligiousText2 = tangut_religious_text_2
+				ReligiousText3 = tangut_religious_text_3
+				ReligiousHeadName = tangut_religious_head_title
+				ReligiousHeadTitleName = tangut_religious_head_title_name
+				DevoteeMale = tangut_devotee_male
+				DevoteeMalePlural = tangut_devotee_male_plural
+				DevoteeFemale = tangut_devotee_female
+				DevoteeFemalePlural = tangut_devotee_female_plural
+				DevoteeNeuter = tangut_devotee_neuter
+				DevoteeNeuterPlural = tangut_devotee_neuter_plural
+				PriestMale = tangut_priest
+				PriestMalePlural = tangut_priest_plural
+				PriestFemale = tangut_priest
+				PriestFemalePlural = tangut_priest_plural
+				PriestNeuter = tangut_priest
+				PriestNeuterPlural = tangut_priest_plural
+				AltPriestTermPlural = tangut_priest_term_plural
+				BishopMale = tangut_bishop
+				BishopMalePlural = tangut_bishop_plural
+				BishopFemale = tangut_bishop
+				BishopFemalePlural = tangut_bishop_plural
+				BishopNeuter = tangut_bishop
+				BishopNeuterPlural = tangut_bishop_plural
+				DivineRealm = tangut_divine_realm
+				DivineRealm2 = tangut_divine_realm_2
+				DivineRealm3 = tangut_divine_realm_3
+				PositiveAfterLife = tangut_positive_afterlife
+				PositiveAfterLife2 = tangut_positive_afterlife_2
+				PositiveAfterLife3 = tangut_positive_afterlife_3
+			}
+		}
+	}
+}
+{% endif %}
+
+
