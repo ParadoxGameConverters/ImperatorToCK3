@@ -1031,3 +1031,36 @@ qirbit = {
 		councillor_opinion = 5
 	}
 }
+
+
+
+##########################
+## TFE Error Supression ##
+##########################
+# The holy sites TFE uses may not be in scope, or were changed to titles TFE doesn't use, so those need to be setup here.
+yijinai_irtock3_tfe = { # Made this a separate holy site so it doesn't overwrite the base game yijinai holy site when converting without TFE
+	county = c_yijinai
+	
+	character_modifier = {
+		name = holy_site_yijinai_effect_name
+		build_gold_cost = -0.05
+	}
+}
+
+xingqing_irtock3_tfe = { # Made this a separate holy site so it doesn't overwrite the base game xingqing holy site when converting without TFE
+	county = c_tewo # The correct county is out-of-scope, but this is the closest in-scope one
+	
+	character_modifier = {
+		name = holy_site_xingqing_effect_name
+		same_faith_opinion = 5
+	}
+}
+jorvik = { # TFE removed the barony associated with this holy site, but still has the county, so to make it as compatible, just making it based off the county instead
+	county = c_north_riding
+
+	character_modifier = {
+		name = holy_site_jorvik_effect_name
+		knight_effectiveness_mult = 0.2
+		prowess_per_piety_level = 1
+	}
+}
