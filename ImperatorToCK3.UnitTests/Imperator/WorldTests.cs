@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using commonItems;
 using commonItems.Collections;
+using commonItems.Mods;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator;
 using ImperatorToCK3.UnitTests.TestHelpers;
@@ -45,6 +47,61 @@ public sealed class WorldTests : IDisposable {
 
 		Assert.True((bool)method!.Invoke(null, new object?[] { @"C:\Папка\ImperatorDocuments" })!);
 		Assert.False((bool)method.Invoke(null, new object?[] { @"C:\ImperatorDocuments" })!);
+	}
+
+	[Fact]
+	public void ModLoaderLoadMods_throwsWhenModsDirectoryIsMissing() {
+		// Reproduces the "Mods directory path is invalid!" crash: commonItems' ModLoader requires
+		// <I:R documents>/mod to exist and never creates it. I:R only creates that folder once a mod is installed.
+		var documentsPath = Path.Combine(tempRoot, "ImperatorDocumentsWithoutModFolder");
+		Directory.CreateDirectory(documentsPath);
+		List<Mod> incomingMods = [new Mod(string.Empty, "mod/some_mod.mod")];
+
+		var exception = Assert.Throws<DirectoryNotFoundException>(
+			() => new ModLoader().LoadMods(documentsPath, incomingMods, config.IRVersion, throwForOutOfDateMods: false));
+
+		Assert.Contains("Mods directory path is invalid", exception.Message, StringComparison.Ordinal);
+	}
+
+	[Fact]
+	public void LoadUsableMods_createsMissingModsDirectory() {
+		var documentsPath = Path.Combine(tempRoot, "ImperatorDocumentsWithoutMods");
+		Directory.CreateDirectory(documentsPath);
+		var localConfig = new Configuration { ImperatorDocPath = documentsPath };
+
+		var usableMods = World.LoadUsableMods(localConfig, [new Mod(string.Empty, "mod/some_mod.mod")]);
+
+		Assert.Empty(usableMods);
+		Assert.True(Directory.Exists(Path.Combine(documentsPath, "mod")));
+	}
+
+	[Fact]
+	public void LoadUsableMods_loadsModFromExistingModsDirectory() {
+		var documentsPath = Path.Combine(tempRoot, "ImperatorDocumentsWithMod");
+		var modsDirectoryPath = Path.Combine(documentsPath, "mod");
+		Directory.CreateDirectory(Path.Combine(modsDirectoryPath, "themod"));
+		File.WriteAllText(Path.Combine(modsDirectoryPath, "themod.mod"), """
+			name="The Mod"
+			path="mod/themod"
+			""");
+		var localConfig = new Configuration { ImperatorDocPath = documentsPath };
+
+		var usableMods = World.LoadUsableMods(localConfig, [new Mod(string.Empty, "mod/themod.mod")]);
+
+		var loadedMod = Assert.Single(usableMods);
+		Assert.Equal("The Mod", loadedMod.Name);
+	}
+
+	[Fact]
+	public void LoadUsableMods_doesNotCreateModsDirectoryWhenSaveUsesNoMods() {
+		var documentsPath = Path.Combine(tempRoot, "ImperatorDocumentsNoModsUsed");
+		Directory.CreateDirectory(documentsPath);
+		var localConfig = new Configuration { ImperatorDocPath = documentsPath };
+
+		var usableMods = World.LoadUsableMods(localConfig, []);
+
+		Assert.Empty(usableMods);
+		Assert.False(Directory.Exists(Path.Combine(documentsPath, "mod")));
 	}
 
 	[Fact]
