@@ -95,7 +95,7 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [[self-hosted, windows], macos-14]
+        os: [[self-hosted, windows], macos-15]
     runs-on: ${{ matrix.os }}
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
