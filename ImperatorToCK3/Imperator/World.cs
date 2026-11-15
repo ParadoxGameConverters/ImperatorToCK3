@@ -595,12 +595,8 @@ internal partial class World {
 	private SimpleDel LoadEnabledModsAndInitModFs(Configuration config, string imperatorRoot) {
 		return reader => {
 			Mods incomingMods = DetectUsedMods(reader);
-
-			// Let's locate, verify and potentially update those mods immediately.
-			ModLoader modLoader = new();
-			modLoader.LoadMods(config.ImperatorDocPath, incomingMods, config.IRVersion, throwForOutOfDateMods: false);
-			UsableMods = new Mods(modLoader.UsableMods);
-			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
+			UsableMods = LoadUsableMods(config, incomingMods);
+			ModFS = new ModFilesystem(imperatorRoot, UsableMods);
 
 			// Detect specific Imperator mods from the configurable now that UsableMods are available.
 			config.DetectSpecificImperatorMods(UsableMods);
@@ -608,6 +604,29 @@ internal partial class World {
 			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
 			LoadModFilesystemDependentData();
 		};
+	}
+
+	internal static Mods LoadUsableMods(Configuration config, Mods incomingMods) {
+		if (incomingMods.Count > 0) {
+			// commonItems' ModLoader throws if the mods folder is missing, and I:R only creates
+			// <documents>/mod once a mod is installed, so make sure the folder exists beforehand.
+			EnsureModsDirectoryExists(config.ImperatorDocPath);
+		}
+
+		// Let's locate, verify and potentially update those mods immediately.
+		ModLoader modLoader = new();
+		modLoader.LoadMods(config.ImperatorDocPath, incomingMods, config.IRVersion, throwForOutOfDateMods: false);
+		return new Mods(modLoader.UsableMods);
+	}
+
+	internal static void EnsureModsDirectoryExists(string imperatorDocPath) {
+		var modsDirectoryPath = Path.Combine(imperatorDocPath, "mod");
+		if (Directory.Exists(modsDirectoryPath)) {
+			return;
+		}
+
+		Logger.Info($"I:R mods directory not found at \"{modsDirectoryPath}\". Creating an empty one.");
+		FileHelper.EnsureDirectoryExists(modsDirectoryPath);
 	}
 
 	private void RemoveEmptyCountries() {
