@@ -17,6 +17,82 @@
 # NOTE: ck3_title_rank allows all possible rankings in one entry. So for example, ck3_title_rank = ke will work for kingdoms and empires
 
 
+## TFE
+# roman_imperial_government (Represents government of Roman Empire; TFE sets things up so only realms under "roman empire titles" can really keep this government, so not mapping it here, and will have relevant rulers be given it at game start)
+# manorial_government (A government type that seems to mainly just be used for Burgundy in TFE, with no way of converting to it in game, so not mapping to it here)
+# eranshar_government (This government seems to be focused around the Persian Empire title, so not mapping it here, but will likely have an Iranian Heritage holder of Persia get it at game start)
+# caliphate_government (Focused around Islam, so not mapping)
+# muslim_government (Focused around Islam, so not mapping)
+
+# Roman Government (Represents Roman states that exist outside of the Roman Empire; Giving this government priority of Romanesque for certain government types given the DLC dependence)
+link = {
+	ck3 = roman_government
+	ir = imperium ir = imperial_cult ir = aristocratic_republic ir = oligarchic_republic ir = democratic_republic ir = plutocratic_republic ir = athenian_republic
+	ir = spartan_imperium ir = spartan_imperial_cult ir = judean_empire ir = punic_republic # Invictus Governments
+	irCulture = roman
+	has_ck3_dlc = roads_to_power # Needs to have relevant DLC
+}
+
+# Romanesque Government (Represents states - mainly outside the Roman Empire - that practice some Roman practices, but a bit more Feudalistic; TFE has this transition to Feudal after a while)
+link = {
+	ck3 = romanesque_government
+	# These governments are the same as what's mapped to Feudal, giving Romanesque priority over Feudal for Romans
+	ir = dictatorship ir = despotic_monarchy ir = aristocratic_monarchy ir = stratocratic_monarchy ir = theocratic_monarchy ir = plutocratic_monarchy
+	ir = samaritan_judgedom ir = rhodian_dictatorship ir = spartan_monarchy # Invictus Governments (samaritan_judgedom/rhodian_dictatorship don't actually get used, but mapping just in case)
+	ir = enfeoffment_zhourites ir = chinese_duhufu ir = pirate_kingdom # Terra-Indomita Governments
+	# These governments are the same as the roman_government mappings, so that if the player doesn't have RtP, the relevant realms can still get a relevant government type
+	ir = imperium ir = imperial_cult ir = aristocratic_republic ir = oligarchic_republic ir = democratic_republic ir = plutocratic_republic ir = athenian_republic
+	ir = spartan_imperium ir = spartan_imperial_cult ir = judean_empire ir = punic_republic # Invictus Governments
+	irCulture = roman
+}
+
+# Gana Sangha Government (Seems to be TFE's tribal government for India)
+link = {
+	ck3 = gana_sangha_government
+	ir = tribal_chiefdom ir = tribal_kingdom ir = tribal_federation
+	ir = steppe_horde # Invictus Governments
+	ir = steppe_empire # Terra-Indomita Governments
+	# Aryan
+	irCulture = vidharban irCulture = mulaka irCulture = saurashtran irCulture = kaccha irCulture = lankan irCulture = maharashtran irCulture = rathikan irCulture = gandhari irCulture = sivi irCulture = shauraseni irCulture = kosala irCulture = kuru irCulture = avanti irCulture = matsya irCulture = cedi irCulture = dhivehi irCulture = sindhi irCulture = dardic irCulture = purus irCulture = mitanni
+	# Dravidian
+	irCulture = kannadan irCulture = tamil irCulture = telugu irCulture = kuntalan irCulture = alupan irCulture = cholan irCulture = cheran irCulture = pandyan irCulture = andhran irCulture = assaka
+	# Pracyan
+	irCulture = kalingan irCulture = kamarupi irCulture = bangli irCulture = atavi irCulture = magadhi irCulture = himalayan irCulture = pandra irCulture = vanga irCulture = savara irCulture = kasi irCulture = vrji irCulture = malla
+}
+
+# Janapada Government (Seems to be TFE's Centralized government for India; giving priority over Feudal)
+link = { # Regardless of culture, these governments should always map together
+	ck3 = gupta_government
+	ir = indian_empire # Invictus Governments
+}
+link = { # If an Indian-cultured state has a relevant Monarchy government, they should also become Janapada
+	ck3 = gupta_government
+	ir = dictatorship ir = despotic_monarchy ir = aristocratic_monarchy ir = stratocratic_monarchy ir = theocratic_monarchy ir = plutocratic_monarchy ir = imperium ir = imperial_cult
+	ir = samaritan_judgedom ir = rhodian_dictatorship ir = spartan_monarchy ir = spartan_imperium ir = spartan_imperial_cult ir = judean_empire # Invictus Governments (samaritan_judgedom/rhodian_dictatorship don't actually get used, but mapping just in case)
+	ir = enfeoffment_zhourites ir = chinese_duhufu ir = pirate_kingdom # Terra-Indomita Governments
+	# Aryan
+	irCulture = vidharban irCulture = mulaka irCulture = saurashtran irCulture = kaccha irCulture = lankan irCulture = maharashtran irCulture = rathikan irCulture = gandhari irCulture = sivi irCulture = shauraseni irCulture = kosala irCulture = kuru irCulture = avanti irCulture = matsya irCulture = cedi irCulture = dhivehi irCulture = sindhi irCulture = dardic irCulture = purus irCulture = mitanni
+	# Dravidian
+	irCulture = kannadan irCulture = tamil irCulture = telugu irCulture = kuntalan irCulture = alupan irCulture = cholan irCulture = cheran irCulture = pandyan irCulture = andhran irCulture = assaka
+	# Pracyan
+	irCulture = kalingan irCulture = kamarupi irCulture = bangli irCulture = atavi irCulture = magadhi irCulture = himalayan irCulture = pandra irCulture = vanga irCulture = savara irCulture = kasi irCulture = vrji irCulture = malla
+}
+
+# City State Government
+link = {
+	ck3 = city_state_government
+	ir = athenian_republic ir = aristocratic_republic
+	ck3_title_rank = cd # Given that this government is meant more for smaller realms, limiting to Counties and Duchies
+}
+
+# Oasis City State Government
+link = {
+	ck3 = trade_city_state_government
+	ir = plutocratic_republic
+	ck3_title_rank = cd # Given that this government is meant more for smaller realms, limiting to Counties and Duchies
+}
+
+
 
 ## AUH Mandala Government (Being handled by game_start script)
 ## AUH Wanua Government (Being handled by game_start script)
@@ -67,7 +143,6 @@ link = {
 
 
 ## Administrative
-# Base Game Admin should take precedence over TFE's imperial_government.
 link = {
 	ck3 = administrative_government
 	ir = imperium ir = imperial_cult
@@ -76,14 +151,6 @@ link = {
 	ck3_title_rank = keh # Limiting to Kingdoms, Empires, Hegemonies
 	has_ck3_dlc = roads_to_power # Needs to have relevant DLC
 }
-link = { # TFE
-	ck3 = imperial_government
-	ir = imperium ir = imperial_cult
-	ir = spartan_imperium ir = spartan_imperial_cult ir = judean_empire ir = indian_empire # Invictus Governments
-	ir = chinese_empire ir = yamato_empire # Terra-Indomita Governments
-	ck3_title_rank = keh # Limiting to Kingdoms, Empires, Hegemonies
-}
-
 
 ## RoA Chinese Government
 # ROA has China use Administrative, but if the player doesn't have Roads to Power, they default to this government instead, so I wanted this to be after all of the other, better options
@@ -106,16 +173,6 @@ link = {
 	ir = steppe_empire # Terra-Indomita Governments
 	has_ck3_dlc = khans_of_the_steppe # Needs to have relevant DLC
 }
-
-
-## TFE
-#link = { # TFE, TODO: see what needs to be done in order to make the ruler with this government a head of faith, for example in Hellenic paganism
-#	ck3 = imperial_cult_government
-#	ir = imperial_cult
-#	ir = spartan_imperial_cult
-#}
-link = { ck3 = city_state_government ir = athenian_republic ir = aristocratic_republic ir = plutocratic_republic }
-link = { ck3 = legion_government ir = stratocratic_monarchy }
 
 
 ## Vanilla CK3 Fallbacks
