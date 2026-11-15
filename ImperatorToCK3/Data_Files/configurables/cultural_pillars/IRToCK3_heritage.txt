@@ -817,7 +817,7 @@ heritage_alasiyan = {
 ###############
 # The following heritage definitions are mainly just to supress errors when converting to 1.19.0.6 TFE. These should probably be removed once they are properly added back in TFE.
 ## Since most of these heritages will likely exist in other mods/base game, these are just copying 1.17 TFE's definition, will keep all parameters exactly the same, and just make sure that it's replaced in every mod except TFE.
-## Some of these have heritage_group_fallback/heritage_family_fallback, which are just being used as fallbacks for error supression. Neither TFE nor the converter have cultures that use those heritages, so there's no need to add a lot of new groups/families if nothing is using them.
+## Some of these have heritage_group_fallback/heritage_family_fallback, which are just being used as fallbacks for error suppression. Neither TFE nor the converter have cultures that use those heritages, so there's no need to add a lot of new groups/families if nothing is using them.
 heritage_phoenician = { # Copied TFE's hertiage_levantine, since that's what they use
     REPLACED_BY = {
 		roa = { heritage_phoenician }

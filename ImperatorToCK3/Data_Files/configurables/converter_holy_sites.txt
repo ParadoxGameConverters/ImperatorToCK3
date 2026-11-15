@@ -1035,7 +1035,7 @@ qirbit = {
 
 
 ##########################
-## TFE Error Supression ##
+## TFE Error Suppression ##
 ##########################
 # The holy sites TFE uses may not be in scope, or were changed to titles TFE doesn't use, so those need to be setup here.
 yijinai_irtock3_tfe = { # Made this a separate holy site so it doesn't overwrite the base game yijinai holy site when converting without TFE

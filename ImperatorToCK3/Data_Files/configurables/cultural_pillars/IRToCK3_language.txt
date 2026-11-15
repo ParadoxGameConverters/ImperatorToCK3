@@ -6198,7 +6198,7 @@ language_ancient_greek = { # Copied from TFE's Greek, since that's what they use
 }
 
 # The following are newer languages, or didn't have existing CCU parameters setup in TFE, so need to be setup here to supress errors
-## Some of these have language_group_fallback/language_family_fallback, which are just being used as fallbacks for error supression. Neither TFE nor the converter have cultures that use those languages, so there's no need to add a lot of new groups/families if nothing is using them.
+## Some of these have language_group_fallback/language_family_fallback, which are just being used as fallbacks for error suppression. Neither TFE nor the converter have cultures that use those languages, so there's no need to add a lot of new groups/families if nothing is using them.
 language_asli = {
     REPLACED_BY = {
 		roa = { language_asli }
