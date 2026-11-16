@@ -4,7 +4,9 @@ using commonItems.Mods;
 using AwesomeAssertions;
 using DotLiquid;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Mappers.HolySiteEffect;
 using System;
@@ -204,6 +206,9 @@ public class ReligionCollectionTests {
 		var religion = new ImperatorToCK3.CK3.Religions.Religion("religion_x", reader, religions, colorFactory);
 		religions.AddOrReplace(religion);
 
+		var riteReader = new BufferedReader("{ doctrines = { tenet_christian_syncretism tenet_rite_normal } }");
+		religions.Rites.AddOrReplace(new Rite("rite_x", riteReader, religions, colorFactory));
+
 		religions.RemoveChristianAndIslamicSyncretismFromAllFaiths();
 
 		religion.DoctrineIds.Should().NotContain(new[] { "tenet_christian_syncretism", "tenet_islamic_syncretism" });
@@ -215,6 +220,9 @@ public class ReligionCollectionTests {
 
 		var faithB = religion.Faiths["faith_b"];
 		faithB.DoctrineIds.Should().NotContain("tenet_islamic_syncretism");
+
+		religions.Rites["rite_x"].DoctrineIds.Should().NotContain("tenet_christian_syncretism");
+		religions.Rites["rite_x"].DoctrineIds.Should().Contain("tenet_rite_normal");
 	}
 
 	[Fact]
@@ -304,5 +312,113 @@ public class ReligionCollectionTests {
 		} finally {
 			File.Delete(tempFile);
 		}
+	}
+
+	[Fact]
+	public void FaithsInNewFormatAreLoaded() {
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		religions.LoadReligions(ck3ModFS, colorFactory);
+
+		var faith = religions.GetFaith("religion_a_faith");
+		Assert.NotNull(faith);
+		Assert.Equal("religion_a", faith.Religion.Id);
+		faith.HolySiteIds.Should().BeEquivalentTo("site1", "site2", "site3", "site4", "site5");
+		faith.EminentHolySiteIds.Should().BeEquivalentTo("site3", "site4", "site5");
+	}
+
+	[Fact]
+	public void DoctrineTypesAreAssignedToDoctrineGroups() {
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		religions.LoadDoctrines(ck3ModFS);
+
+		religions.DoctrineGroups["doctrine_group_a"].DoctrineIds
+			.Should().BeEquivalentTo("doctrine_a1", "doctrine_a2");
+		religions.DoctrineGroups["doctrine_group_b"].DoctrineIds
+			.Should().BeEquivalentTo("doctrine_b1");
+		religions.TenetIds.Should().Contain(["tenet_test", "tenet_other"]);
+	}
+
+	[Fact]
+	public void ConverterFaithInNewFormatIsLoadedAndGetsMainlineRite() {
+		var tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".liquid");
+		try {
+			File.WriteAllText(tempFile, """
+				converted_faith = {
+					faith_details = {
+						religion = religion_a
+						color = rgb { 1 2 3 }
+						icon = custom_icon
+					}
+					tenets = {
+						tenet_test
+					}
+					doctrines = {
+						doctrine_a1
+					}
+					holy_sites = {
+						site1
+					}
+					eminent_holy_sites = {
+						site2
+					}
+				}
+				""");
+
+			var religions = new ReligionCollection(new Title.LandedTitles());
+			religions.LoadReligions(ck3ModFS, colorFactory);
+			religions.LoadConverterFaiths(tempFile, colorFactory, liquidVariables: new Hash());
+
+			var faith = religions.GetFaith("converted_faith");
+			Assert.NotNull(faith);
+			Assert.Equal("religion_a", faith.Religion.Id);
+			Assert.Equal("converted_faith", faith.MainRiteId);
+			faith.DoctrineIds.Should().BeEquivalentTo("tenet_test", "doctrine_a1");
+
+			Assert.True(religions.Rites.ContainsKey("converted_faith"));
+			var rite = religions.Rites["converted_faith"];
+			Assert.Equal("converted_faith", rite.FaithId);
+			rite.DoctrineIds.Should().BeEquivalentTo("tenet_test", "doctrine_a1");
+			religions.ConverterFaithIds.Should().Contain("converted_faith");
+		} finally {
+			File.Delete(tempFile);
+		}
+	}
+
+	[Fact]
+	public void ConverterRitesAreLoaded() {
+		var tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".liquid");
+		try {
+			File.WriteAllText(tempFile, """
+				custom_rite = {
+					faith = religion_a_faith
+					color = rgb { 4 5 6 }
+					tenets = { tenet_test }
+				}
+				""");
+
+			var religions = new ReligionCollection(new Title.LandedTitles());
+			religions.LoadConverterRites(tempFile, colorFactory, liquidVariables: new Hash());
+
+			Assert.True(religions.Rites.ContainsKey("custom_rite"));
+			religions.Rites["custom_rite"].FaithId.Should().Be("religion_a_faith");
+		} finally {
+			File.Delete(tempFile);
+		}
+	}
+
+	[Fact]
+	public void RiteIdsInFaithHistoryAreResolvedToFaithIds() {
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var riteReader = new BufferedReader("{ faith = test_faith }");
+		religions.Rites.AddOrReplace(new Rite("test_rite", riteReader, religions, colorFactory));
+
+		var history = new History();
+		history.AddFieldValue(new Date(100, 1, 1), "faith", "rite", "test_rite");
+		history.AddFieldValue(new Date(200, 1, 1), "faith", "rite", "unknown_rite");
+
+		religions.ResolveRiteIdsInFaithHistory(history);
+
+		history.GetFieldValue("faith", new Date(150, 1, 1)).Should().Be("test_faith");
+		history.GetFieldValue("faith", new Date(250, 1, 1)).Should().Be("unknown_rite");
 	}
 }

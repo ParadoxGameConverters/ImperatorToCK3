@@ -2221,7 +2221,7 @@ internal sealed partial class Title {
 
 		public void RemoveLiegeEntriesFromReligiousHeadHistory(ReligionCollection religions) {
 			var religiousHeadTitleIds = religions.Faiths
-				.Select(f => f.ReligiousHeadTitleId)
+				.Select(f => f.HeadTitleId)
 				.Distinct()
 				.Where(id => id is not null)
 				.Select(id => id!);

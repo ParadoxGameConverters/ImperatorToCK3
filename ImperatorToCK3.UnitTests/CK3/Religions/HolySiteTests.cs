@@ -4,6 +4,7 @@ using commonItems.Serialization;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.HolySiteEffect;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -19,8 +20,12 @@ public class HolySiteTests {
 		Assert.False(site.IsFromConverter);
 		Assert.Null(site.CountyId);
 		Assert.Null(site.BaronyId);
-		Assert.Empty(site.CharacterModifier);
-		Assert.Null(site.Flag);
+		Assert.False(site.IsDynamic);
+		Assert.Empty(site.Parameters);
+		Assert.Empty(site.FaithCharacterModifier);
+		Assert.Empty(site.FaithCharacterModifierScaled);
+		Assert.Empty(site.CountyHolderCharacterModifier);
+		Assert.Empty(site.CountyModifierScaled);
 	}
 
 	[Fact]
@@ -30,11 +35,14 @@ public class HolySiteTests {
 		var siteReader = new BufferedReader(@"
 			county = c_county
 			barony = b_barony
-			character_modifier = {
+			parameters = { jerusalem_conversion_bonus }
+			county_holder_character_modifier = {
 				prowess = script_value_1
 				piety = 1.5
 			}
-			flag = jerusalem_conversion_bonus # +20% County Conversion
+			faith_character_modifier = {
+				monthly_piety_gain_mult = 0.05
+			}
 		");
 		var site = new HolySite("test_site", siteReader, titles, isFromConverter: false);
 
@@ -42,7 +50,8 @@ public class HolySiteTests {
 		Assert.False(site.IsFromConverter);
 		Assert.Equal("c_county", site.CountyId);
 		Assert.Equal("b_barony", site.BaronyId);
-		Assert.Collection(site.CharacterModifier,
+		Assert.Equal(["jerusalem_conversion_bonus"], site.Parameters);
+		Assert.Collection(site.CountyHolderCharacterModifier,
 			kvp1 => {
 				Assert.Equal("prowess", kvp1.Key);
 				Assert.Equal("script_value_1", kvp1.Value);
@@ -51,7 +60,37 @@ public class HolySiteTests {
 				Assert.Equal("piety", kvp2.Key);
 				Assert.Equal("1.5", kvp2.Value);
 			});
-		Assert.Equal("jerusalem_conversion_bonus", site.Flag);
+		Assert.Collection(site.FaithCharacterModifier,
+			kvp => {
+				Assert.Equal("monthly_piety_gain_mult", kvp.Key);
+				Assert.Equal("0.05", kvp.Value);
+			});
+	}
+
+	[Fact]
+	public void LegacyCharacterModifierAndFlagAreConvertedToNewFormat() {
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(new BufferedReader("c_county = { b_barony = {} }"), colorFactory);
+		var siteReader = new BufferedReader(@"
+			county = c_county
+			flag = jerusalem_conversion_bonus
+			character_modifier = {
+				name = holy_site_test_effect_name
+				prowess = 1
+			}
+		");
+		var site = new HolySite("test_site", siteReader, titles, isFromConverter: false);
+
+		Assert.Equal(["jerusalem_conversion_bonus"], site.Parameters);
+		Assert.Collection(site.FaithCharacterModifier,
+			kvp => Assert.Equal("prowess", kvp.Key));
+		Assert.Collection(site.CountyHolderCharacterModifier,
+			kvp => Assert.Equal("prowess", kvp.Key));
+
+		var serialized = PDXSerializer.Serialize(site);
+		Assert.Contains("faith_character_modifier", serialized, StringComparison.Ordinal);
+		Assert.Contains("parameters = {", serialized, StringComparison.Ordinal);
+		Assert.DoesNotContain("holy_site_test_effect_name", serialized, StringComparison.Ordinal);
 	}
 
 	[Fact]
@@ -76,12 +115,16 @@ public class HolySiteTests {
 		Assert.True(site.IsFromConverter);
 		Assert.Equal("c_county", site.CountyId);
 		Assert.Equal("b_barony", site.BaronyId);
-		Assert.Collection(site.CharacterModifier,
+		Assert.Collection(site.FaithCharacterModifier,
 			kvp1 => {
 				Assert.Equal("knight_effectiveness_mult", kvp1.Key);
 				Assert.Equal("2", PDXSerializer.Serialize(kvp1.Value)); // 0.2 * 10
 			});
-		Assert.Null(site.Flag);
+		Assert.Collection(site.CountyHolderCharacterModifier,
+			kvp1 => {
+				Assert.Equal("knight_effectiveness_mult", kvp1.Key);
+				Assert.Equal("2", PDXSerializer.Serialize(kvp1.Value));
+			});
 	}
 
 	[Fact]

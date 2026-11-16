@@ -1,15 +1,45 @@
 # This file contains converter's CK3 faiths that may be redundant in the case
 # of a conversion to The Fallen Eagle or When the World Stopped Making Sense mods.
-
+#
 # For example: converter's berber_pagan faith is made redundant by TFE's amazigh_pagan.
 # It's also not needed if any selected CK3 mod already has a berber_pagan faith.
 # To prevent including the faith in the conversion, add a list of faiths that
 # invalidate it to the faith's definition:
 # INVALIDATED_BY = { berber_pagan amazigh_pagan }
-
-# The faiths should be inside the <religion> = { faiths = { } } block, just like
-# in vanilla CK3. Religion's attributes can be specified as well, but they will
+#
+# CK3 1.20+ (By God Alone) format
+# -------------------------------
+# Faiths can also be defined directly at the top level, with their religion specified
+# in a faith_details block. Tenets are listed separately from doctrines, and holy sites
+# are split into regular and eminent ones:
+#
+# my_faith = {
+#     faith_details = {
+#         religion = my_religion
+#         color = rgb { 100 100 100 }
+#         icon = my_icon
+#         reformed_icon = my_reformed_icon
+#         religious_head = d_my_head
+#         head_of_rite = k_my_head
+#     }
+#     main_rite = my_rite
+#     holy_sites = { site_1 site_2 }
+#     eminent_holy_sites = { site_3 }
+#     tenets = { tenet_1 tenet_2 }
+#     doctrines = { doctrine_1 }
+#     localization = { ... }
+# }
+#
+# Religions created by the converter can be defined in converter_religions.liquid.
+#
+# Legacy format
+# -------------
+# The faiths can be inside the <religion> = { faiths = { } } block, just like
+# in CK3 before 1.20. Religion's attributes can be specified as well, but they will
 # be ignored by the converter if the religion already exists.
+# In the legacy format, holy sites are listed with repeated holy_site = keys and
+# tenets/doctrines with repeated doctrine = keys.
+# The converter promotes up to 3 legacy holy sites to eminent ones automatically.
 
 
 north_african_religion = {

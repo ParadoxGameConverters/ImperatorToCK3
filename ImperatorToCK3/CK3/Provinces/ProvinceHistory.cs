@@ -85,7 +85,7 @@ internal sealed partial class Province {
 
 	private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
 		.WithSimpleField("culture", "culture", null)
-		.WithSimpleField("faith", ["faith", "religion"], null)
+		.WithSimpleField("faith", ["faith", "religion", "rite"], null)
 		.WithSimpleField("holding", "holding", "none")
 		.WithSimpleField("buildings", "buildings", new List<string>())
 		.WithSimpleField("special_building_slot", "special_building_slot", null)

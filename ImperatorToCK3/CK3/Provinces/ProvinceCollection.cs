@@ -67,6 +67,11 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		LoadProvincesHistory(ck3ModFs);
 		Logger.IncrementProgress();
 
+		// CK3 1.20+ province history uses rite instead of faith.
+		foreach (var province in this) {
+			religions.ResolveRiteIdsInFaithHistory(province.History);
+		}
+
 		// Cleanup: remove invalid faith and culture entries from province history
 		var validFaithIds = religions.Faiths.Select(f => f.Id).ToFrozenSet();
 		var validCultureIds = cultures.Select(c => c.Id).ToFrozenSet();

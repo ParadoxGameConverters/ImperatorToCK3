@@ -16,7 +16,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Religions;
 [Collection("Sequential")] // Tests in this class manipulate global log output, so they must run sequentially to avoid interference.
 public class ReligionTests {
 	[Fact]
-	public void FaithsAreLoadedAndSerialized() {
+	public void LegacyNestedFaithsAreLoadedAndReligionIsSerializedInNewFormat() {
 		var reader = new BufferedReader("{ faiths={ orthodox={} catholic={} } }");
 		var religions = new ReligionCollection(new Title.LandedTitles());
 		var religion = new Religion("christianity", reader, religions, new ColorFactory());
@@ -25,10 +25,10 @@ public class ReligionTests {
 			faith => Assert.Equal("orthodox", faith.Id),
 			faith => Assert.Equal("catholic", faith.Id));
 
+		// In CK3 1.20+ faiths are not nested inside religions.
 		var religionStrWithoutWhitespace = Regex.Replace(PDXSerializer.Serialize(religion), @"\s", "");
-		religionStrWithoutWhitespace.Should().ContainAll(
-			"orthodox={localization={}}",
-			"catholic={localization={}}");
+		religionStrWithoutWhitespace.Should().Contain("religion_details={}");
+		religionStrWithoutWhitespace.Should().NotContain("faiths=");
 	}
 
 	[Fact]
@@ -153,12 +153,13 @@ public class ReligionTests {
 		}");
 		var religions = new ReligionCollection(new Title.LandedTitles());
 		var religion = new Religion("test_religion", reader, religions, new ColorFactory());
+		var faith = religion.Faiths.First(f => f.Id == "test_faith");
 
-		// Act: Serialize the religion
-		var religionStr = PDXSerializer.Serialize(religion);
+		// Act: Serialize the faith
+		var faithStr = PDXSerializer.Serialize(faith);
 
-		// Assert: The religious head should be serialized in the faith
-		religionStr.Should().Contain("religious_head=k_papal_state");
+		// Assert: The religious head should be serialized in faith_details
+		faithStr.Should().Contain("religious_head = k_papal_state");
 	}
 	
 	[Fact]
@@ -231,8 +232,76 @@ public class ReligionTests {
 			"icon = custom_faith_icon",
 			"custom_modifier = some_value",
 			"special_mechanic = yes",
-			"localization={"
+			"localization = {"
 		);
+	}
+
+	[Fact]
+	public void ReligionDetailsAreParsedAndSerialized() {
+		var reader = new BufferedReader("""
+			{
+				religion_details = {
+					family = rf_pagan
+					piety_icon_group = "pagan"
+					theocracy_government_type = theocracy_government
+				}
+				doctrine = doctrine_monotheist
+			}
+			""");
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var religion = new Religion("test_religion", reader, religions, new ColorFactory());
+
+		Assert.Equal("rf_pagan", religion.FamilyId);
+
+		var religionStr = PDXSerializer.Serialize(religion);
+		religionStr.Should().ContainAll(
+			"religion_details = {",
+			"family = rf_pagan",
+			"piety_icon_group = \"pagan\"",
+			"theocracy_government_type = theocracy_government",
+			"doctrine=doctrine_monotheist"
+		);
+	}
+
+	[Fact]
+	public void LegacyFamilyIsMovedIntoReligionDetails() {
+		var reader = new BufferedReader("""
+			{
+				family = rf_pagan
+				pagan_roots = yes
+			}
+			""");
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var religion = new Religion("test_religion", reader, religions, new ColorFactory());
+
+		Assert.Equal("rf_pagan", religion.FamilyId);
+
+		var religionStr = PDXSerializer.Serialize(religion);
+		religionStr.Should().Contain("family = rf_pagan");
+		// family should not be serialized twice
+		Regex.Matches(religionStr, "family = rf_pagan").Count.Should().Be(1);
+		religionStr.Should().Contain("pagan_roots = yes");
+	}
+
+	[Fact]
+	public void SerializedReligionCanBeParsedBack() {
+		var reader = new BufferedReader("""
+			{
+				religion_details = {
+					family = rf_pagan
+				}
+				doctrine = doctrine_monotheist
+				pagan_roots = yes
+			}
+			""");
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var religion = new Religion("test_religion", reader, religions, new ColorFactory());
+
+		var serialized = religion.Serialize(indent: "", withBraces: true);
+		var parsedReligion = new Religion("test_religion", new BufferedReader(serialized), religions, new ColorFactory());
+
+		Assert.Equal("rf_pagan", parsedReligion.FamilyId);
+		Assert.Equal(["doctrine_monotheist"], parsedReligion.DoctrineIds);
 	}
 
 	[Fact]
@@ -242,7 +311,7 @@ public class ReligionTests {
 		var religion = new Religion("test_religion", reader, religions, new ColorFactory());
 
 		var withoutBraces = religion.Serialize(indent: "", withBraces: false);
-		Assert.StartsWith("doctrine=doctrine_no_head", withoutBraces.TrimStart());
+		Assert.StartsWith("religion_details = {", withoutBraces.TrimStart());
 
 		var withBraces = religion.Serialize(indent: "", withBraces: true);
 		Assert.StartsWith("{", withBraces.TrimStart());

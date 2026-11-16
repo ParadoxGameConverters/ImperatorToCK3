@@ -7,6 +7,7 @@ using ImperatorToCK3.CK3.Titles;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Xunit;
 
@@ -24,19 +25,32 @@ public class FaithTests {
 	
 	[Fact]
 	public void HolySiteIdsAreLoadedAndSerialized() {
-		var faithData = new FaithData {HolySiteIds = ["rome", "constantinople", "antioch"]};
+		var faithData = new FaithData {
+			HolySiteIds = ["rome", "constantinople"],
+			EminentHolySiteIds = ["antioch"],
+			HasEminentHolySitesBlock = true
+		};
 		var faith = new Faith("chalcedonian", faithData, testReligion);
 
 		Assert.Collection(faith.HolySiteIds,
 			site => Assert.Equal("rome", site),
 			site => Assert.Equal("constantinople", site),
 			site => Assert.Equal("antioch", site));
+		Assert.Equal(["antioch"], faith.EminentHolySiteIds);
 
 		var faithStrWithoutWhitespace = Regex.Replace(PDXSerializer.Serialize(faith), @"\s", "");
 		faithStrWithoutWhitespace.Should().ContainAll(
-			"holy_site=rome",
-			"holy_site=constantinople",
-			"holy_site=antioch");
+			"holy_sites={romeconstantinople}",
+			"eminent_holy_sites={antioch}");
+	}
+
+	[Fact]
+	public void LegacyFaithsPromoteHolySitesToEminent() {
+		var faithData = new FaithData {HolySiteIds = ["rome", "constantinople", "antioch", "jerusalem"]};
+		var faith = new Faith("chalcedonian", faithData, testReligion);
+
+		faith.EminentHolySiteIds.Should().Equal("rome", "constantinople", "antioch");
+		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch", "jerusalem");
 	}
 
 	[Fact]
@@ -48,17 +62,24 @@ public class FaithTests {
 
 		var faithStr = PDXSerializer.Serialize(faith);
 		faithStr.Should().Contain(
-			"color=rgb { 178 160 0 }"
+			"color = rgb { 178 160 0 }"
 		);
 	}
 
 	[Fact]
 	public void FaithAttributesAreSerialized() {
 		var faithData = new FaithData {
+			DetailsAttributes = new OrderedDictionary<string, StringOfItem> {
+				["icon"] = new StringOfItem("celtic_pagan")
+			},
 			Attributes = new List<KeyValuePair<string, StringOfItem>> {
-				new("icon", new StringOfItem("celtic_pagan")),
-				new("doctrine", new StringOfItem("tenet_esotericism")),
-				new ("doctrine", new StringOfItem("tenet_human_sacrifice # should not replace the line above"))
+				new("tenet_selection_pair", new StringOfItem("""
+					{
+						requires_dlc_flag = the_northern_lords
+						tenet = tenet_gruesome_festivals
+						fallback_tenet = tenet_human_sacrifice
+					}
+					"""))
 			}
 		};
 		var faith = new Faith("celtic_pagan", faithData, testReligion);
@@ -66,8 +87,7 @@ public class FaithTests {
 		var faithStr = PDXSerializer.Serialize(faith);
 		faithStr.Should().ContainAll(
 			"icon = celtic_pagan",
-			"doctrine = tenet_esotericism",
-			"doctrine = tenet_human_sacrifice"
+			"tenet_selection_pair"
 		);
 	}
 
@@ -77,7 +97,7 @@ public class FaithTests {
 		var faith = new Faith("atheism", faithData, testReligion);
 
 		var faithStr = PDXSerializer.Serialize(faith);
-		faithStr.Should().Contain("religious_head=d_papacy");
+		faithStr.Should().Contain("religious_head = d_papacy");
 	}
 
 	[Fact]
@@ -129,8 +149,8 @@ public class FaithTests {
 	public void FixupAddsReformedIconForUnreformedFaiths() {
 		// Faith has unreformed_faith_doctrine and an icon, but no reformed_icon.
 		var faithData = new FaithData {
-			Attributes = new List<KeyValuePair<string, StringOfItem>> {
-				new("icon", new StringOfItem("celtic_pagan"))
+			DetailsAttributes = new OrderedDictionary<string, StringOfItem> {
+				["icon"] = new StringOfItem("celtic_pagan")
 			}
 		};
 		faithData.DoctrineIds.Add("unreformed_faith_doctrine");
@@ -209,8 +229,28 @@ public class FaithTests {
 	}
 
 	[Fact]
-	public void GetDoctrineIdsForDoctrineGroup_UnknownGroupReturnsEmpty() {
-		var faithData = new FaithData();
+	public void MainRiteDoctrinesTakePrecedenceOverFaithDoctrines() {
+		// Arrange category with two doctrines.
+		var categoryReader = new BufferedReader(
+			"doctrine_types = { doc_r1 doc_r2 }"
+		);
+		testReligion.ReligionCollection.DoctrineGroups.AddOrReplace(new DoctrineGroup("catR", categoryReader));
+
+		// Faith has doc_r1, but its main rite has doc_r2.
+		var faithData = new FaithData { MainRiteId = "test_rite" };
+		faithData.DoctrineIds.Add("doc_r1");
+		var faith = new Faith("rite_precedence", faithData, testReligion);
+
+		var riteReader = new BufferedReader("{ doctrines = { doc_r2 } }");
+		testReligion.ReligionCollection.Rites.AddOrReplace(
+			new Rite("test_rite", riteReader, testReligion.ReligionCollection, new ColorFactory()));
+
+		var picks = faith.GetDoctrineIdsForDoctrineGroupId("catR");
+		picks.Should().Equal("doc_r2");
+	}
+
+	[Fact]
+	public void GetDoctrineIdsForDoctrineGroup_UnknownGroupReturnsEmpty() {		var faithData = new FaithData();
 		faithData.DoctrineIds.Add("anything");
 		var faith = new Faith("unknown_group", faithData, testReligion);
 
@@ -260,11 +300,82 @@ public class FaithTests {
 	}
 
 	[Fact]
+	public void NewFormatFaithDataIsParsed() {
+		var parser = new FaithDataParser(new ColorFactory());
+		var faithData = parser.Parse(new BufferedReader("""
+			{
+				faith_details = {
+					religion = test_religion
+					color = rgb { 10 20 30 }
+					religious_head = d_head
+					head_of_rite = k_head
+					icon = my_icon
+					reformed_icon = my_reformed_icon
+				}
+				main_rite = my_rite
+				holy_sites = { site1 site2 }
+				eminent_holy_sites = { site3 }
+				tenets = { tenet_a tenet_b }
+				doctrines = { doctrine_a }
+				tenet_selection_pair = {
+					requires_dlc_flag = some_dlc
+					tenet = tenet_c
+					fallback_tenet = tenet_d
+				}
+				localization = {
+					Key = Value
+				}
+			}
+			"""));
+
+		Assert.Equal("test_religion", faithData.ReligionId);
+		Assert.Equal("rgb { 10 20 30 }", faithData.Color!.Value.OutputRgb());
+		Assert.Equal("d_head", faithData.ReligiousHeadTitleId);
+		Assert.Equal("k_head", faithData.HeadOfRiteTitleId);
+		Assert.Equal("my_rite", faithData.MainRiteId);
+		Assert.True(faithData.HasEminentHolySitesBlock);
+		Assert.Equal(["site1", "site2"], faithData.HolySiteIds);
+		Assert.Equal(["site3"], faithData.EminentHolySiteIds);
+		Assert.Equal(["tenet_a", "tenet_b", "doctrine_a"], faithData.DoctrineIds);
+		Assert.Contains("tenet_selection_pair", faithData.Attributes.Select(pair => pair.Key));
+		Assert.Contains("Key", faithData.Localization.Keys);
+		Assert.Equal("my_icon", faithData.DetailsAttributes["icon"].ToString());
+		Assert.Equal("my_reformed_icon", faithData.DetailsAttributes["reformed_icon"].ToString());
+	}
+
+	[Fact]
+	public void SerializedFaithCanBeParsedBack() {
+		var faithData = new FaithData {
+			ReligionId = "test_religion",
+			Color = new Color(0.1, 0.2, 0.3),
+			ReligiousHeadTitleId = "d_head",
+			MainRiteId = "my_rite",
+			HolySiteIds = ["site1"],
+			EminentHolySiteIds = ["site2"],
+			HasEminentHolySitesBlock = true
+		};
+		faithData.DoctrineIds.Add("tenet_test");
+		faithData.DoctrineIds.Add("doctrine_test");
+		var faith = new Faith("test_faith", faithData, testReligion);
+
+		var serialized = faith.Serialize(indent: "", withBraces: true);
+		var parsed = new FaithDataParser(new ColorFactory()).Parse(new BufferedReader(serialized));
+
+		Assert.Equal("test_religion", parsed.ReligionId);
+		Assert.Equal("my_rite", parsed.MainRiteId);
+		Assert.Equal("d_head", parsed.ReligiousHeadTitleId);
+		Assert.Equal(["site1"], parsed.HolySiteIds);
+		Assert.Equal(["site2"], parsed.EminentHolySiteIds);
+		Assert.Equal(["tenet_test", "doctrine_test"], parsed.DoctrineIds);
+		Assert.Equal(faith.Color!.Value.OutputRgb(), parsed.Color!.Value.OutputRgb());
+	}
+
+	[Fact]
 	public void Serialize_WithoutBraces_OmitsOuterBraces() {
 		var faith = new Faith("bare_faith", new FaithData(), testReligion);
 
 		var withoutBraces = faith.Serialize(indent: "", withBraces: false);
-		Assert.StartsWith("localization={", withoutBraces.TrimStart());
+		Assert.StartsWith("faith_details = {", withoutBraces.TrimStart());
 
 		var withBraces = faith.Serialize(indent: "", withBraces: true);
 		Assert.StartsWith("{", withBraces.TrimStart());

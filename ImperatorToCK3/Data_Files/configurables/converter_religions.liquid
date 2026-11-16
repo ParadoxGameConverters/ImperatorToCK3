@@ -1,0 +1,25 @@
+# This file contains CK3 religions added by the converter.
+#
+# In CK3 1.20+ (By God Alone) religions, faiths and rites are defined in separate folders:
+#   common/religion/religion_types
+#   common/religion/faith_types
+#   common/religion/rite_types
+#
+# Every religion must define its family in a religion_details block:
+#
+# my_religion = {
+#     religion_details = {
+#         family = rf_pagan                 # Required
+#         graphical_faith = pagan_gfx       # Optional, inherited by the religion's faiths
+#         piety_icon_group = pagan          # Optional, inherited by the religion's faiths
+#         theocracy_government_type = theocracy_government
+#         theocracy_lease_contract_type = theocracy_lease
+#     }
+#
+#     doctrine = doctrine_polytheist        # Religion doctrines apply to all of its faiths
+#     pagan_roots = yes
+#     localization = { ... }
+# }
+#
+# Religions can also be defined directly in converter_faiths.liquid.
+# A religion that already exists in the game or in a loaded mod is left untouched.

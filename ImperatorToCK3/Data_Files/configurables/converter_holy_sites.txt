@@ -1,6 +1,12 @@
 # This file looks very much like holy site definitions in the CK3 common/religion/holy_site_types folder.
 # The only difference is that instead of "county =", "county_choices =" can be used to allow multiple alternative counties.
 # This is useful for CK3 mod compatibility.
+#
+# CK3 1.20+ renamed the old "character_modifier" block to "faith_character_modifier".
+# The legacy name is still accepted here, and the converter outputs the new format.
+# The legacy "flag = x" is converted to an entry in the "parameters" block.
+# Modifiers from the old "character_modifier" block only apply faith-wide to eminent holy sites,
+# so the converter promotes up to 3 holy sites of each legacy faith to eminent ones.
 
 
 #Druidic

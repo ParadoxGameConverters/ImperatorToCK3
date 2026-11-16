@@ -57,6 +57,7 @@ public class ReligionsOutputterTests {
 			Directory.CreateDirectory(Path.Combine(tempDir, "common", "religion", "religion_types"));
 
 			var (religions, ck3LocDB) = CreateReligionCollectionWithSites();
+			religions.ConverterFaithIds.Add("faith_test");
 
 			await ReligionsOutputter.OutputReligionsAndHolySites(tempDir, religions, ck3LocDB);
 
@@ -72,10 +73,23 @@ public class ReligionsOutputterTests {
 				TestContext.Current.CancellationToken);
 			Assert.Contains("christianity_test=", religionsText, StringComparison.Ordinal);
 
+			var faithsText = await File.ReadAllTextAsync(
+				Path.Combine(tempDir, "common", "religion", "faith_types", "IRtoCK3_all_faiths.txt"),
+				TestContext.Current.CancellationToken);
+			Assert.Contains("faith_test=", faithsText, StringComparison.Ordinal);
+			Assert.Contains("faith_details = {", faithsText, StringComparison.Ordinal);
+			Assert.Contains("religion = christianity_test", faithsText, StringComparison.Ordinal);
+
+			var faithHistoryText = await File.ReadAllTextAsync(
+				Path.Combine(tempDir, "history", "faiths", "IRtoCK3_converter_faiths.txt"),
+				TestContext.Current.CancellationToken);
+			Assert.Contains("faith_test={", faithHistoryText, StringComparison.Ordinal);
+			Assert.Contains("created = yes", faithHistoryText, StringComparison.Ordinal);
+
 			Assert.Equal("$c_test$", ck3LocDB.GetOrCreateLocBlock("holy_site_site_county_name")["english"]);
 			Assert.Equal("Holy site", ck3LocDB.GetOrCreateLocBlock("holy_site_site_nowhere_name")["english"]);
 
-			var effectLoc = ck3LocDB.GetOrCreateLocBlock("holy_site_site_county_effect_name")["english"];
+			var effectLoc = ck3LocDB.GetOrCreateLocBlock("holy_site_site_county_effects")["english"];
 			Assert.Contains("#weak ($holy_site_site_county_name$)#!", effectLoc, StringComparison.Ordinal);
 		} finally {
 			TryDeleteDir(tempDir);

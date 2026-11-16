@@ -1,0 +1,6 @@
+tenet_test = {
+	icon = test_icon
+}
+tenet_other = {
+	icon = other_icon
+}
