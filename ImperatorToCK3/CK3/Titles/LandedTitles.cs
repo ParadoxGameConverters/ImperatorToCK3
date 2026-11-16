@@ -1215,7 +1215,7 @@ internal sealed partial class Title {
 					continue;
 				}
 				kingdomRealmShares.TryGetValue(kingdomRealm.Id, out int currentCount);
-				kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinceIds.Count();
+				kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinceIds.Count;
 			}
 
 			if (kingdomRealmShares.Count == 0) {
@@ -1269,7 +1269,7 @@ internal sealed partial class Title {
 				var empireShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
-					var countyProvincesCount = county.CountyProvinceIds.Count();
+					var countyProvincesCount = county.CountyProvinceIds.Count;
 					kingdomProvincesCount += countyProvincesCount;
 
 					var empireRealm = county.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
@@ -1401,7 +1401,7 @@ internal sealed partial class Title {
 				var hegemonyShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
-					var countyProvincesCount = county.CountyProvinceIds.Count();
+					var countyProvincesCount = county.CountyProvinceIds.Count;
 					kingdomProvincesCount += countyProvincesCount;
 					
 					var hegemonyRealm = county.GetRealmOfRank(TitleRank.hegemony, ck3BookmarkDate);
