@@ -263,10 +263,18 @@ public class ReligionCollectionTests {
 			Directory.CreateDirectory(Path.Combine(tempRoot, "common", "religion", "doctrine_group_types"));
 			File.WriteAllText(
 				Path.Combine(tempRoot, "common", "religion", "doctrine_group_types", "groups.txt"),
-				"doctrine_theism = { doctrine_types = { doctrine_other doctrine_polytheist } }\n" +
-				"doctrine_coronation = { doctrine_types = { doctrine_no_anointment } }\n" +
-				"doctrine_funeral = { doctrine_types = { doctrine_funeral_stoic } }\n" +
-				"doctrine_pilgrimage = { doctrine_types = { doctrine_pilgrimage_encouraged } }\n");
+				"doctrine_theism = { }\n" +
+				"doctrine_coronation = { }\n" +
+				"doctrine_funeral = { }\n" +
+				"doctrine_pilgrimage = { }\n");
+			Directory.CreateDirectory(Path.Combine(tempRoot, "common", "religion", "doctrine_types"));
+			File.WriteAllText(
+				Path.Combine(tempRoot, "common", "religion", "doctrine_types", "doctrines.txt"),
+				"doctrine_other = { doctrine_group_type = doctrine_theism }\n" +
+				"doctrine_polytheist = { doctrine_group_type = doctrine_theism }\n" +
+				"doctrine_no_anointment = { doctrine_group_type = doctrine_coronation }\n" +
+				"doctrine_funeral_stoic = { doctrine_group_type = doctrine_funeral }\n" +
+				"doctrine_pilgrimage_encouraged = { doctrine_group_type = doctrine_pilgrimage }\n");
 			var faithsFile = Path.Combine(tempRoot, "faiths.liquid");
 			File.WriteAllText(faithsFile,
 				"test_religion = { faiths = { bare_faith = { } } }\n");
@@ -277,12 +285,12 @@ public class ReligionCollectionTests {
 
 			var faith = religions.GetFaith("bare_faith");
 			Assert.NotNull(faith);
-			faith.DoctrineIds.Should().Contain(new[] {
+			faith.DoctrineIds.Should().Contain([
 				"doctrine_polytheist",
 				"doctrine_no_anointment",
 				"doctrine_funeral_stoic",
 				"doctrine_pilgrimage_encouraged"
-			});
+			]);
 		} finally {
 			Directory.Delete(tempRoot, recursive: true);
 		}

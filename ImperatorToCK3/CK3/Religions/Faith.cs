@@ -58,27 +58,18 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 
 		PromoteLegacyHolySites(hasEminentHolySitesBlock: faithData.HasEminentHolySitesBlock);
 		
-		// Fix a faith having more doctrines in the same category than allowed.
-		foreach (var category in religion.ReligionCollection.DoctrineGroups) {
-			var categoryDoctrineSet = category.DoctrineIds.ToHashSet(StringComparer.Ordinal);
-			var doctrinesInCategory = new List<string>();
-			foreach (var doctrineId in DoctrineIds) {
-				if (categoryDoctrineSet.Contains(doctrineId)) {
-					doctrinesInCategory.Add(doctrineId);
-				}
+		// Fix a faith having more than one doctrine in the same group.
+		foreach (var group in religion.ReligionCollection.DoctrineGroups) {
+			var doctrinesInGroup = DoctrineIds.Intersect(group.DoctrineIds).ToList();
+			if (doctrinesInGroup.Count <= 1) {
+				continue;
 			}
 
-			if (doctrinesInCategory.Count > category.NumberOfPicks) {
-				Logger.Warn($"Faith {Id} has too many doctrines in category {category.Id}: " +
-				            $"{string.Join(", ", doctrinesInCategory)}. Keeping the last {category.NumberOfPicks} of them.");
-				
-				DoctrineIds.ExceptWith(doctrinesInCategory);
-				int kept = 0;
-				for (int i = doctrinesInCategory.Count - 1; i >= 0 && kept < category.NumberOfPicks; --i) {
-					DoctrineIds.Add(doctrinesInCategory[i]);
-					++kept;
-				}
-			}
+			Logger.Warn($"Faith {Id} has too many doctrines in group {group.Id}: " +
+			            $"{string.Join(", ", doctrinesInGroup)}. Keeping the last of them.");
+
+			DoctrineIds.ExceptWith(doctrinesInGroup);
+			DoctrineIds.Add(doctrinesInGroup[^1]);
 		}
 	}
 

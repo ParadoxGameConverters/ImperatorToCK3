@@ -159,40 +159,40 @@ public class FaithTests {
 	}
 
 	[Fact]
-	public void TooManyDoctrinesInCategoryAreTrimmedKeepingLastPicks() {
-		// Arrange doctrine category with 2 picks allowed and 3 possible doctrines.
-		var categoryReader = new BufferedReader(
-			"number_of_picks = 2\n" +
-			"doctrine_types = { doc_a1 doc_a2 doc_a3 }"
-		);
-		testReligion.ReligionCollection.DoctrineGroups.AddOrReplace(new DoctrineGroup("catA", categoryReader));
+	public void TooManyDoctrinesInGroupAreTrimmedKeepingLastOne() {
+		// Arrange doctrine group with 3 possible doctrines.
+		var group = new DoctrineGroup("catA", new BufferedReader(""));
+		group.AddDoctrineId("doc_a1");
+		group.AddDoctrineId("doc_a2");
+		group.AddDoctrineId("doc_a3");
+		testReligion.ReligionCollection.DoctrineGroups.AddOrReplace(group);
 
 		var output = new StringWriter();
 		Console.SetOut(output);
 
-		// Faith initially has 3 doctrines from the same category (exceeds picks).
+		// Faith initially has 3 doctrines from the same group (only one can be active).
 		var faithData = new FaithData();
 		faithData.DoctrineIds.Add("doc_a1");
 		faithData.DoctrineIds.Add("doc_a2");
 		faithData.DoctrineIds.Add("doc_a3");
 		var faith = new Faith("too_many_doctrines", faithData, testReligion);
 
-		// Should keep only the last 2 among these and drop the first.
-		Assert.Contains("doc_a2", faith.DoctrineIds as IReadOnlyCollection<string>);
+		// Should keep only the last one among these and drop the others.
 		Assert.Contains("doc_a3", faith.DoctrineIds as IReadOnlyCollection<string>);
 		Assert.DoesNotContain("doc_a1", faith.DoctrineIds as IReadOnlyCollection<string>);
+		Assert.DoesNotContain("doc_a2", faith.DoctrineIds as IReadOnlyCollection<string>);
 
 		// Warning is logged.
-		output.ToString().Should().Contain("Faith too_many_doctrines has too many doctrines in category catA");
+		output.ToString().Should().Contain("Faith too_many_doctrines has too many doctrines in group catA");
 	}
 
 	[Fact]
 	public void GetDoctrineIdsForDoctrineGroup_PrefersFaithOverReligion() {
-		// Arrange category with two doctrines.
-		var categoryReader = new BufferedReader(
-			"doctrine_types = { doc_b1 doc_b2 }"
-		);
-		testReligion.ReligionCollection.DoctrineGroups.AddOrReplace(new DoctrineGroup("catB", categoryReader));
+		// Arrange group with two doctrines.
+		var group = new DoctrineGroup("catB", new BufferedReader(""));
+		group.AddDoctrineId("doc_b1");
+		group.AddDoctrineId("doc_b2");
+		testReligion.ReligionCollection.DoctrineGroups.AddOrReplace(group);
 
 		// Religion has doc_b2, faith has doc_b1.
 		testReligion.DoctrineIds.Clear();
@@ -208,11 +208,11 @@ public class FaithTests {
 
 	[Fact]
 	public void GetDoctrineIdsForDoctrineGroup_FallsBackToReligion() {
-		// Arrange category with two doctrines.
-		var categoryReader = new BufferedReader(
-			"doctrine_types = { doc_b1 doc_b2 }"
-		);
-		testReligion.ReligionCollection.DoctrineGroups.AddOrReplace(new DoctrineGroup("catB_fallback", categoryReader));
+		// Arrange group with two doctrines.
+		var group = new DoctrineGroup("catB_fallback", new BufferedReader(""));
+		group.AddDoctrineId("doc_b1");
+		group.AddDoctrineId("doc_b2");
+		testReligion.ReligionCollection.DoctrineGroups.AddOrReplace(group);
 
 		// Religion has doc_b2, faith has none from this category.
 		testReligion.DoctrineIds.Clear();
@@ -228,11 +228,11 @@ public class FaithTests {
 
 	[Fact]
 	public void MainRiteDoctrinesTakePrecedenceOverFaithDoctrines() {
-		// Arrange category with two doctrines.
-		var categoryReader = new BufferedReader(
-			"doctrine_types = { doc_r1 doc_r2 }"
-		);
-		testReligion.ReligionCollection.DoctrineGroups.AddOrReplace(new DoctrineGroup("catR", categoryReader));
+		// Arrange group with two doctrines.
+		var group = new DoctrineGroup("catR", new BufferedReader(""));
+		group.AddDoctrineId("doc_r1");
+		group.AddDoctrineId("doc_r2");
+		testReligion.ReligionCollection.DoctrineGroups.AddOrReplace(group);
 
 		// Faith has doc_r1, but its main rite has doc_r2.
 		var faithData = new FaithData { MainRiteId = "test_rite" };
@@ -259,10 +259,10 @@ public class FaithTests {
 
 	[Fact]
 	public void HasDoctrine_TrueWhenFaithHasDoctrine() {
-		var categoryReader = new BufferedReader(
-			"doctrine_types = { doc_c1 doc_c2 }"
-		);
-		testReligion.ReligionCollection.DoctrineGroups.AddOrReplace(new DoctrineGroup("catC", categoryReader));
+		var group = new DoctrineGroup("catC", new BufferedReader(""));
+		group.AddDoctrineId("doc_c1");
+		group.AddDoctrineId("doc_c2");
+		testReligion.ReligionCollection.DoctrineGroups.AddOrReplace(group);
 
 		var faithData = new FaithData();
 		faithData.DoctrineIds.Add("doc_c1");
@@ -274,10 +274,10 @@ public class FaithTests {
 
 	[Fact]
 	public void HasDoctrine_FallsBackToReligionWhenFaithHasNoneInCategory() {
-		var categoryReader = new BufferedReader(
-			"doctrine_types = { doc_c1 doc_c2 }"
-		);
-		testReligion.ReligionCollection.DoctrineGroups.AddOrReplace(new DoctrineGroup("catC_fallback", categoryReader));
+		var group = new DoctrineGroup("catC_fallback", new BufferedReader(""));
+		group.AddDoctrineId("doc_c1");
+		group.AddDoctrineId("doc_c2");
+		testReligion.ReligionCollection.DoctrineGroups.AddOrReplace(group);
 
 		testReligion.DoctrineIds.Clear();
 		testReligion.DoctrineIds.Add("doc_c2");

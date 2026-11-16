@@ -2,7 +2,6 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Serialization;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -54,27 +53,18 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		});
 		religionParser.ParseStream(religionReader);
 
-		// Fix a religion having more doctrines in the same category than allowed.
-		foreach (var category in religions.DoctrineGroups) {
-			var categoryDoctrineSet = category.DoctrineIds.ToHashSet(StringComparer.Ordinal);
-			var doctrinesInCategory = new List<string>();
-			foreach (var doctrineId in DoctrineIds) {
-				if (categoryDoctrineSet.Contains(doctrineId)) {
-					doctrinesInCategory.Add(doctrineId);
-				}
+		// Fix a religion having more than one doctrine in the same group.
+		foreach (var group in religions.DoctrineGroups) {
+			var doctrinesInGroup = DoctrineIds.Intersect(group.DoctrineIds).ToList();
+			if (doctrinesInGroup.Count <= 1) {
+				continue;
 			}
 
-			if (doctrinesInCategory.Count > category.NumberOfPicks) {
-				Logger.Warn($"Religion {Id} has too many doctrines in category {category.Id}: " +
-				            $"{string.Join(", ", doctrinesInCategory)}. Keeping the last {category.NumberOfPicks} of them.");
+			Logger.Warn($"Religion {Id} has too many doctrines in group {group.Id}: " +
+			            $"{string.Join(", ", doctrinesInGroup)}. Keeping the last of them.");
 
-				DoctrineIds.ExceptWith(doctrinesInCategory);
-				int kept = 0;
-				for (int i = doctrinesInCategory.Count - 1; i >= 0 && kept < category.NumberOfPicks; --i) {
-					DoctrineIds.Add(doctrinesInCategory[i]);
-					++kept;
-				}
-			}
+			DoctrineIds.ExceptWith(doctrinesInGroup);
+			DoctrineIds.Add(doctrinesInGroup[^1]);
 		}
 	}
 

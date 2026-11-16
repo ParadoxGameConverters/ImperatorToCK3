@@ -425,7 +425,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	}
 
 	public void LoadDoctrines(ModFilesystem ck3ModFS) {
-		// Doctrine groups define what categories doctrines belong to and how many can be picked.
+		// Doctrine groups define what categories doctrines belong to.
 		var groupParser = new Parser(implicitVariableHandling: true);
 		groupParser.RegisterRegex(CommonRegexes.String, (reader, groupId) =>
 			DoctrineGroups.AddOrReplace(new DoctrineGroup(groupId, reader)));
