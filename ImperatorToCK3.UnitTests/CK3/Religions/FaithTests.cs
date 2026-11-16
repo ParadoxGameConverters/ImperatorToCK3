@@ -248,7 +248,8 @@ public class FaithTests {
 	}
 
 	[Fact]
-	public void GetDoctrineIdsForDoctrineGroup_UnknownGroupReturnsEmpty() {		var faithData = new FaithData();
+	public void GetDoctrineIdsForDoctrineGroup_UnknownGroupReturnsEmpty() {
+		var faithData = new FaithData();
 		faithData.DoctrineIds.Add("anything");
 		var faith = new Faith("unknown_group", faithData, testReligion);
 
