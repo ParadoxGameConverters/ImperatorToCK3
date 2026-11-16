@@ -149,17 +149,8 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		}
 
 		var regularHolySiteIds = holySiteIds.Where(id => !eminentHolySiteIds.Contains(id)).ToArray();
-		sb.Append(contentIndent).AppendLine("holy_sites = {");
-		foreach (var holySiteId in regularHolySiteIds) {
-			sb.Append(contentIndent).Append('\t').AppendLine(holySiteId);
-		}
-		sb.Append(contentIndent).AppendLine("}");
-
-		sb.Append(contentIndent).AppendLine("eminent_holy_sites = {");
-		foreach (var holySiteId in EminentHolySiteIds) {
-			sb.Append(contentIndent).Append('\t').AppendLine(holySiteId);
-		}
-		sb.Append(contentIndent).AppendLine("}");
+		AppendIdList(sb, contentIndent, "holy_sites", regularHolySiteIds);
+		AppendIdList(sb, contentIndent, "eminent_holy_sites", EminentHolySiteIds);
 
 		AppendDoctrinesAndTenets(sb, contentIndent, DoctrineIds, Religion.ReligionCollection.IsTenet);
 
@@ -192,19 +183,22 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		var doctrineIds = ids.Where(id => !isTenet(id)).ToArray();
 
 		if (tenetIds.Length > 0) {
-			sb.Append(contentIndent).AppendLine("tenets = {");
-			foreach (var tenetId in tenetIds) {
-				sb.Append(contentIndent).Append('\t').AppendLine(tenetId);
-			}
-			sb.Append(contentIndent).AppendLine("}");
+			AppendIdList(sb, contentIndent, "tenets", tenetIds);
 		}
 		if (doctrineIds.Length > 0) {
-			sb.Append(contentIndent).AppendLine("doctrines = {");
-			foreach (var doctrineId in doctrineIds) {
-				sb.Append(contentIndent).Append('\t').AppendLine(doctrineId);
-			}
-			sb.Append(contentIndent).AppendLine("}");
+			AppendIdList(sb, contentIndent, "doctrines", doctrineIds);
 		}
+	}
+
+	/// <summary>
+	/// Writes a list of IDs one per line.
+	/// </summary>
+	private static void AppendIdList(StringBuilder sb, string contentIndent, string keyword, IEnumerable<string> ids) {
+		sb.Append(contentIndent).AppendLine($"{keyword} = {{");
+		foreach (var id in ids) {
+			sb.Append(contentIndent).Append('\t').AppendLine(id);
+		}
+		sb.Append(contentIndent).AppendLine("}");
 	}
 
 	public OrderedSet<string> GetDoctrineIdsForDoctrineGroupId(string doctrineGroupId) {

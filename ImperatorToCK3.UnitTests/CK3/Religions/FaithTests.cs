@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Religions;
@@ -38,10 +37,9 @@ public class FaithTests {
 			site => Assert.Equal("antioch", site));
 		Assert.Equal(["antioch"], faith.EminentHolySiteIds);
 
-		var faithStrWithoutWhitespace = Regex.Replace(PDXSerializer.Serialize(faith), @"\s", "");
-		faithStrWithoutWhitespace.Should().ContainAll(
-			"holy_sites={romeconstantinople}",
-			"eminent_holy_sites={antioch}");
+		var faithStr = PDXSerializer.Serialize(faith).ReplaceLineEndings("\n");
+		faithStr.Should().Contain("\tholy_sites = {\n\t\trome\n\t\tconstantinople\n\t}");
+		faithStr.Should().Contain("\teminent_holy_sites = {\n\t\tantioch\n\t}");
 	}
 
 	[Fact]
