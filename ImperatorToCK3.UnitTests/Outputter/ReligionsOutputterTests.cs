@@ -38,8 +38,9 @@ public class ReligionsOutputterTests {
 
 		var religions = new ReligionCollection(landedTitles);
 
-		var religionReader = new BufferedReader("faiths = { faith_test = {} }");
-		religions.AddOrReplace(new Religion("christianity_test", religionReader, religions, new ColorFactory()));
+		var religion = new Religion("christianity_test", new BufferedReader("{}"), religions);
+		religion.Faiths.AddOrReplace(new Faith("faith_test", new FaithData { ReligionId = "christianity_test" }, religion));
+		religions.AddOrReplace(religion);
 
 		var siteWithCounty = new HolySite("site_county", new BufferedReader("county = c_test"), landedTitles, isFromConverter: true);
 		var siteWithoutTitle = new HolySite("site_nowhere", new BufferedReader(string.Empty), landedTitles, isFromConverter: false);

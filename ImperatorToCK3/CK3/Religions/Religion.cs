@@ -1,6 +1,5 @@
 using commonItems;
 using commonItems.Collections;
-using commonItems.Colors;
 using commonItems.Serialization;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +14,10 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 	public ReligionCollection ReligionCollection { get; }
 	private readonly OrderedDictionary<string, StringOfItem> localization = [];
 	private readonly OrderedDictionary<string, StringOfItem> detailsAttributes = [];
-	private readonly FaithDataParser faithDataParser;
 
-	public Religion(string id, BufferedReader religionReader, ReligionCollection religions, ColorFactory colorFactory) {
+	public Religion(string id, BufferedReader religionReader, ReligionCollection religions) {
 		Id = id;
 		ReligionCollection = religions;
-		faithDataParser = new FaithDataParser(colorFactory);
 
 		var religionParser = new Parser(implicitVariableHandling: true);
 		religionParser.RegisterKeyword("doctrine", reader => DoctrineIds.Add(reader.GetString()));
@@ -29,17 +26,6 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 			foreach (var assignment in reader.GetAssignments()) {
 				detailsAttributes[assignment.Key] = new StringOfItem(assignment.Value);
 			}
-		});
-		// Legacy keywords that belong in religion_details in CK3 1.20+.
-		foreach (var keyword in DetailKeywords) {
-			religionParser.RegisterKeyword(keyword, reader => detailsAttributes[keyword] = reader.GetStringOfItem());
-		}
-		// Legacy CK3 format had faiths nested inside religions.
-		religionParser.RegisterKeyword("faiths", faithsReader => {
-			var faithsParser = new Parser(implicitVariableHandling: true);
-			faithsParser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => LoadFaith(faithId, faithReader));
-			faithsParser.IgnoreAndLogUnregisteredItems();
-			faithsParser.ParseStream(faithsReader);
 		});
 		religionParser.RegisterKeyword("localization", reader => {
 			var localizationParser = new Parser(implicitVariableHandling: true);
@@ -68,45 +54,10 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		}
 	}
 
-	private static readonly string[] DetailKeywords = [
-		"family",
-		"graphical_faith",
-		"piety_icon_group",
-		"theocracy_government_type",
-		"theocracy_lease_contract_type",
-		"tenet_background_icon",
-		"tenet_heretical_background_icon",
-		"tenet_neutral_background_icon",
-		"tenet_unknown_background_icon",
-	];
-
 	/// <summary>
 	/// ID of the religion family, e.g. rf_abrahamic. Defined in the religion_details block in CK3 1.20+.
 	/// </summary>
 	public string? FamilyId => detailsAttributes.TryGetValue("family", out var family) ? family.ToString().RemQuotes() : null;
-
-	private void LoadFaith(string faithId, BufferedReader faithReader) {
-		var faithData = faithDataParser.Parse(faithReader);
-		faithData.ReligionId ??= Id;
-
-		if (faithData.InvalidatingFaithIds.Count != 0) { // Faith is an optional faith.
-			foreach (var existingFaith in ReligionCollection.Faiths) {
-				if (!faithData.InvalidatingFaithIds.Contains(existingFaith.Id)) {
-					continue;
-				}
-				Logger.Debug($"Faith {faithId} is invalidated by existing {existingFaith.Id}.");
-				return;
-			}
-			Logger.Debug($"Loading optional faith {faithId}...");
-		}
-
-		// The faith might have already been added to another religion.
-		foreach (var otherReligion in ReligionCollection) {
-			otherReligion.Faiths.Remove(faithId);
-		}
-
-		Faiths.AddOrReplace(new Faith(faithId, faithData, this));
-	}
 
 	public IdObjectCollection<string, Faith> Faiths { get; } = [];
 	private readonly List<KeyValuePair<string, StringOfItem>> attributes = [];

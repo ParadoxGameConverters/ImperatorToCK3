@@ -12,7 +12,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Religions;
 public class RiteTests {
 	private static Religion CreateTestReligion(out ReligionCollection religions) {
 		religions = new ReligionCollection(new Title.LandedTitles());
-		return new Religion("test_religion", new BufferedReader("{}"), religions, new ColorFactory());
+		return new Religion("test_religion", new BufferedReader("{}"), religions);
 	}
 
 	[Fact]

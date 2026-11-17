@@ -176,6 +176,8 @@ public class ReligionCollectionTests {
 	public void OptionalFaithIsNotLoadedIfInvalidatedByExistingFaiths() {
 		var religions = new ReligionCollection(new Title.LandedTitles());
 		religions.LoadReligions(ck3ModFS, colorFactory);
+		religions.AddOrReplace(new ImperatorToCK3.CK3.Religions.Religion(
+			"north_african_religion", new BufferedReader("{ religion_details = { family = rf_pagan } }"), religions));
 		Assert.Contains(religions.Faiths, f => f.Id == "religion_a_faith");
 		
 		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.liquid", colorFactory, liquidVariables: new Hash());
@@ -186,6 +188,8 @@ public class ReligionCollectionTests {
 	[Fact]
 	public void OptionalFaithCanBeLoaded() {
 		var religions = new ReligionCollection(new Title.LandedTitles());
+		religions.AddOrReplace(new ImperatorToCK3.CK3.Religions.Religion(
+			"north_african_religion", new BufferedReader("{ religion_details = { family = rf_pagan } }"), religions));
 		Assert.DoesNotContain(religions.Faiths, r => r.Id == "religion_a_faith");
 		
 		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.liquid", colorFactory, liquidVariables: new Hash());
@@ -198,13 +202,15 @@ public class ReligionCollectionTests {
 		var reader = new BufferedReader(
 			"doctrine=tenet_christian_syncretism " +
 			"doctrine=tenet_islamic_syncretism " +
-			"doctrine=tenet_normal " +
-			"faiths={ " +
-			"  faith_a={ doctrine=tenet_christian_syncretism doctrine=tenet_islamic_syncretism doctrine=tenet_faith_normal } " +
-			"  faith_b={ doctrine=tenet_islamic_syncretism } " +
-			"}");
-		var religion = new ImperatorToCK3.CK3.Religions.Religion("religion_x", reader, religions, colorFactory);
+			"doctrine=tenet_normal");
+		var religion = new ImperatorToCK3.CK3.Religions.Religion("religion_x", reader, religions);
 		religions.AddOrReplace(religion);
+
+		var faithDataParser = new FaithDataParser(colorFactory);
+		religion.Faiths.AddOrReplace(new Faith("faith_a", faithDataParser.Parse(new BufferedReader(
+			"doctrines = { tenet_christian_syncretism tenet_islamic_syncretism tenet_faith_normal }")), religion));
+		religion.Faiths.AddOrReplace(new Faith("faith_b", faithDataParser.Parse(new BufferedReader(
+			"doctrines = { tenet_islamic_syncretism }")), religion));
 
 		var riteReader = new BufferedReader("{ doctrines = { tenet_christian_syncretism tenet_rite_normal } }");
 		religions.Rites.AddOrReplace(new Rite("rite_x", riteReader, religions, colorFactory));
@@ -277,10 +283,14 @@ public class ReligionCollectionTests {
 				"doctrine_pilgrimage_encouraged = { doctrine_group_type = doctrine_pilgrimage }\n");
 			var faithsFile = Path.Combine(tempRoot, "faiths.liquid");
 			File.WriteAllText(faithsFile,
-				"test_religion = { faiths = { bare_faith = { } } }\n");
+				"bare_faith = { faith_details = { religion = test_religion } }\n");
+			var religionsFile = Path.Combine(tempRoot, "religions.liquid");
+			File.WriteAllText(religionsFile,
+				"test_religion = { religion_details = { family = rf_pagan } }\n");
 
 			var religions = new ReligionCollection(new Title.LandedTitles());
 			religions.LoadDoctrines(new ModFilesystem(tempRoot, Array.Empty<Mod>()));
+			religions.LoadConverterReligions(religionsFile, colorFactory, liquidVariables: new Hash());
 			religions.LoadConverterFaiths(faithsFile, colorFactory, liquidVariables: new Hash());
 
 			var faith = religions.GetFaith("bare_faith");

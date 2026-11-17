@@ -19,7 +19,7 @@ public class FaithTests {
 	
 	public FaithTests() {
 		var religions = new ReligionCollection(new Title.LandedTitles());
-		testReligion = new Religion("test_religion", new BufferedReader("{}"), religions, new ColorFactory());
+		testReligion = new Religion("test_religion", new BufferedReader("{}"), religions);
 	}
 	
 	[Fact]

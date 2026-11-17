@@ -110,8 +110,10 @@ public class ProvincesTests {
 		var titles = new Title.LandedTitles();
 		var religions = new ImperatorToCK3.CK3.Religions.ReligionCollection(titles);
 		var religion = new ImperatorToCK3.CK3.Religions.Religion("r",
-			new BufferedReader("faiths={ valid_faith={} }"), religions, colorFactory);
+			new BufferedReader("{ }"), religions);
 		religions.AddOrReplace(religion);
+		religion.Faiths.AddOrReplace(new ImperatorToCK3.CK3.Religions.Faith(
+			"valid_faith", new ImperatorToCK3.CK3.Religions.FaithData { ReligionId = "r" }, religion));
 
 		var cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory, []), []);
 		cultures.Add(new Culture("valid_culture",
@@ -144,8 +146,10 @@ public class ProvincesTests {
 		var titles = new Title.LandedTitles();
 		var religions = new ImperatorToCK3.CK3.Religions.ReligionCollection(titles);
 		var religion = new ImperatorToCK3.CK3.Religions.Religion("r",
-			new BufferedReader("faiths={ valid_faith={} }"), religions, colorFactory);
+			new BufferedReader("{ }"), religions);
 		religions.AddOrReplace(religion);
+		religion.Faiths.AddOrReplace(new ImperatorToCK3.CK3.Religions.Faith(
+			"valid_faith", new ImperatorToCK3.CK3.Religions.FaithData { ReligionId = "r" }, religion));
 
 		var cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory, []), []);
 		cultures.Add(new Culture("valid_culture",

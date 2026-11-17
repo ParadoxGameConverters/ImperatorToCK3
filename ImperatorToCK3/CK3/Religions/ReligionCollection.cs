@@ -90,7 +90,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		Logger.Info("Loading CK3 religions...");
 		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
-			var religion = new Religion(religionId, religionReader, this, colorFactory);
+			var religion = new Religion(religionId, religionReader, this);
 			if (religion.FamilyId is null) {
 				Logger.Warn($"Religion {religionId} has no family defined in religion_details!");
 			}
@@ -179,7 +179,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 				Logger.Debug($"Religion {religionId} already exists, ignoring the converter's definition.");
 				return;
 			}
-			var religion = new Religion(religionId, religionReader, this, colorFactory);
+			var religion = new Religion(religionId, religionReader, this);
 			if (religion.FamilyId is null) {
 				Logger.Warn($"Converter religion {religionId} has no family defined in religion_details!");
 			}
@@ -195,39 +195,14 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		var faithDataParser = new FaithDataParser(colorFactory);
 
 		var parser = new Parser(implicitVariableHandling: true);
-		parser.RegisterRegex(CommonRegexes.String, (itemReader, itemId) => {
-			var itemStr = itemReader.GetStringOfItem().ToString();
-			if (itemStr.Contains("faith_details", StringComparison.Ordinal)) {
-				// A faith in the CK3 1.20+ format.
-				var faithData = faithDataParser.Parse(new BufferedReader(itemStr));
-				var faith = AddOrReplaceFaith(itemId, faithData);
-				if (faith is not null) {
-					loadedConverterFaiths.Add(faith);
-					ConverterFaithIds.Add(faith.Id);
-				}
+		parser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => {
+			var faithData = faithDataParser.Parse(faithReader);
+			var faith = AddOrReplaceFaith(faithId, faithData);
+			if (faith is null) {
 				return;
 			}
-
-			// A religion, possibly with faiths nested in the legacy format.
-			var religion = new Religion(itemId, new BufferedReader(itemStr), this, colorFactory);
-			foreach (var faith in religion.Faiths) {
-				loadedConverterFaiths.Add(faith);
-				ConverterFaithIds.Add(faith.Id);
-			}
-
-			// Check if religion already exists. If it does, add converter faiths to it.
-			// Otherwise, add the converter faith's religion.
-			if (TryGetValue(itemId, out var existingReligion)) {
-				foreach (var faith in religion.Faiths) {
-					faith.Religion = existingReligion;
-					existingReligion.Faiths.AddOrReplace(faith);
-				}
-			} else {
-				if (religion.FamilyId is null) {
-					Logger.Warn($"Converter religion {itemId} has no family defined in religion_details!");
-				}
-				Add(religion);
-			}
+			loadedConverterFaiths.Add(faith);
+			ConverterFaithIds.Add(faith.Id);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseLiquidFile(converterFaithsPath, liquidVariables);
