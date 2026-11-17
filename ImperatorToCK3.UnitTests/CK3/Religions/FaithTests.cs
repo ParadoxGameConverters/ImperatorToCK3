@@ -21,6 +21,22 @@ public class FaithTests {
 		var religions = new ReligionCollection(new Title.LandedTitles());
 		testReligion = new Religion("test_religion", new BufferedReader("{}"), religions);
 	}
+
+	private Religion CreateReligion(string religionBody) {
+		return new Religion("limited_religion", new BufferedReader(religionBody), testReligion.ReligionCollection);
+	}
+
+	private static (Faith faith, string log) CreateFaithCapturingLog(Func<Faith> factory) {
+		var output = new StringWriter();
+		var originalOut = Console.Out;
+		Console.SetOut(output);
+		try {
+			var faith = factory();
+			return (faith, output.ToString());
+		} finally {
+			Console.SetOut(originalOut);
+		}
+	}
 	
 	[Fact]
 	public void HolySiteIdsAreLoadedAndSerialized() {
@@ -49,6 +65,146 @@ public class FaithTests {
 
 		faith.EminentHolySiteIds.Should().Equal("rome", "constantinople", "antioch");
 		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch", "jerusalem");
+	}
+
+	[Fact]
+	public void LegacyFaithsPromoteHolySitesUpToReligionEminentMax() {
+		var religion = CreateReligion("{ eminent_holy_sites_max = 2 }");
+		var faithData = new FaithData {HolySiteIds = ["rome", "constantinople", "antioch", "jerusalem"]};
+		var faith = new Faith("chalcedonian", faithData, religion);
+
+		faith.EminentHolySiteIds.Should().BeEquivalentTo("rome", "constantinople");
+		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch", "jerusalem");
+	}
+
+	[Fact]
+	public void LegacyFaithPromotionPrioritizesMainHolySite() {
+		var religion = CreateReligion("{ main_holy_site = jerusalem }");
+		var faithData = new FaithData {HolySiteIds = ["rome", "constantinople", "antioch", "jerusalem"]};
+		var faith = new Faith("chalcedonian", faithData, religion);
+
+		faith.EminentHolySiteIds.Should().BeEquivalentTo("rome", "constantinople", "jerusalem");
+	}
+
+	[Fact]
+	public void ConverterFaithExcessEminentHolySitesAreDemoted() {
+		var faithData = new FaithData {
+			EminentHolySiteIds = ["site1", "site2", "site3", "site4", "site5"],
+			HasEminentHolySitesBlock = true
+		};
+		var (faith, log) = CreateFaithCapturingLog(
+			() => new Faith("too_many_eminent", faithData, testReligion, isFromConverter: true));
+
+		faith.HolySiteIds.Should().BeEquivalentTo("site1", "site2", "site3", "site4", "site5");
+		faith.EminentHolySiteIds.Should().Equal("site1", "site2", "site3");
+
+		var faithStr = PDXSerializer.Serialize(faith).ReplaceLineEndings("\n");
+		faithStr.Should().Contain("\tholy_sites = {\n\t\tsite4\n\t\tsite5\n\t}");
+		faithStr.Should().Contain("\teminent_holy_sites = {\n\t\tsite1\n\t\tsite2\n\t\tsite3\n\t}");
+		log.Should().Contain("Demoted: site4, site5");
+	}
+
+	[Fact]
+	public void ConverterFaithExcessHolySitesAreTrimmed() {
+		var religion = CreateReligion("{ holy_sites_max = 5 }");
+		var faithData = new FaithData {
+			HolySiteIds = ["site1", "site2", "site3", "site4", "site5", "site6"],
+			EminentHolySiteIds = ["site1", "site2"],
+			HasEminentHolySitesBlock = true
+		};
+		var (faith, log) = CreateFaithCapturingLog(
+			() => new Faith("too_many_sites", faithData, religion, isFromConverter: true));
+
+		faith.HolySiteIds.Should().BeEquivalentTo("site1", "site2", "site3", "site4", "site5");
+		faith.EminentHolySiteIds.Should().Equal("site1", "site2");
+		log.Should().Contain("Removed: site6");
+	}
+
+	[Fact]
+	public void ConverterFaithTrimKeepsMainHolySite() {
+		var religion = CreateReligion("""
+			{
+				main_holy_site = site6
+				holy_sites_max = 4
+			}
+			""");
+		var faithData = new FaithData {
+			HolySiteIds = ["site1", "site2", "site3", "site4", "site5", "site6"]
+		};
+		var (faith, log) = CreateFaithCapturingLog(
+			() => new Faith("main_site_protected", faithData, religion, isFromConverter: true));
+
+		faith.HolySiteIds.Should().BeEquivalentTo("site1", "site2", "site3", "site6");
+		faith.EminentHolySiteIds.Should().BeEquivalentTo("site1", "site2", "site6");
+		log.Should().Contain("Removed: site5, site4");
+	}
+
+	[Fact]
+	public void ConverterFaithPromotesRegularSitesToEminentMinimum() {
+		var religion = CreateReligion("""
+			{
+				eminent_holy_sites_max = 3
+				eminent_holy_sites_min = 2
+			}
+			""");
+		var faithData = new FaithData {
+			HolySiteIds = ["site1", "site2", "site3"],
+			HasEminentHolySitesBlock = true
+		};
+		var faith = new Faith("below_eminent_min", faithData, religion, isFromConverter: true);
+
+		faith.EminentHolySiteIds.Should().Equal("site1", "site2");
+		faith.HolySiteIds.Should().Equal("site1", "site2", "site3");
+	}
+
+	[Fact]
+	public void ConverterFaithPromotionPrioritizesMainHolySite() {
+		var religion = CreateReligion("""
+			{
+				eminent_holy_sites_min = 1
+				main_holy_site = site3
+			}
+			""");
+		var faithData = new FaithData {
+			HolySiteIds = ["site1", "site2", "site3"],
+			HasEminentHolySitesBlock = true
+		};
+		var faith = new Faith("main_site_min", faithData, religion, isFromConverter: true);
+
+		faith.EminentHolySiteIds.Should().Equal("site3");
+	}
+
+	[Fact]
+	public void GameFaithOverHolySiteLimitsIsNotModified() {
+		var religion = CreateReligion("""
+			{
+				eminent_holy_sites_max = 2
+				holy_sites_max = 4
+			}
+			""");
+		var faithData = new FaithData {
+			HolySiteIds = ["site1", "site2", "site3", "site4"],
+			EminentHolySiteIds = ["site5", "site6", "site7"],
+			HasEminentHolySitesBlock = true
+		};
+		var (faith, log) = CreateFaithCapturingLog(
+			() => new Faith("game_faith", faithData, religion));
+
+		faith.HolySiteIds.Should().BeEquivalentTo("site1", "site2", "site3", "site4", "site5", "site6", "site7");
+		faith.EminentHolySiteIds.Should().BeEquivalentTo("site5", "site6", "site7");
+		log.Should().Contain("allows at most 2");
+		log.Should().Contain("allows at most 4");
+	}
+
+	[Fact]
+	public void ConverterFaithBelowHolySitesMinimumLogsWarning() {
+		var faithData = new FaithData {HasEminentHolySitesBlock = true};
+		var (faith, log) = CreateFaithCapturingLog(
+			() => new Faith("no_sites", faithData, testReligion, isFromConverter: true));
+
+		faith.HolySiteIds.Should().BeEmpty();
+		faith.EminentHolySiteIds.Should().BeEmpty();
+		log.Should().Contain("has only 0 holy sites");
 	}
 
 	[Fact]

@@ -439,4 +439,102 @@ public class ReligionCollectionTests {
 		history.GetFieldValue("faith", new Date(150, 1, 1)).Should().Be("test_faith");
 		history.GetFieldValue("faith", new Date(250, 1, 1)).Should().Be("unknown_rite");
 	}
+
+	[Fact]
+	public void ConverterFaithHolySiteLimitsAreAppliedDuringLoad() {
+		var tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".liquid");
+		try {
+			File.WriteAllText(tempFile, """
+				converted_faith = {
+					faith_details = {
+						religion = religion_a
+					}
+					holy_sites = {
+						site1
+						site2
+					}
+					eminent_holy_sites = {
+						site3
+						site4
+						site5
+						site6
+					}
+				}
+				""");
+
+			var religions = new ReligionCollection(new Title.LandedTitles());
+			religions.LoadReligions(ck3ModFS, colorFactory);
+			religions.LoadConverterFaiths(tempFile, colorFactory, liquidVariables: new Hash());
+
+			var faith = religions.GetFaith("converted_faith");
+			Assert.NotNull(faith);
+			faith.EminentHolySiteIds.Should().BeEquivalentTo("site3", "site4", "site5");
+			faith.HolySiteIds.Should().BeEquivalentTo("site1", "site2", "site3", "site4", "site5", "site6");
+		} finally {
+			File.Delete(tempFile);
+		}
+	}
+
+	[Fact]
+	public void GameFaithHolySiteLimitsAreWarnedButNotChangedDuringLoad() {
+		var tempRoot = Path.Combine(
+			Path.GetTempPath(),
+			"ImperatorToCK3_UnitTests",
+			"ReligionLimits",
+			Guid.NewGuid().ToString("N")
+		);
+		try {
+			var religionsDir = Path.Combine(tempRoot, "common", "religion", "religion_types");
+			var faithsDir = Path.Combine(tempRoot, "common", "religion", "faith_types");
+			Directory.CreateDirectory(religionsDir);
+			Directory.CreateDirectory(faithsDir);
+
+			File.WriteAllText(Path.Combine(religionsDir, "limited_religion.txt"), """
+				limited_religion = {
+					religion_details = {
+						family = rf_pagan
+					}
+					eminent_holy_sites_max = 1
+					holy_sites_max = 2
+				}
+				""");
+			File.WriteAllText(Path.Combine(faithsDir, "limited_faith.txt"), """
+				limited_faith = {
+					faith_details = {
+						religion = limited_religion
+					}
+					holy_sites = {
+						site1
+						site2
+						site3
+					}
+					eminent_holy_sites = {
+						site4
+						site5
+					}
+				}
+				""");
+
+			var output = new StringWriter();
+			var originalOut = Console.Out;
+			ReligionCollection religions = new(new Title.LandedTitles());
+			Console.SetOut(output);
+			try {
+				religions.LoadReligions(new ModFilesystem(tempRoot, Array.Empty<Mod>()), colorFactory);
+			} finally {
+				Console.SetOut(originalOut);
+			}
+
+			var faith = religions.GetFaith("limited_faith");
+			Assert.NotNull(faith);
+			faith.EminentHolySiteIds.Should().BeEquivalentTo("site4", "site5");
+			faith.HolySiteIds.Should().BeEquivalentTo("site1", "site2", "site3", "site4", "site5");
+			output.ToString().Should().Contain("allows at most 1");
+			output.ToString().Should().Contain("allows at most 2");
+		} finally {
+			if (Directory.Exists(tempRoot)) {
+				Directory.Delete(tempRoot, recursive: true);
+			}
+		}
+	}
 }

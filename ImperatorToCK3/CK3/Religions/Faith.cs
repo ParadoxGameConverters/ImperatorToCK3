@@ -10,12 +10,6 @@ using System.Text;
 namespace ImperatorToCK3.CK3.Religions;
 
 internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
-	/// <summary>
-	/// CK3 allows a faith to have at most 3 eminent holy sites by default
-	/// (see the FAITH_EMINENT_HOLY_SITES_MAX_DEFAULT define).
-	/// </summary>
-	public const int DefaultEminentHolySitesMax = 3;
-
 	public string Id { get; }
 	public Religion Religion { get; set; }
 	public Color? Color { get; }
@@ -29,7 +23,7 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 	public string? MainRiteId { get; set; }
 	public OrderedSet<string> DoctrineIds { get; }
 
-	public Faith(string id, FaithData faithData, Religion religion) {
+	public Faith(string id, FaithData faithData, Religion religion, bool isFromConverter = false) {
 		Id = id;
 		Religion = religion;
 		
@@ -57,6 +51,7 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		}
 
 		PromoteLegacyHolySites(hasEminentHolySitesBlock: faithData.HasEminentHolySitesBlock);
+		ApplyHolySiteLimits(isFromConverter);
 		
 		// Fix a faith having more than one doctrine in the same group.
 		foreach (var group in religion.ReligionCollection.DoctrineGroups) {
@@ -87,14 +82,140 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 
 	/// <summary>
 	/// Faiths defined in the legacy format have no eminent_holy_sites block. In CK3 1.20+ only eminent holy sites
-	/// give faith-wide bonuses, so promote up to 3 holy sites to keep the old faith-wide effects working.
+	/// give faith-wide bonuses, so promote up to the religion's limit to keep the old faith-wide effects working.
 	/// </summary>
 	private void PromoteLegacyHolySites(bool hasEminentHolySitesBlock) {
 		if (hasEminentHolySitesBlock || eminentHolySiteIds.Count > 0) {
 			return;
 		}
-		foreach (var holySiteId in holySiteIds.Take(DefaultEminentHolySitesMax)) {
+		foreach (var holySiteId in GetHolySiteIdsForPromotion().Take(Religion.EffectiveEminentHolySitesMax)) {
 			eminentHolySiteIds.Add(holySiteId);
+		}
+	}
+
+	private void ApplyHolySiteLimits(bool isFromConverter) {
+		if (!isFromConverter) {
+			ValidateHolySiteLimits();
+			return;
+		}
+
+		PromoteHolySitesToEminentMinimum();
+		DemoteExcessEminentHolySites();
+		TrimExcessHolySites();
+		ValidateHolySiteMinimums();
+	}
+
+	private void PromoteHolySitesToEminentMinimum() {
+		int minEminentSites = Religion.EffectiveEminentHolySitesMin;
+		if (eminentHolySiteIds.Count >= minEminentSites) {
+			return;
+		}
+
+		var sitesToPromote = GetHolySiteIdsForPromotion()
+			.Where(holySiteId => !eminentHolySiteIds.Contains(holySiteId))
+			.Take(minEminentSites - eminentHolySiteIds.Count)
+			.ToArray();
+		foreach (var holySiteId in sitesToPromote) {
+			eminentHolySiteIds.Add(holySiteId);
+		}
+	}
+
+	private void DemoteExcessEminentHolySites() {
+		int maxEminentSites = Religion.EffectiveEminentHolySitesMax;
+		int eminentCount = eminentHolySiteIds.Count;
+		if (eminentCount <= maxEminentSites) {
+			return;
+		}
+
+		var sitesToDemote = OrderEminentHolySitesForRetention()
+			.Skip(maxEminentSites)
+			.ToArray();
+		foreach (var holySiteId in sitesToDemote) {
+			eminentHolySiteIds.Remove(holySiteId);
+		}
+
+		Logger.Warn($"Faith {Id} has {eminentCount} eminent holy sites, but religion {Religion.Id} allows at most {maxEminentSites}. Demoted: {string.Join(", ", sitesToDemote)}.");
+	}
+
+	private void TrimExcessHolySites() {
+		int maxHolySites = Religion.HolySitesMax;
+		if (holySiteIds.Count <= maxHolySites) {
+			return;
+		}
+
+		int excessCount = holySiteIds.Count - maxHolySites;
+		var removableRegularSites = holySiteIds
+			.Where(holySiteId => !eminentHolySiteIds.Contains(holySiteId) && holySiteId != Religion.MainHolySiteId)
+			.Reverse()
+			.ToArray();
+		var removableEminentSites = holySiteIds
+			.Where(holySiteId => eminentHolySiteIds.Contains(holySiteId) && holySiteId != Religion.MainHolySiteId)
+			.Reverse()
+			.ToArray();
+		var sitesToRemove = removableRegularSites
+			.Concat(removableEminentSites)
+			.Take(excessCount)
+			.ToArray();
+
+		foreach (var holySiteId in sitesToRemove) {
+			holySiteIds.Remove(holySiteId);
+			eminentHolySiteIds.Remove(holySiteId);
+		}
+
+		if (sitesToRemove.Length < excessCount) {
+			Logger.Warn($"Faith {Id} has {holySiteIds.Count + sitesToRemove.Length} holy sites, but religion {Religion.Id} allows at most {maxHolySites}. Could only remove {sitesToRemove.Length} holy sites while protecting {Religion.MainHolySiteId}.");
+		} else {
+			Logger.Warn($"Faith {Id} has more holy sites than religion {Religion.Id} allows ({maxHolySites}). Removed: {string.Join(", ", sitesToRemove)}.");
+		}
+	}
+
+	private void ValidateHolySiteLimits() {
+		int effectiveEminentMax = Religion.EffectiveEminentHolySitesMax;
+		if (eminentHolySiteIds.Count > effectiveEminentMax) {
+			Logger.Warn($"Faith {Id} has {eminentHolySiteIds.Count} eminent holy sites, but religion {Religion.Id} allows at most {effectiveEminentMax}.");
+		}
+		if (holySiteIds.Count > Religion.HolySitesMax) {
+			Logger.Warn($"Faith {Id} has {holySiteIds.Count} holy sites, but religion {Religion.Id} allows at most {Religion.HolySitesMax}.");
+		}
+		if (holySiteIds.Count == 0) {
+			return;
+		}
+		if (eminentHolySiteIds.Count < Religion.EffectiveEminentHolySitesMin) {
+			Logger.Debug($"Faith {Id} has {eminentHolySiteIds.Count} eminent holy sites, but religion {Religion.Id} requires at least {Religion.EffectiveEminentHolySitesMin}.");
+		}
+		if (holySiteIds.Count < Religion.HolySitesMin) {
+			Logger.Debug($"Faith {Id} has {holySiteIds.Count} holy sites, but religion {Religion.Id} requires at least {Religion.HolySitesMin}.");
+		}
+	}
+
+	private void ValidateHolySiteMinimums() {
+		if (eminentHolySiteIds.Count < Religion.EffectiveEminentHolySitesMin) {
+			Logger.Warn($"Faith {Id} has only {eminentHolySiteIds.Count} eminent holy sites, but religion {Religion.Id} requires at least {Religion.EffectiveEminentHolySitesMin}.");
+		}
+		if (holySiteIds.Count < Religion.HolySitesMin) {
+			Logger.Warn($"Faith {Id} has only {holySiteIds.Count} holy sites, but religion {Religion.Id} requires at least {Religion.HolySitesMin}.");
+		}
+	}
+
+	private IEnumerable<string> GetHolySiteIdsForPromotion() {
+		if (Religion.MainHolySiteId is { } mainHolySiteId && holySiteIds.Contains(mainHolySiteId)) {
+			yield return mainHolySiteId;
+		}
+		foreach (var holySiteId in holySiteIds) {
+			if (holySiteId != Religion.MainHolySiteId) {
+				yield return holySiteId;
+			}
+		}
+	}
+
+	private IEnumerable<string> OrderEminentHolySitesForRetention() {
+		if (Religion.MainHolySiteId is { } mainHolySiteId && eminentHolySiteIds.Contains(mainHolySiteId)) {
+			yield return mainHolySiteId;
+		}
+		foreach (var holySiteId in holySiteIds) {
+			if (holySiteId != Religion.MainHolySiteId && eminentHolySiteIds.Contains(holySiteId)) {
+				yield return holySiteId;
+			}
 		}
 	}
 

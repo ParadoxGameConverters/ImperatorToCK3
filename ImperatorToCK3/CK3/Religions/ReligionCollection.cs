@@ -113,7 +113,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => {
 			var faithData = faithDataParser.Parse(faithReader);
-			AddOrReplaceFaith(faithId, faithData);
+			AddOrReplaceFaith(faithId, faithData, isFromConverter: false);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseGameFolder("common/religion/faith_types", ck3ModFS, "txt", recursive: true);
@@ -131,7 +131,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		parser.ParseGameFolder("common/religion/rite_types", ck3ModFS, "txt", recursive: true);
 	}
 
-	private Faith? AddOrReplaceFaith(string faithId, FaithData faithData) {
+	private Faith? AddOrReplaceFaith(string faithId, FaithData faithData, bool isFromConverter) {
 		if (faithData.InvalidatingFaithIds.Count != 0) { // Faith is an optional faith.
 			foreach (var existingFaith in Faiths) {
 				if (!faithData.InvalidatingFaithIds.Contains(existingFaith.Id)) {
@@ -160,7 +160,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 			}
 		}
 
-		var faith = new Faith(faithId, faithData, religion);
+		var faith = new Faith(faithId, faithData, religion, isFromConverter);
 		religion.Faiths.AddOrReplace(faith);
 		faithCache = null;
 		return faith;
@@ -197,7 +197,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => {
 			var faithData = faithDataParser.Parse(faithReader);
-			var faith = AddOrReplaceFaith(faithId, faithData);
+			var faith = AddOrReplaceFaith(faithId, faithData, isFromConverter: true);
 			if (faith is null) {
 				return;
 			}

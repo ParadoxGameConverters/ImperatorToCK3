@@ -223,6 +223,102 @@ public class ReligionTests {
 	}
 
 	[Fact]
+	public void HolySiteLimitsDefaultToCK3Definitions() {
+		var reader = new BufferedReader("{ religion_details = { family = rf_pagan } }");
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var religion = new Religion("test_religion", reader, religions);
+
+		Assert.Equal(3, religion.EminentHolySitesMax);
+		Assert.Equal(1, religion.EminentHolySitesMin);
+		Assert.Equal(9, religion.HolySitesMax);
+		Assert.Equal(1, religion.HolySitesMin);
+		Assert.Equal(3, religion.EffectiveEminentHolySitesMax);
+		Assert.Equal(1, religion.EffectiveEminentHolySitesMin);
+		Assert.Null(religion.MainHolySiteId);
+	}
+
+	[Fact]
+	public void HolySiteLimitsAndMainHolySiteAreParsedAndSerialized() {
+		var reader = new BufferedReader("""
+			{
+				eminent_holy_sites_max = 5
+				eminent_holy_sites_min = 2
+				holy_sites_max = 12
+				holy_sites_min = 4
+				main_holy_site = rome
+			}
+			""");
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var religion = new Religion("test_religion", reader, religions);
+
+		Assert.Equal(5, religion.EminentHolySitesMax);
+		Assert.Equal(2, religion.EminentHolySitesMin);
+		Assert.Equal(12, religion.HolySitesMax);
+		Assert.Equal(4, religion.HolySitesMin);
+		Assert.Equal("rome", religion.MainHolySiteId);
+
+		var religionStr = PDXSerializer.Serialize(religion);
+		religionStr.Should().ContainAll(
+			"eminent_holy_sites_max = 5",
+			"eminent_holy_sites_min = 2",
+			"holy_sites_max = 12",
+			"holy_sites_min = 4",
+			"main_holy_site = rome"
+		);
+	}
+
+	[Fact]
+	public void MainHolySiteNoneIsParsedAsNull() {
+		var reader = new BufferedReader("{ main_holy_site = none }");
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var religion = new Religion("test_religion", reader, religions);
+
+		Assert.Null(religion.MainHolySiteId);
+	}
+
+	[Fact]
+	public void ContradictoryHolySiteLimitsAreCappedAndWarned() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		var reader = new BufferedReader("""
+			{
+				eminent_holy_sites_max = 12
+				eminent_holy_sites_min = 7
+				holy_sites_max = 5
+			}
+			""");
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var religion = new Religion("test_religion", reader, religions);
+
+		Assert.Equal(12, religion.EminentHolySitesMax);
+		Assert.Equal(5, religion.EffectiveEminentHolySitesMax);
+		Assert.Equal(5, religion.EffectiveEminentHolySitesMin);
+		output.ToString().Should().Contain("greater than holy_sites_max (5)");
+		output.ToString().Should().Contain("effective eminent holy site max (5)");
+	}
+
+	[Fact]
+	public void InvalidHolySiteLimitsFallBackToDefaultsAndWarn() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		var reader = new BufferedReader("""
+			{
+				eminent_holy_sites_max = many
+				holy_sites_min = -1
+			}
+			""");
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var religion = new Religion("test_religion", reader, religions);
+
+		Assert.Equal(3, religion.EminentHolySitesMax);
+		Assert.Equal(1, religion.HolySitesMin);
+		output.ToString().Should().Contain("invalid eminent_holy_sites_max: many. Using default 3.");
+		output.ToString().Should().Contain("invalid holy_sites_min: -1. Using default 1.");
+	}
+
+	[Fact]
 	public void SerializedReligionCanBeParsedBack() {
 		var reader = new BufferedReader("""
 			{

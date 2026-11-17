@@ -1,13 +1,21 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions;
 
 internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
+	// Defaults from CK3's NRigion defines.
+	public const int DefaultEminentHolySitesMax = 3;
+	public const int DefaultEminentHolySitesMin = 1;
+	public const int DefaultHolySitesMax = 9;
+	public const int DefaultHolySitesMin = 1;
+
 	public string Id { get; }
 	public OrderedSet<string> DoctrineIds { get; } = [];
 
@@ -39,6 +47,8 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		});
 		religionParser.ParseStream(religionReader);
 
+		ReadHolySiteLimits();
+
 		// Fix a religion having more than one doctrine in the same group.
 		foreach (var group in religions.DoctrineGroups) {
 			var doctrinesInGroup = DoctrineIds.Intersect(group.DoctrineIds).ToList();
@@ -54,10 +64,69 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		}
 	}
 
+	private void ReadHolySiteLimits() {
+		EminentHolySitesMax = GetAttributeInt("eminent_holy_sites_max", DefaultEminentHolySitesMax);
+		EminentHolySitesMin = GetAttributeInt("eminent_holy_sites_min", DefaultEminentHolySitesMin);
+		HolySitesMax = GetAttributeInt("holy_sites_max", DefaultHolySitesMax);
+		HolySitesMin = GetAttributeInt("holy_sites_min", DefaultHolySitesMin);
+
+		var mainHolySiteId = GetAttributeString("main_holy_site");
+		MainHolySiteId = mainHolySiteId == "none" ? null : mainHolySiteId;
+
+		if (HolySitesMin > HolySitesMax) {
+			Logger.Warn($"Religion {Id} has holy_sites_min ({HolySitesMin}) greater than holy_sites_max ({HolySitesMax}).");
+		}
+		if (EminentHolySitesMax > HolySitesMax) {
+			Logger.Warn($"Religion {Id} has eminent_holy_sites_max ({EminentHolySitesMax}) greater than holy_sites_max ({HolySitesMax}). The latter will cap eminent holy sites.");
+		}
+		if (EminentHolySitesMin > EffectiveEminentHolySitesMax) {
+			Logger.Warn($"Religion {Id} has eminent_holy_sites_min ({EminentHolySitesMin}) greater than the effective eminent holy site max ({EffectiveEminentHolySitesMax}).");
+		}
+	}
+
+	private string? GetAttributeString(string key) {
+		for (int i = attributes.Count - 1; i >= 0; --i) {
+			if (attributes[i].Key == key) {
+				return attributes[i].Value.ToString().RemQuotes();
+			}
+		}
+		return null;
+	}
+
+	private int GetAttributeInt(string key, int defaultValue) {
+		var valueStr = GetAttributeString(key);
+		if (valueStr is null) {
+			return defaultValue;
+		}
+
+		if (int.TryParse(valueStr, NumberStyles.Integer, CultureInfo.InvariantCulture, out int value) && value >= 0) {
+			return value;
+		}
+
+		Logger.Warn($"Religion {Id} has invalid {key}: {valueStr}. Using default {defaultValue}.");
+		return defaultValue;
+	}
+
 	/// <summary>
 	/// ID of the religion family, e.g. rf_abrahamic. Defined in the religion_details block in CK3 1.20+.
 	/// </summary>
 	public string? FamilyId => detailsAttributes.TryGetValue("family", out var family) ? family.ToString().RemQuotes() : null;
+
+	public int EminentHolySitesMax { get; private set; } = DefaultEminentHolySitesMax;
+	public int EminentHolySitesMin { get; private set; } = DefaultEminentHolySitesMin;
+	public int HolySitesMax { get; private set; } = DefaultHolySitesMax;
+	public int HolySitesMin { get; private set; } = DefaultHolySitesMin;
+
+	/// <summary>
+	/// The total holy site limit includes eminent holy sites, so it can also cap the eminent limit.
+	/// </summary>
+	public int EffectiveEminentHolySitesMax => Math.Min(EminentHolySitesMax, HolySitesMax);
+	public int EffectiveEminentHolySitesMin => Math.Min(EminentHolySitesMin, EffectiveEminentHolySitesMax);
+
+	/// <summary>
+	/// Optional key of a holy site that cannot be removed from any faith of this religion.
+	/// </summary>
+	public string? MainHolySiteId { get; private set; }
 
 	public IdObjectCollection<string, Faith> Faiths { get; } = [];
 	private readonly List<KeyValuePair<string, StringOfItem>> attributes = [];
