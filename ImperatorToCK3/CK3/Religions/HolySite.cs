@@ -52,17 +52,6 @@ internal sealed class HolySite : IIdentifiable<string>, IPDXSerializable {
 		parser.RegisterKeyword("barony", reader => parsedBaronyId = reader.GetString());
 		parser.RegisterKeyword("is_dynamic", reader => IsDynamic = reader.GetBool());
 		parser.RegisterKeyword("parameters", reader => Parameters.UnionWith(reader.GetStrings()));
-		// Legacy CK3 format used flag for what are now holy site parameters.
-		parser.RegisterKeyword("flag", reader => Parameters.Add(reader.GetString()));
-		// Legacy CK3 format had a single character_modifier that applied to all characters of the faith.
-		// Map it to the faith modifier, and also to the county holder modifier so that the site still
-		// gives a local bonus when it is a regular (non-eminent) holy site in CK3 1.20+.
-		parser.RegisterKeyword("character_modifier", reader => {
-			ParseModifierBlock(reader, FaithCharacterModifier);
-			foreach (var (key, value) in FaithCharacterModifier) {
-				CountyHolderCharacterModifier[key] = value;
-			}
-		});
 		parser.RegisterKeyword("faith_character_modifier", reader => ParseModifierBlock(reader, FaithCharacterModifier));
 		parser.RegisterKeyword("faith_character_modifier_scaled", reader => ParseModifierBlock(reader, FaithCharacterModifierScaled));
 		parser.RegisterKeyword("county_holder_character_modifier", reader => ParseModifierBlock(reader, CountyHolderCharacterModifier));
@@ -92,11 +81,6 @@ internal sealed class HolySite : IIdentifiable<string>, IPDXSerializable {
 
 	private static void ParseModifierBlock(BufferedReader reader, OrderedDictionary<string, object> modifierDict) {
 		foreach (var assignment in reader.GetAssignments()) {
-			// Legacy modifier blocks contained a name pointing to a localization key.
-			// In CK3 1.20+ the localization key is derived from the holy site key instead.
-			if (assignment.Key == "name") {
-				continue;
-			}
 			modifierDict[assignment.Key] = assignment.Value;
 		}
 	}

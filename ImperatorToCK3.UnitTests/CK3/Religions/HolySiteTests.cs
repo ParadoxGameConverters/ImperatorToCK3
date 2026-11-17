@@ -4,7 +4,6 @@ using commonItems.Serialization;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.HolySiteEffect;
-using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -68,32 +67,6 @@ public class HolySiteTests {
 	}
 
 	[Fact]
-	public void LegacyCharacterModifierAndFlagAreConvertedToNewFormat() {
-		var titles = new Title.LandedTitles();
-		titles.LoadTitles(new BufferedReader("c_county = { b_barony = {} }"), colorFactory);
-		var siteReader = new BufferedReader(@"
-			county = c_county
-			flag = jerusalem_conversion_bonus
-			character_modifier = {
-				name = holy_site_test_effect_name
-				prowess = 1
-			}
-		");
-		var site = new HolySite("test_site", siteReader, titles, isFromConverter: false);
-
-		Assert.Equal(["jerusalem_conversion_bonus"], site.Parameters);
-		Assert.Collection(site.FaithCharacterModifier,
-			kvp => Assert.Equal("prowess", kvp.Key));
-		Assert.Collection(site.CountyHolderCharacterModifier,
-			kvp => Assert.Equal("prowess", kvp.Key));
-
-		var serialized = PDXSerializer.Serialize(site);
-		Assert.Contains("faith_character_modifier", serialized, StringComparison.Ordinal);
-		Assert.Contains("parameters = {", serialized, StringComparison.Ordinal);
-		Assert.DoesNotContain("holy_site_test_effect_name", serialized, StringComparison.Ordinal);
-	}
-
-	[Fact]
 	public void HolySiteCanBeConstructedForBaronyAndFaithWithEffects() {
 		var titles = new Title.LandedTitles();
 		var titlesReader = new BufferedReader("c_county = { b_barony = { province = 1 } }");
@@ -133,7 +106,7 @@ public class HolySiteTests {
 		titles.LoadTitles(new BufferedReader("c_county = { b_barony = {} }"), colorFactory);
 		var siteReader = new BufferedReader(@"
 			county_choices = { c_nonexistent1 c_county c_nonexistent2 }
-			character_modifier = {}
+			faith_character_modifier = {}
 		");
 		var site = new HolySite("test_site", siteReader, titles, isFromConverter: true);
 		
@@ -154,7 +127,7 @@ public class HolySiteTests {
 		var siteReader = new BufferedReader(@"
 			county = c_wrong_county
 			barony = b_test_barony
-			character_modifier = {}
+			faith_character_modifier = {}
 		");
 		
 		var site = new HolySite("test_site", siteReader, titles, isFromConverter: false);
@@ -176,7 +149,7 @@ public class HolySiteTests {
 		var siteReader = new BufferedReader(@"
 			county = c_some_county
 			barony = b_orphan_barony
-			character_modifier = {}
+			faith_character_modifier = {}
 		");
 		
 		var site = new HolySite("test_site", siteReader, titles, isFromConverter: false);
@@ -199,7 +172,7 @@ public class HolySiteTests {
 		var siteReader = new BufferedReader(@"
 			county = c_correct_county
 			barony = b_test_barony
-			character_modifier = {}
+			faith_character_modifier = {}
 		");
 		
 		var site = new HolySite("test_site", siteReader, titles, isFromConverter: false);

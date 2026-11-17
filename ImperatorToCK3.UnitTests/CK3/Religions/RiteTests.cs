@@ -1,5 +1,4 @@
 using commonItems;
-using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Serialization;
 using AwesomeAssertions;
@@ -81,20 +80,5 @@ public class RiteTests {
 
 		Assert.Equal("test_faith", parsed.FaithId);
 		Assert.Equal(["tenet_a", "doctrine_a"], parsed.DoctrineIds);
-	}
-
-	[Fact]
-	public void LegacyDoctrineKeywordIsParsed() {
-		var religion = CreateTestReligion(out var religions);
-		var reader = new BufferedReader("""
-			{
-				faith = test_faith
-				doctrine = tenet_a
-				doctrine = doctrine_b
-			}
-			""");
-		var rite = new Rite("test_rite", reader, religions, new ColorFactory());
-
-		rite.DoctrineIds.Should().Equal("tenet_a", "doctrine_b");
 	}
 }

@@ -45,8 +45,6 @@ internal sealed class Rite : IIdentifiable<string>, IPDXSerializable {
 		});
 		parser.RegisterKeyword("tenets", reader => DoctrineIds.UnionWith(reader.GetStrings()));
 		parser.RegisterKeyword("doctrines", reader => DoctrineIds.UnionWith(reader.GetStrings()));
-		// Legacy CK3 format had doctrines and tenets defined with repeated doctrine = keys.
-		parser.RegisterKeyword("doctrine", reader => DoctrineIds.Add(reader.GetString()));
 		parser.RegisterKeyword("localization", reader => {
 			var localizationParser = new Parser(implicitVariableHandling: true);
 			localizationParser.RegisterRegex(CommonRegexes.Catchall, (locReader, locKey) => {
