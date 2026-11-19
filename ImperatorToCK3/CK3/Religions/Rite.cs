@@ -14,7 +14,6 @@ namespace ImperatorToCK3.CK3.Religions;
 /// </summary>
 internal sealed class Rite : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
-	public bool IsFromConverter { get; }
 	public string? FaithId { get; private set; }
 	public Color? Color { get; private set; }
 	public OrderedSet<string> DoctrineIds { get; } = [];
@@ -27,11 +26,9 @@ internal sealed class Rite : IIdentifiable<string>, IPDXSerializable {
 		string id,
 		BufferedReader riteReader,
 		ReligionCollection religionCollection,
-		ColorFactory colorFactory,
-		bool isFromConverter = false
+		ColorFactory colorFactory
 	) {
 		Id = id;
-		IsFromConverter = isFromConverter;
 		this.religionCollection = religionCollection;
 
 		var parser = new Parser(implicitVariableHandling: true);
@@ -60,7 +57,6 @@ internal sealed class Rite : IIdentifiable<string>, IPDXSerializable {
 
 	private Rite(string id, string faithId, Color? color, IEnumerable<string> doctrineIds, ReligionCollection religionCollection) {
 		Id = id;
-		IsFromConverter = true;
 		FaithId = faithId;
 		Color = color;
 		DoctrineIds = doctrineIds.ToOrderedSet();

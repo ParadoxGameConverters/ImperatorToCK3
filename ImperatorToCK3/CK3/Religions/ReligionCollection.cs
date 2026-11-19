@@ -232,7 +232,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		Logger.Info("Loading converter rites...");
 		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (riteReader, riteId) => {
-			Rites.AddOrReplace(new Rite(riteId, riteReader, this, colorFactory, isFromConverter: true));
+			Rites.AddOrReplace(new Rite(riteId, riteReader, this, colorFactory));
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseLiquidFile(converterRitesPath, liquidVariables);

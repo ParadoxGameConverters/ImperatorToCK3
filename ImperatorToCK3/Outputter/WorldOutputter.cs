@@ -163,7 +163,7 @@ internal static class WorldOutputter {
 		Logger.IncrementProgress();
 	}
 
-	private static void OutputModFile(string outputName) {
+	internal static string BuildModFileContents(string outputName) {
 		var modFileBuilder = new StringBuilder();
 		modFileBuilder.AppendLine($"name = \"Converted - {outputName}\"");
 		modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
@@ -180,6 +180,7 @@ internal static class WorldOutputter {
 		modFileBuilder.AppendLine("replace_path=\"common/religion/religion_types\"");
 		modFileBuilder.AppendLine("replace_path=\"common/religion/faith_types\"");
 		modFileBuilder.AppendLine("replace_path=\"common/religion/holy_site_types\"");
+		modFileBuilder.AppendLine("replace_path=\"common/religion/rite_types\"");
 		modFileBuilder.AppendLine("replace_path=\"history/characters\"");
 		modFileBuilder.AppendLine("replace_path=\"history/province_mapping\"");
 		modFileBuilder.AppendLine("replace_path=\"history/provinces\"");
@@ -187,7 +188,11 @@ internal static class WorldOutputter {
 		modFileBuilder.AppendLine("replace_path=\"history/titles\"");
 		modFileBuilder.AppendLine("replace_path=\"history/wars\"");
 		modFileBuilder.AppendLine("replace_path=\"map_data/geographical_regions\"");
-		var modText = modFileBuilder.ToString();
+		return modFileBuilder.ToString();
+	}
+
+	private static void OutputModFile(string outputName) {
+		var modText = BuildModFileContents(outputName);
 
 		var modFilePath = Path.Combine("output", $"{outputName}.mod");
 		var descriptorFilePath = Path.Combine("output", outputName, "descriptor.mod");

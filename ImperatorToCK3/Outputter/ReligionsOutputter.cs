@@ -105,7 +105,7 @@ internal static class ReligionsOutputter {
 	}
 
 	private static async Task OutputRites(string outputModPath, ReligionCollection ck3ReligionCollection) {
-		var ritesToOutput = ck3ReligionCollection.Rites.Where(rite => rite.IsFromConverter).ToArray();
+		var ritesToOutput = ck3ReligionCollection.Rites.ToArray();
 		if (ritesToOutput.Length == 0) {
 			return;
 		}
