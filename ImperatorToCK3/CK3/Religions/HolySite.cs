@@ -1,23 +1,34 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
-using commonItems.SourceGenerators;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.HolySiteEffect;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-[SerializationByProperties]
-internal sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
-	[NonSerialized] public string Id { get; }
-	[NonSerialized] public bool IsFromConverter { get; }
-	[NonSerialized] public Title? County { get; }
-	[NonSerialized] public Title? Barony { get; }
-	[SerializedName("county")] public string? CountyId => County?.Id;
-	[SerializedName("barony")] public string? BaronyId => Barony?.Id;
-	[SerializedName("character_modifier")] public OrderedDictionary<string, object> CharacterModifier { get; } = [];
-	[SerializedName("flag")] public string? Flag { get; set; }
+internal sealed class HolySite : IIdentifiable<string>, IPDXSerializable {
+	public string Id { get; }
+	public bool IsFromConverter { get; }
+	public Title? County { get; private set; }
+	public Title? Barony { get; }
+	public string? CountyId => County?.Id;
+	public string? BaronyId => Barony?.Id;
+	public bool IsDynamic { get; private set; }
+	public OrderedSet<string> Parameters { get; } = [];
+	/// <summary>
+	/// Modifiers applied to all characters of any faith with this holy site when the holder of the barony is of their faith.
+	/// Only applied if the holy site is an eminent holy site for the faith.
+	/// </summary>
+	public OrderedDictionary<string, object> FaithCharacterModifier { get; } = [];
+	public OrderedDictionary<string, object> FaithCharacterModifierScaled { get; } = [];
+	/// <summary>
+	/// Modifiers applied to the holder of the county of the holy site, if they share its faith.
+	/// Applied for both regular and eminent holy sites.
+	/// </summary>
+	public OrderedDictionary<string, object> CountyHolderCharacterModifier { get; } = [];
+	public OrderedDictionary<string, object> CountyModifierScaled { get; } = [];
 
 	public HolySite(string id, BufferedReader holySiteReader, Title.LandedTitles landedTitles, bool isFromConverter) {
 		Id = id;
@@ -39,12 +50,12 @@ internal sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable
 		});
 		parser.RegisterKeyword("county", reader => parsedCountyId = reader.GetString());
 		parser.RegisterKeyword("barony", reader => parsedBaronyId = reader.GetString());
-		parser.RegisterKeyword("character_modifier", reader => {
-			foreach (var assignment in reader.GetAssignments()) {
-				CharacterModifier[assignment.Key] = assignment.Value;
-			}
-		});
-		parser.RegisterKeyword("flag", reader => Flag = reader.GetString());
+		parser.RegisterKeyword("is_dynamic", reader => IsDynamic = reader.GetBool());
+		parser.RegisterKeyword("parameters", reader => Parameters.UnionWith(reader.GetStrings()));
+		parser.RegisterKeyword("faith_character_modifier", reader => ParseModifierBlock(reader, FaithCharacterModifier));
+		parser.RegisterKeyword("faith_character_modifier_scaled", reader => ParseModifierBlock(reader, FaithCharacterModifierScaled));
+		parser.RegisterKeyword("county_holder_character_modifier", reader => ParseModifierBlock(reader, CountyHolderCharacterModifier));
+		parser.RegisterKeyword("county_modifier_scaled", reader => ParseModifierBlock(reader, CountyModifierScaled));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(holySiteReader);
 
@@ -65,6 +76,12 @@ internal sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable
 			} else {
 				Logger.Warn($"{baseMessage} Cannot find correct county.");
 			}
+		}
+	}
+
+	private static void ParseModifierBlock(BufferedReader reader, OrderedDictionary<string, object> modifierDict) {
+		foreach (var assignment in reader.GetAssignments()) {
+			modifierDict[assignment.Key] = assignment.Value;
 		}
 	}
 
@@ -90,7 +107,68 @@ internal sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable
 				continue;
 			}
 
-			CharacterModifier[ck3Effect.Key] = (float)ck3Effect.Value;
+			var ck3Value = (float)ck3Effect.Value;
+			// Faith-wide bonuses only work for eminent holy sites in CK3 1.20+.
+			FaithCharacterModifier[ck3Effect.Key] = ck3Value;
+			// Regular holy sites can only give local bonuses, so also apply the modifier to the county holder.
+			CountyHolderCharacterModifier[ck3Effect.Key] = ck3Value;
 		}
+	}
+
+	public string Serialize(string indent, bool withBraces) {
+		var contentIndent = indent;
+		if (withBraces) {
+			contentIndent += '\t';
+		}
+
+		var sb = new StringBuilder();
+		if (withBraces) {
+			sb.AppendLine("{");
+		}
+
+		if (CountyId is not null) {
+			sb.Append(contentIndent).AppendLine($"county = {CountyId}");
+		}
+		if (BaronyId is not null) {
+			sb.Append(contentIndent).AppendLine($"barony = {BaronyId}");
+		}
+		if (IsDynamic) {
+			sb.Append(contentIndent).AppendLine("is_dynamic = yes");
+		}
+		if (Parameters.Count > 0) {
+			sb.Append(contentIndent).AppendLine("parameters = {");
+			foreach (var parameter in Parameters) {
+				sb.Append(contentIndent).Append('\t').AppendLine(parameter);
+			}
+			sb.Append(contentIndent).AppendLine("}");
+		}
+
+		AppendModifierBlock(sb, contentIndent, "faith_character_modifier", FaithCharacterModifier);
+		AppendModifierBlock(sb, contentIndent, "faith_character_modifier_scaled", FaithCharacterModifierScaled);
+		AppendModifierBlock(sb, contentIndent, "county_holder_character_modifier", CountyHolderCharacterModifier);
+		AppendModifierBlock(sb, contentIndent, "county_modifier_scaled", CountyModifierScaled);
+
+		if (withBraces) {
+			sb.Append(indent).Append('}');
+		}
+
+		return sb.ToString();
+	}
+
+	private static void AppendModifierBlock(
+		StringBuilder sb,
+		string contentIndent,
+		string keyword,
+		OrderedDictionary<string, object> modifierDict
+	) {
+		if (modifierDict.Count == 0) {
+			return;
+		}
+
+		sb.Append(contentIndent).AppendLine($"{keyword} = {{");
+		foreach (var (key, value) in modifierDict) {
+			sb.Append(contentIndent).Append('\t').AppendLine($"{key} = {PDXSerializer.Serialize(value)}");
+		}
+		sb.Append(contentIndent).AppendLine("}");
 	}
 }

@@ -1,0 +1,25 @@
+ck3Faith = {
+	faith_details = {
+		religion = test_religion
+	}
+
+	holy_sites = {
+		holy_site_1
+		holy_site_2
+		holy_site_3
+		holy_site_4
+		holy_site_5
+	}
+}
+
+ck3Faith2 = {
+	faith_details = {
+		religion = test_religion
+	}
+}
+
+ck3Faith3 = {
+	faith_details = {
+		religion = test_religion
+	}
+}

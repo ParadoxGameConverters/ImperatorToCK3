@@ -21,24 +21,20 @@ public class DoctrineGroupTests {
 	}
 
 	[Fact]
-	public void Constructor_ParsesNumberOfPicks() {
-		var reader = new BufferedReader("number_of_picks = 3");
+	public void Constructor_ParsesMainRiteFlag() {
+		var reader = new BufferedReader("main_rite = yes");
 		var category = new DoctrineGroup("cat", reader);
-		Assert.Equal(3, category.NumberOfPicks);
+		Assert.True(category.IsMainRiteOnly);
 	}
 
 	[Fact]
-	public void Constructor_DefaultsNumberOfPicksTo1() {
+	public void AddDoctrineId_AddsDoctrineId() {
 		var reader = new BufferedReader("");
 		var category = new DoctrineGroup("cat", reader);
-		Assert.Equal(1, category.NumberOfPicks);
-	}
+		category.AddDoctrineId("doctrine1");
+		category.AddDoctrineId("doctrine2");
 
-	[Fact]
-	public void Constructor_ParsesDoctrineIds() {
-		var reader = new BufferedReader("doctrine_types = { doctrine1 doctrine2 doctrine3 }");
-		var category = new DoctrineGroup("cat", reader);
-		Assert.Equal(["doctrine1", "doctrine2", "doctrine3"], category.DoctrineIds);
+		Assert.Equal(["doctrine1", "doctrine2"], category.DoctrineIds);
 	}
 
 	[Fact]

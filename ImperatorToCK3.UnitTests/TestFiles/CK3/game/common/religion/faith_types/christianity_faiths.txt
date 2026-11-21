@@ -1,0 +1,5 @@
+orthodox = {
+	faith_details = {
+		religion = christianity_religion
+	}
+}

@@ -9,6 +9,13 @@ namespace ImperatorToCK3.UnitTests.Outputter;
 
 public class WorldOutputterTests {
 	[Fact]
+	public void BuildModFileContents_ReplacesRiteTypes() {
+		var contents = WorldOutputter.BuildModFileContents("test_output");
+
+		Assert.Contains("replace_path=\"common/religion/rite_types\"", contents, StringComparison.Ordinal);
+	}
+
+	[Fact]
 	public void CopyBlankModFilesToOutput_SkipsShortLiquidPathWithoutThrow() {
 		string tempRoot = Path.Combine(Path.GetTempPath(), "WorldOutputterTest", Guid.NewGuid().ToString("N"));
 		string outputPath = Path.Combine(tempRoot, "output");
