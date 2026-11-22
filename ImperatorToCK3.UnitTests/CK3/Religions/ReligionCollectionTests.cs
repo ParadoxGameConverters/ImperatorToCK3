@@ -430,14 +430,101 @@ public class ReligionCollectionTests {
 		var riteReader = new BufferedReader("{ faith = test_faith }");
 		religions.Rites.AddOrReplace(new Rite("test_rite", riteReader, religions, colorFactory));
 
-		var history = new History();
-		history.AddFieldValue(new Date(100, 1, 1), "faith", "rite", "test_rite");
-		history.AddFieldValue(new Date(200, 1, 1), "faith", "rite", "unknown_rite");
+		var province = new Province(1, new BufferedReader("""
+			102.1.1 = { rite = test_rite }
+			202.1.1 = { rite = unknown_rite }
+			"""));
+		religions.ResolveRiteIdsInFaithHistory(province.History);
 
-		religions.ResolveRiteIdsInFaithHistory(history);
+		province.GetFaithId(new Date(150, 1, 1)).Should().Be("test_faith");
+		province.GetRiteId(new Date(150, 1, 1)).Should().Be("test_rite");
+		// The invalid later rite entry is removed, so the previous valid state persists.
+		province.GetFaithId(new Date(250, 1, 1)).Should().Be("test_faith");
+		province.GetRiteId(new Date(250, 1, 1)).Should().Be("test_rite");
+	}
 
-		history.GetFieldValue("faith", new Date(150, 1, 1)).Should().Be("test_faith");
-		history.GetFieldValue("faith", new Date(250, 1, 1)).Should().Be("unknown_rite");
+	private static (ReligionCollection religions, Faith faith) CreateFaithWithRite(string? mainRiteId) {
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var religion = new Religion("test_religion", new BufferedReader("{}"), religions);
+		religions.AddOrReplace(religion);
+		var faith = new Faith("test_faith", new FaithData {
+			ReligionId = "test_religion",
+			MainRiteId = mainRiteId
+		}, religion);
+		religion.Faiths.AddOrReplace(faith);
+		return (religions, faith);
+	}
+
+	[Fact]
+	public void HistoryFaithEntriesAreConvertedToDefaultRites() {
+		var (religions, _) = CreateFaithWithRite(mainRiteId: "test_rite");
+		religions.Rites.AddOrReplace(new Rite("test_rite", new BufferedReader("{ faith = test_faith }"), religions, colorFactory));
+
+		var province = new Province(1, new BufferedReader("faith = test_faith"));
+		religions.ConvertFaithHistoryToRites(province.History);
+
+		province.GetFaithId(new Date(1000, 1, 1)).Should().BeNull();
+		province.GetRiteId(new Date(1000, 1, 1)).Should().Be("test_rite");
+	}
+
+	[Fact]
+	public void SharedMainRiteIsUsedForFaith() {
+		// Vanilla shares roman_rite between christian_faith and catholic.
+		var (religions, _) = CreateFaithWithRite(mainRiteId: "shared_rite");
+		religions.Rites.AddOrReplace(new Rite("shared_rite", new BufferedReader("{ faith = origin_faith }"), religions, colorFactory));
+
+		var province = new Province(1, new BufferedReader("faith = test_faith"));
+		religions.ConvertFaithHistoryToRites(province.History);
+
+		province.GetFaithId(new Date(1000, 1, 1)).Should().BeNull();
+		province.GetRiteId(new Date(1000, 1, 1)).Should().Be("shared_rite");
+	}
+
+	[Fact]
+	public void ExistingMatchingRiteIsPreservedWhenConvertingHistory() {
+		var (religions, _) = CreateFaithWithRite(mainRiteId: "default_rite");
+		religions.Rites.AddOrReplace(new Rite("default_rite", new BufferedReader("{ faith = test_faith }"), religions, colorFactory));
+		religions.Rites.AddOrReplace(new Rite("input_rite", new BufferedReader("{ faith = test_faith }"), religions, colorFactory));
+
+		var province = new Province(1, new BufferedReader("""
+			faith = test_faith
+			rite = input_rite
+			"""));
+		religions.ConvertFaithHistoryToRites(province.History);
+
+		province.GetFaithId(new Date(1000, 1, 1)).Should().BeNull();
+		province.GetRiteId(new Date(1000, 1, 1)).Should().Be("input_rite");
+	}
+
+	[Fact]
+	public void StaleRiteIsReplacedWithFaithDefaultRite() {
+		var (religions, _) = CreateFaithWithRite(mainRiteId: "default_rite");
+		religions.Rites.AddOrReplace(new Rite("default_rite", new BufferedReader("{ faith = test_faith }"), religions, colorFactory));
+		religions.Rites.AddOrReplace(new Rite("other_rite", new BufferedReader("{ faith = other_faith }"), religions, colorFactory));
+
+		var province = new Province(1, new BufferedReader("""
+			faith = test_faith
+			rite = other_rite
+			"""));
+		religions.ConvertFaithHistoryToRites(province.History);
+
+		province.GetRiteId(new Date(1000, 1, 1)).Should().Be("default_rite");
+	}
+
+	[Fact]
+	public void DatedFaithEntriesAreConvertedToRites() {
+		var (religions, _) = CreateFaithWithRite(mainRiteId: "test_rite");
+		religions.Rites.AddOrReplace(new Rite("test_rite", new BufferedReader("{ faith = test_faith }"), religions, colorFactory));
+
+		var province = new Province(1, new BufferedReader("""
+			100.1.1 = { faith = test_faith }
+			200.1.1 = { faith = test_faith }
+			"""));
+		religions.ConvertFaithHistoryToRites(province.History);
+
+		province.GetRiteId(new Date(150, 1, 1)).Should().Be("test_rite");
+		province.GetRiteId(new Date(250, 1, 1)).Should().Be("test_rite");
+		province.GetFaithId(new Date(250, 1, 1)).Should().BeNull();
 	}
 
 	[Fact]

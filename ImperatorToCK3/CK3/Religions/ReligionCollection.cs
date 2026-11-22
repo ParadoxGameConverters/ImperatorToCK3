@@ -21,6 +21,7 @@ namespace ImperatorToCK3.CK3.Religions;
 
 internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObjectCollection<string, Religion> {
 	private readonly Dictionary<string, OrderedSet<string>> replaceableHolySitesByFaith = [];
+	private readonly Dictionary<string, string?> defaultRiteByFaithCache = new(StringComparer.Ordinal);
 	private Dictionary<string, Faith>? faithCache;
 	public IReadOnlyDictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith => replaceableHolySitesByFaith;
 	public IdObjectCollection<string, HolySite> HolySites { get; } = [];
@@ -54,38 +55,175 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	}
 
 	/// <summary>
-	/// CK3 1.20+ history files use rite instead of faith. Resolves rite IDs in the faith history field
-	/// to faith IDs, so the rest of the converter can keep working with faith IDs.
+	/// CK3 1.20+ history files use rite instead of faith. Reads the separate rite history field
+	/// and adds matching faith entries, so the rest of the converter can keep working with faith IDs.
+	/// The rite entries are kept intact for output.
 	/// </summary>
 	public void ResolveRiteIdsInFaithHistory(History history) {
-		if (Rites.Count == 0 || !history.Fields.TryGetValue("faith", out var faithField)) {
+		if (Rites.Count == 0
+			|| !history.Fields.TryGetValue("faith", out var faithField)
+			|| !history.Fields.TryGetValue("rite", out var riteField)) {
 			return;
 		}
 
-		ReplaceRiteEntriesWithFaithEntries(faithField.InitialEntries);
-		foreach (var dateEntries in faithField.DateToEntriesDict.Values) {
-			ReplaceRiteEntriesWithFaithEntries(dateEntries);
+		RemoveInvalidRiteEntries(riteField);
+		AddFaithEntriesFromRites(riteField.InitialEntries, faithField, date: null);
+		foreach (var (date, entries) in riteField.DateToEntriesDict) {
+			AddFaithEntriesFromRites(entries, faithField, date);
 		}
 	}
 
-	private void ReplaceRiteEntriesWithFaithEntries(List<KeyValuePair<string, object>> entries) {
-		for (int i = 0; i < entries.Count; ++i) {
-			var (setter, value) = entries[i];
-			if (setter != "rite") {
-				continue;
-			}
-
-			var riteId = value.ToString()?.RemQuotes();
+	private void AddFaithEntriesFromRites(List<KeyValuePair<string, object>> riteEntries, IHistoryField faithField, Date? date) {
+		foreach (var (_, value) in riteEntries) {
+			var riteId = GetHistoryId(value);
 			if (riteId is null || !Rites.TryGetValue(riteId, out var rite) || rite.FaithId is null) {
 				continue;
 			}
 
-			entries[i] = new KeyValuePair<string, object>("faith", HistoryFactory.GetValue(rite.FaithId));
+			AddFaithEntryIfMissing(faithField, date, rite.FaithId);
 		}
 	}
 
+	private static void AddFaithEntryIfMissing(IHistoryField faithField, Date? date, string faithId) {
+		List<KeyValuePair<string, object>>? entries = date is null
+			? faithField.InitialEntries
+			: faithField.DateToEntriesDict.TryGetValue(date.Value, out var datedEntries) ? datedEntries : null;
+
+		if (entries is not null) {
+			foreach (var (setter, value) in entries) {
+				if (setter is "faith" or "religion" && GetHistoryId(value) == faithId) {
+					return;
+				}
+			}
+		}
+
+		faithField.AddEntryToHistory(date, "faith", HistoryFactory.GetValue(faithId));
+	}
+
+	private void RemoveInvalidRiteEntries(IHistoryField riteField) {
+		int removed = riteField.RemoveAllEntries(value => {
+			var riteId = GetHistoryId(value);
+			return riteId is null || !Rites.ContainsKey(riteId);
+		});
+		if (removed > 0) {
+			Logger.Debug($"Removed {removed} invalid rite entries from history.");
+		}
+
+		// Empty date blocks would otherwise shadow earlier valid entries when reading history values.
+		var emptyDates = riteField.DateToEntriesDict
+			.Where(kvp => kvp.Value.Count == 0)
+			.Select(kvp => kvp.Key)
+			.ToArray();
+		foreach (var date in emptyDates) {
+			riteField.DateToEntriesDict.Remove(date);
+		}
+	}
+
+	/// <summary>
+	/// Converts faith entries in a history to rite entries for output. Existing matching rites are kept;
+	/// otherwise the faith's main rite (or first rite for the faith) is used.
+	/// </summary>
+	public void ConvertFaithHistoryToRites(History history) {
+		if (!history.Fields.TryGetValue("faith", out var faithField)
+			|| !history.Fields.TryGetValue("rite", out var riteField)) {
+			return;
+		}
+
+		RemoveInvalidRiteEntries(riteField);
+
+		if (faithField.InitialEntries.Count > 0) {
+			var faithId = GetHistoryId(faithField.InitialEntries[^1].Value);
+			if (faithId is not null) {
+				var riteId = GetMatchingRiteId(riteField, date: null, faithId) ?? GetDefaultRiteIdForFaith(faithId);
+				if (riteId is not null) {
+					faithField.InitialEntries.RemoveAll(_ => true);
+					SetRiteEntry(riteField, date: null, riteId);
+				}
+			}
+		}
+
+		foreach (var (date, faithEntries) in faithField.DateToEntriesDict.ToArray()) {
+			if (faithEntries.Count == 0) {
+				continue;
+			}
+
+			var faithId = GetHistoryId(faithEntries[^1].Value);
+			if (faithId is null) {
+				continue;
+			}
+
+			var riteId = GetMatchingRiteId(riteField, date, faithId) ?? GetDefaultRiteIdForFaith(faithId);
+			if (riteId is null) {
+				continue;
+			}
+
+			faithField.DateToEntriesDict.Remove(date);
+			SetRiteEntry(riteField, date, riteId);
+		}
+	}
+
+	public string? GetDefaultRiteIdForFaith(string faithId) {
+		if (defaultRiteByFaithCache.TryGetValue(faithId, out var cachedRiteId)) {
+			return cachedRiteId;
+		}
+
+		string? riteId = null;
+		if (GetFaith(faithId) is { } faith) {
+			var mainRiteId = faith.MainRiteId;
+			// A rite can be shared by multiple faiths (for example roman_rite is the main rite
+			// of both christian_faith and catholic), so don't require rite.FaithId to match.
+			if (mainRiteId is not null && Rites.ContainsKey(mainRiteId)) {
+				riteId = mainRiteId;
+			} else {
+				foreach (var rite in Rites) {
+					if (rite.FaithId == faithId) {
+						riteId = rite.Id;
+						break;
+					}
+				}
+			}
+		}
+
+		if (riteId is null) {
+			Logger.Warn($"No rite found for faith {faithId}, cannot output rite history!");
+		}
+
+		defaultRiteByFaithCache[faithId] = riteId;
+		return riteId;
+	}
+
+	private string? GetMatchingRiteId(IHistoryField riteField, Date? date, string faithId) {
+		List<KeyValuePair<string, object>>? entries = date is null
+			? riteField.InitialEntries
+			: riteField.DateToEntriesDict.TryGetValue(date.Value, out var datedEntries) ? datedEntries : null;
+		if (entries is null) {
+			return null;
+		}
+
+		for (int i = entries.Count - 1; i >= 0; --i) {
+			var riteId = GetHistoryId(entries[i].Value);
+			if (riteId is not null && Rites.TryGetValue(riteId, out var rite) && rite.FaithId == faithId) {
+				return riteId;
+			}
+		}
+
+		return null;
+	}
+
+	private static void SetRiteEntry(IHistoryField riteField, Date? date, string riteId) {
+		if (date is null) {
+			riteField.InitialEntries.RemoveAll(_ => true);
+		} else {
+			riteField.DateToEntriesDict.Remove(date.Value);
+		}
+		riteField.AddEntryToHistory(date, "rite", HistoryFactory.GetValue(riteId));
+	}
+
+	private static string? GetHistoryId(object value) => value.ToString()?.RemQuotes();
+
 	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
 		faithCache = null;
+		defaultRiteByFaithCache.Clear();
 
 		Logger.Info("Loading CK3 religions...");
 		var parser = new Parser(implicitVariableHandling: true);
@@ -107,6 +245,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	public void LoadFaiths(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
 		faithCache = null;
+		defaultRiteByFaithCache.Clear();
 
 		Logger.Info("Loading CK3 faiths...");
 		var faithDataParser = new FaithDataParser(colorFactory);
@@ -121,6 +260,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	public void LoadRites(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
 		faithCache = null;
+		defaultRiteByFaithCache.Clear();
 
 		Logger.Info("Loading CK3 rites...");
 		var parser = new Parser(implicitVariableHandling: true);
@@ -191,6 +331,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory, Hash liquidVariables) {
 		faithCache = null;
+		defaultRiteByFaithCache.Clear();
 		OrderedSet<Faith> loadedConverterFaiths = [];
 		var faithDataParser = new FaithDataParser(colorFactory);
 
@@ -229,6 +370,8 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 			return;
 		}
 
+		faithCache = null;
+		defaultRiteByFaithCache.Clear();
 		Logger.Info("Loading converter rites...");
 		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (riteReader, riteId) => {

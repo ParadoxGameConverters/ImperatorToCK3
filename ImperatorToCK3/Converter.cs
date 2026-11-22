@@ -13,6 +13,7 @@ internal static class Converter {
 		var imperatorWorld = new Imperator.World(config, converterVersion, out Thread? irCoaExtractThread);
 
 		var ck3World = new CK3.World(imperatorWorld, config, irCoaExtractThread);
+		ck3World.ConvertFaithHistoryToRites();
 		Outputter.WorldOutputter.OutputWorld(ck3World, imperatorWorld, config);
 
 		Logger.Info("* Conversion complete! *");

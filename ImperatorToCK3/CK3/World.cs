@@ -73,6 +73,16 @@ internal sealed class World {
 	/// </summary>
 	public Date CorrectedDate { get; private set; } = new Date(2, 1, 1); // overwritten by DetermineCK3BookmarkDate
 
+	public void ConvertFaithHistoryToRites() {
+		Logger.Info("Converting faith history entries to rites...");
+		foreach (var character in Characters) {
+			Religions.ConvertFaithHistoryToRites(character.History);
+		}
+		foreach (var province in Provinces) {
+			Religions.ConvertFaithHistoryToRites(province.History);
+		}
+	}
+
 	internal World(Imperator.World impWorld, Configuration config, Thread? irCoaExtractThread) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
 

@@ -22,7 +22,7 @@ internal sealed class ReligionMapper {
 
 		Logger.Info($"Loaded {religionMappings.Count} religious links.");
 
-		RemoveMappingsWithNonexistentCK3Faiths(ck3Religions);
+		ResolveMappings(ck3Religions);
 		BuildLookup();
 
 		Logger.IncrementProgress();
@@ -35,12 +35,15 @@ internal sealed class ReligionMapper {
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 
-		RemoveMappingsWithNonexistentCK3Faiths(ck3Religions);
+		ResolveMappings(ck3Religions);
 		BuildLookup();
 	}
 
-	private void RemoveMappingsWithNonexistentCK3Faiths(ReligionCollection ck3Religions) {
-		religionMappings.RemoveWhere(m=>m.CK3FaithId is not null && ck3Religions.GetFaith(m.CK3FaithId) is null);
+	private void ResolveMappings(ReligionCollection ck3Religions) {
+		religionMappings.RemoveAll(mapping => {
+			mapping.Resolve(ck3Religions);
+			return mapping.ResolvedFaithId is null;
+		});
 	}
 
 	private void BuildLookup() {
@@ -56,7 +59,7 @@ internal sealed class ReligionMapper {
 		}
 	}
 
-	public string? Match(string irReligionId, string? ck3CultureId, ulong? ck3ProvinceId, ulong? irProvinceId, string? irHistoricalTag, Configuration config) {
+	public ReligionMatch? Match(string irReligionId, string? ck3CultureId, ulong? ck3ProvinceId, ulong? irProvinceId, string? irHistoricalTag, Configuration config) {
 		if (string.IsNullOrEmpty(irReligionId)) {
 			return null;
 		}
@@ -66,7 +69,7 @@ internal sealed class ReligionMapper {
 		}
 
 		foreach (var religionMapping in candidates) {
-			var possibleMatch = religionMapping.Match(irReligionId, ck3CultureId, ck3ProvinceId, irProvinceId, irHistoricalTag, config, imperatorRegionMapper, ck3RegionMapper);
+			var possibleMatch = religionMapping.MatchWithRite(irReligionId, ck3CultureId, ck3ProvinceId, irProvinceId, irHistoricalTag, config, imperatorRegionMapper, ck3RegionMapper);
 			if (possibleMatch is not null) {
 				return possibleMatch;
 			}

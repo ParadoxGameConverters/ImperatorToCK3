@@ -182,7 +182,8 @@ internal sealed class Character : IIdentifiable<string> {
 		.WithDiffField("languages", new OrderedSet<string> {"learn_language"}, new OrderedSet<string>())
 		.WithLiteralField("learn_language_of_culture", "learn_language_of_culture")
 		.WithSimpleField("culture", new OrderedSet<string> {"culture", "set_culture"}, null)
-		.WithSimpleField("faith", new OrderedSet<string> { "faith", "religion", "rite" }, null)
+		.WithSimpleField("faith", new OrderedSet<string> { "faith", "religion" }, null)
+		.WithSimpleField("rite", "rite", null)
 		.WithSimpleField("government", "change_government", null)
 		.WithDiffField("traits", new OrderedSet<string> { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
 		.WithLiteralField("trait_xps", "add_trait_xp")
@@ -350,7 +351,7 @@ internal sealed class Character : IIdentifiable<string> {
 		}
 
 		if (srcReligion is not null) {
-			var faithMatch = religionMapper.Match(
+			var religionMatch = religionMapper.Match(
 				srcReligion, 
 				GetCultureId(config.CK3BookmarkDate), 
 				ck3Province, 
@@ -358,8 +359,11 @@ internal sealed class Character : IIdentifiable<string> {
 				imperatorCountry.HistoricalTag, 
 				config
 			);
-			if (faithMatch is not null) {
-				SetFaithId(faithMatch, null);
+			if (religionMatch is not null) {
+				SetFaithId(religionMatch.FaithId, null);
+				if (religionMatch.RiteId is not null) {
+					SetRiteId(religionMatch.RiteId, null);
+				}
 			}
 		}
 			
@@ -506,7 +510,7 @@ internal sealed class Character : IIdentifiable<string> {
 	}
 
 	private void DetermineFaithFromImperator(ImperatorCharacter irCharacter, ReligionMapper religionMapper, Date dateOnConversion, Configuration config, ulong? irProvinceId, ulong? ck3ProvinceId) {
-		var faithMatch = religionMapper.Match(
+		var religionMatch = religionMapper.Match(
 			irCharacter.Religion,
 			GetCultureId(dateOnConversion),
 			ck3ProvinceId,
@@ -514,8 +518,11 @@ internal sealed class Character : IIdentifiable<string> {
 			irCharacter.HomeCountry?.HistoricalTag,
 			config
 		);
-		if (faithMatch is not null) {
-			SetFaithId(faithMatch, null);
+		if (religionMatch is not null) {
+			SetFaithId(religionMatch.FaithId, null);
+			if (religionMatch.RiteId is not null) {
+				SetRiteId(religionMatch.RiteId, null);
+			}
 		}
 	}
 
@@ -583,6 +590,13 @@ internal sealed class Character : IIdentifiable<string> {
 	}
 	public string? GetFaithId(Date date) {
 		return History.GetFieldValue("faith", date)?.ToString();
+	}
+
+	public void SetRiteId(string riteId, Date? date) {
+		History.AddFieldValue(date, "rite", "rite", riteId);
+	}
+	public string? GetRiteId(Date date) {
+		return History.GetFieldValue("rite", date)?.ToString();
 	}
 
 	public OrderedSet<string> GetSpouseIds(Date date) {
