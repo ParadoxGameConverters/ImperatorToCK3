@@ -39,6 +39,10 @@ jobs:
       uses: github/codeql-action/init@v4.39.3
       with:
         languages: ${{ matrix.language }}
+        # Self-hosted runners have far more RAM/CPUs than GitHub-hosted ones;
+        # CodeQL uses all of it by default, which can OOM the machine.
+        ram: 32768 # MB (32GB)
+        threads: 16
         # If you wish to specify custom queries, you can do so here or in a config file.
         # By default, queries listed here will override any specified in a config file.
         # Prefix the list here with "+" to use these queries and those in the config file.
@@ -61,11 +65,11 @@ jobs:
     - name: "Build backend"
       working-directory: ImperatorToCK3
       run: |
-       dotnet build
+       dotnet build -m:16
     - name: "Build frontend"
       working-directory: Fronter.NET
       run: |
-        dotnet build
+        dotnet build -m:16
 
     - name: "Perform CodeQL Analysis"
       uses: github/codeql-action/analyze@v4.39.3

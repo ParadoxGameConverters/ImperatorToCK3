@@ -66,11 +66,16 @@ jobs:
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
         restore-keys: |
           ${{ runner.os }}-nuget-
+    - name: "Build tests"
+      working-directory: ImperatorToCK3.UnitTests
+      shell: pwsh
+      run: |
+        dotnet build -m:16
     - name: "Test"
       working-directory: ImperatorToCK3.UnitTests
       shell: pwsh
       run: |
-       dotnet test --coverlet --coverlet-output-format lcov --coverlet-file-prefix irtock3
+       dotnet test --no-build --coverlet --coverlet-output-format lcov --coverlet-file-prefix irtock3 -- --max-threads 16
     - name: "Locate coverage report"
       id: coverage_report
       shell: pwsh
@@ -148,7 +153,11 @@ jobs:
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
         restore-keys: |
           ${{ runner.os }}-nuget-
+    - name: "Build tests"
+      working-directory: ImperatorToCK3.UnitTests
+      run: |
+        dotnet build ${{ runner.environment == 'self-hosted' && '-m:16' || '' }}
     - name: "Test"
       working-directory: ImperatorToCK3.UnitTests
       run: |
-       dotnet test
+       dotnet test --no-build -- --max-threads ${{ runner.environment == 'self-hosted' && '16' || 'default' }}
