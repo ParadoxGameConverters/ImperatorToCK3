@@ -1,3 +1,24 @@
-link = { ir=effect_to_multiply ck3=doubled_effect factor=2 }
-link = { ir=effect_to_divide ck3=divided_effect factor=0.5 }
-link = { ir=effect_to_nullify ck3=nullified_effect factor=0 }
+# CK3 1.20+ block format: a single Imperator effect can produce multiple modifiers
+# spread across the holy site's modifier blocks.
+link = {
+	ir = block_effect
+	faith_character_modifier = {
+		ck3 = faith_mod factor = 10
+	}
+	faith_character_modifier_scaled = {
+		scale = holy_site_total_artifact_rarity
+		ck3 = faith_scaled_mod factor = 0.2
+		ck3 = faith_scaled_mod2 factor = 0.4
+	}
+	county_holder_character_modifier = {
+		ck3 = county_holder_mod factor = 5
+	}
+	county_modifier_scaled = {
+		scale = holy_site_total_artifact_rarity
+		ck3 = county_scaled_mod factor = 0.2
+	}
+}
+
+# Legacy flat links are no longer supported: their keywords are ignored,
+# and the mapping is dropped because it has no modifier blocks.
+link = { ir = legacy_flat_effect ck3 = flat_mod factor = 2 }

@@ -101,6 +101,63 @@ public class HolySiteTests {
 	}
 
 	[Fact]
+	public void BlockFormatEffectMappingsAreAppliedToTheirRespectiveBlocks() {
+		var titles = new Title.LandedTitles();
+		var titlesReader = new BufferedReader("c_county = { b_barony = { province = 1 } }");
+		titles.LoadTitles(titlesReader, colorFactory);
+
+		// Uses TestFiles/HolySiteEffectMapperTests/mappings.txt, which contains
+		// a CK3 1.20+ block-format mapping for "block_effect".
+		var holySiteEffectMapper = new HolySiteEffectMapper("TestFiles/HolySiteEffectMapperTests/mappings.txt");
+		var imperatorEffects = new OrderedDictionary<string, double> {
+			{"block_effect", 1f},
+		};
+
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var testReligion = new Religion("test_religion", new BufferedReader("{}"), religions);
+		var faith = new Faith("test_faith", new FaithData(), testReligion);
+
+		var site = new HolySite(titles["b_barony"], faith, titles, imperatorEffects, holySiteEffectMapper);
+
+		Assert.Collection(site.FaithCharacterModifier,
+			kvp => {
+				Assert.Equal("faith_mod", kvp.Key);
+				Assert.Equal("10", PDXSerializer.Serialize(kvp.Value));
+			});
+		Assert.Collection(site.FaithCharacterModifierScaled,
+			kvp1 => {
+				Assert.Equal("scale", kvp1.Key);
+				Assert.Equal("holy_site_total_artifact_rarity", kvp1.Value);
+			},
+			kvp2 => {
+				Assert.Equal("faith_scaled_mod", kvp2.Key);
+				Assert.Equal("0.2", PDXSerializer.Serialize(kvp2.Value));
+			},
+			kvp3 => {
+				Assert.Equal("faith_scaled_mod2", kvp3.Key);
+				Assert.Equal("0.4", PDXSerializer.Serialize(kvp3.Value));
+			});
+		Assert.Collection(site.CountyHolderCharacterModifier,
+			kvp => {
+				Assert.Equal("county_holder_mod", kvp.Key);
+				Assert.Equal("5", PDXSerializer.Serialize(kvp.Value));
+			});
+		Assert.Collection(site.CountyModifierScaled,
+			kvp1 => {
+				Assert.Equal("scale", kvp1.Key);
+				Assert.Equal("holy_site_total_artifact_rarity", kvp1.Value);
+			},
+			kvp2 => {
+				Assert.Equal("county_scaled_mod", kvp2.Key);
+				Assert.Equal("0.2", PDXSerializer.Serialize(kvp2.Value));
+			});
+
+		// The scale value must be serialized unquoted, like in vanilla CK3 holy sites.
+		var serialized = PDXSerializer.Serialize(site);
+		Assert.Contains("scale = holy_site_total_artifact_rarity", serialized);
+	}
+
+	[Fact]
 	public void CountyChoicesAreUsedToPickFirstExistingCounty() {
 		var titles = new Title.LandedTitles();
 		titles.LoadTitles(new BufferedReader("c_county = { b_barony = {} }"), colorFactory);

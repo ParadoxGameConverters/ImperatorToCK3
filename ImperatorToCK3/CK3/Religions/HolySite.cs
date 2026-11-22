@@ -102,16 +102,43 @@ internal sealed class HolySite : IIdentifiable<string>, IPDXSerializable {
 		HolySiteEffectMapper holySiteEffectMapper
 	) : this(barony, faith, titles) {
 		foreach (var (effect, value) in imperatorEffects) {
-			var ck3EffectOpt = holySiteEffectMapper.Match(effect, value);
-			if (ck3EffectOpt is not { } ck3Effect) {
+			var matches = holySiteEffectMapper.Match(effect, value);
+			if (matches is null) {
 				continue;
 			}
 
-			var ck3Value = (float)ck3Effect.Value;
-			// Faith-wide bonuses only work for eminent holy sites in CK3 1.20+.
-			FaithCharacterModifier[ck3Effect.Key] = ck3Value;
-			// Regular holy sites can only give local bonuses, so also apply the modifier to the county holder.
-			CountyHolderCharacterModifier[ck3Effect.Key] = ck3Value;
+			foreach (var match in matches) {
+				ApplyMappedModifier(match);
+			}
+		}
+	}
+
+	private void ApplyMappedModifier(MappedHolySiteModifier match) {
+		var ck3Value = (float)match.Value;
+		switch (match.BlockKeyword) {
+			case MappedHolySiteModifier.FaithCharacterBlock:
+				// Faith-wide bonuses only work for eminent holy sites in CK3 1.20+.
+				FaithCharacterModifier[match.Modifier] = ck3Value;
+				break;
+			case MappedHolySiteModifier.FaithCharacterScaledBlock:
+				if (match.Scale is not null) {
+					FaithCharacterModifierScaled["scale"] = match.Scale;
+				}
+				FaithCharacterModifierScaled[match.Modifier] = ck3Value;
+				break;
+			case MappedHolySiteModifier.CountyHolderCharacterBlock:
+				// Works for both regular and eminent holy sites.
+				CountyHolderCharacterModifier[match.Modifier] = ck3Value;
+				break;
+			case MappedHolySiteModifier.CountyScaledBlock:
+				if (match.Scale is not null) {
+					CountyModifierScaled["scale"] = match.Scale;
+				}
+				CountyModifierScaled[match.Modifier] = ck3Value;
+				break;
+			default:
+				Logger.Warn($"Unknown holy site modifier block {match.BlockKeyword}!");
+				break;
 		}
 	}
 
