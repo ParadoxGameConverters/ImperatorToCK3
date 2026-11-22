@@ -51,7 +51,7 @@ jobs:
     - name: "Build converter backend"
       working-directory: ImperatorToCK3
       run: |
-        dotnet build -c:Release
+        dotnet build -c:Release -m:16
     - name: "Download I:R save from Dropbox"
       run: |
         Invoke-WebRequest -Uri "${{ matrix.save.url }}" -OutFile "save.rome"
