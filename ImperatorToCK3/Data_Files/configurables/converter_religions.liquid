@@ -1,0 +1,4051 @@
+# This file contains CK3 religions added by the converter.
+#
+# In CK3 1.20+ (By God Alone) religions, faiths and rites are defined in separate folders:
+#   common/religion/religion_types
+#   common/religion/faith_types
+#   common/religion/rite_types
+#
+# Every religion must define its family in a religion_details block:
+#
+# my_religion = {
+#     religion_details = {
+#         family = rf_pagan                 # Required
+#         graphical_faith = pagan_gfx       # Optional, inherited by the religion's faiths
+#         piety_icon_group = pagan          # Optional, inherited by the religion's faiths
+#         theocracy_government_type = theocracy_government
+#         theocracy_lease_contract_type = theocracy_lease
+#     }
+#
+#     # Optional holy site limits for the religion's faiths (defaults shown):
+#     eminent_holy_sites_max = 3
+#     eminent_holy_sites_min = 1
+#     holy_sites_max = 9                    # Total, including eminent holy sites
+#     holy_sites_min = 1
+#     main_holy_site = key                  # Cannot be removed from the religion's faiths
+#
+#     doctrine = doctrine_polytheist        # Religion doctrines apply to all of its faiths
+#     pagan_roots = yes
+#     localization = { ... }
+# }
+#
+# Religions that already exist in the game or in a loaded mod are left untouched,
+# so only religions created by the converter need to be defined here.
+# The faiths of all converter religions are defined in converter_faiths.liquid.
+
+scythian_religion = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	pagan_roots = yes
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_shunned
+	doctrine = doctrine_adultery_men_crime
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_crime
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_recruitment
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funeral
+	doctrine = doctrine_funeral_sky_burial
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = { brave just honest }
+		sins = { craven arbitrary deceitful }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1
+	}
+
+	holy_order_names = {
+		{ name = holy_order_guardians_of_divinerealm }
+		{ name = holy_order_faithful_of_highgod }
+		{ name = holy_order_warriors_of_the_symbol }
+	}
+
+	holy_order_maa = { horse_archers }
+
+	localization = {
+		HighGodName = ir_papaios
+		HighGodName2 = ir_papaios
+		HighGodNamePossessive = ir_papaios_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = paganism_high_god_name_alternate
+		HighGodNameAlternatePossessive = paganism_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = ir_api
+		CreatorNamePossessive = ir_api_possessive
+		CreatorSheHe = CHARACTER_SHEHE_SHE
+		CreatorHerHis = CHARACTER_HERHIS_HER
+		CreatorHerHim = CHARACTER_HERHIM_HER
+
+		#HealthGod
+		HealthGodName = paganism_health_god_name
+		HealthGodNamePossessive = paganism_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_SHE
+		HealthGodHerHis = CHARACTER_HERHIS_HER
+		HealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#FertilityGod
+		FertilityGodName = ir_argimpasa
+		FertilityGodNamePossessive = ir_argimpasa_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = paganism_wealth_god_name
+		WealthGodNamePossessive = paganism_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_SHE
+		WealthGodHerHis = CHARACTER_HERHIS_HER
+		WealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#HouseholdGod
+		HouseholdGodName = ir_tabiti
+		HouseholdGodNamePossessive = ir_tabiti_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+		#FateGod
+		FateGodName = paganism_fate_god_name
+		FateGodNamePossessive = paganism_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_ITS
+		FateGodHerHim = CHARACTER_HERHIM_IT
+
+		#KnowledgeGod
+		KnowledgeGodName = ir_goitosyrus
+		KnowledgeGodNamePossessive = ir_goitosyrus_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WarGod
+		WarGodName = ir_targitaos
+		WarGodNamePossessive = ir_targitaos_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = paganism_trickster_god_name
+		TricksterGodNamePossessive = paganism_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_HE
+		TricksterGodHerHis = CHARACTER_HERHIS_HIS
+		TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#NightGod
+		NightGodName = paganism_night_god_name
+		NightGodNamePossessive = paganism_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_HE
+		NightGodHerHis = CHARACTER_HERHIS_HIS
+		NightGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WaterGod
+		WaterGodName = ir_thagimasadas
+		WaterGodNamePossessive = ir_thagimasadas_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+
+		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { ir_thagimasadas ir_goitosyrus ir_papaios ir_api ir_tabiti ir_argimpasa ir_targitaos }
+		DevilName = paganism_devil_name
+		DevilNamePossessive = paganism_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = paganism_devil_herselfhimself
+		EvilGodNames = { ir_thagimasadas ir_goitosyrus ir_papaios ir_api ir_tabiti ir_argimpasa ir_targitaos }
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
+		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
+		ReligiousHeadName = paganism_religious_head_title
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = paganism_priest
+		PriestMalePlural = paganism_priest_plural
+		PriestFemale = paganism_priest
+		PriestFemalePlural = paganism_priest_plural
+		PriestNeuter = paganism_priest
+		PriestNeuterPlural = paganism_priest_plural
+		AltPriestTermPlural = paganism_priest_alternate_plural
+		BishopMale = paganism_priest
+		BishopMalePlural = paganism_priest_plural
+		BishopFemale = paganism_priest
+		BishopFemalePlural = paganism_priest_plural
+		BishopNeuter = paganism_priest
+		BishopNeuterPlural = paganism_priest_plural
+		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
+		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
+		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
+		DeathDeityName = paganism_death_deity_name
+		DeathDeityNamePossessive = paganism_death_deity_name_possessive
+		DeathDeitySheHe = paganism_devil_shehe
+		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = witchgodname_paganism_the_shadow
+		WitchGodNamePossessive = witchgodname_paganism_the_shadow_possessive
+		WitchGodSheHe = CHARACTER_SHEHE_IT
+		WitchGodHerHis = CHARACTER_HERHIS_ITS
+		WitchGodHerHim = CHARACTER_HERHIM_IT
+		WitchGodMistressMaster = witch_spirit
+			WitchGodMotherFather = witch_source
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+arabic_religion = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	pagan_roots = yes
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_shunned
+	doctrine = doctrine_adultery_men_crime
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_crime
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_recruitment
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_bewailment
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = { brave just honest }
+		sins = { craven arbitrary deceitful }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1
+	}
+
+	holy_order_names = {
+		{ name = holy_order_guardians_of_divinerealm }
+		{ name = holy_order_faithful_of_highgod }
+		{ name = holy_order_warriors_of_the_symbol }
+	}
+
+	holy_order_maa = { cataphract }
+
+	localization = {
+		HighGodName = ir_ailiah
+		HighGodName2 = ir_ailiah
+		HighGodNamePossessive = ir_ailiah_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = paganism_high_god_name_alternate
+		HighGodNameAlternatePossessive = paganism_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = paganism_creator_god_name
+		CreatorNamePossessive = paganism_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_SHE
+		CreatorHerHis = CHARACTER_HERHIS_HER
+		CreatorHerHim = CHARACTER_HERHIM_HER
+
+		#HealthGod
+		HealthGodName = ir_ta_lab
+		HealthGodNamePossessive = ir_ta_lab_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_HE
+		HealthGodHerHis = CHARACTER_HERHIS_HIS
+		HealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FertilityGod
+		FertilityGodName = ir_al_uzza
+		FertilityGodNamePossessive = ir_al_uzza_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = ir_al_kutbay
+		WealthGodNamePossessive = ir_al_kutbay_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#HouseholdGod
+		HouseholdGodName = paganism_household_god_name
+		HouseholdGodNamePossessive = paganism_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+		#FateGod
+		FateGodName = ir_manat
+		FateGodNamePossessive = ir_manat_possessive
+		FateGodSheHe = CHARACTER_SHEHE_SHE
+		FateGodHerHis = CHARACTER_HERHIS_HER
+		FateGodHerHim = CHARACTER_HERHIM_HER
+
+		#KnowledgeGod
+		KnowledgeGodName = ir_alilat
+		KnowledgeGodNamePossessive = ir_alilat_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_SHE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HER
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HER
+
+		#WarGod
+		WarGodName = paganism_war_god_name
+		WarGodNamePossessive = paganism_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_SHE
+		WarGodHerHis = CHARACTER_HERHIS_HER
+		WarGodHerHim = CHARACTER_HERHIM_HER
+
+		#TricksterGod
+		TricksterGodName = ir_orotalt
+		TricksterGodNamePossessive = ir_orotalt_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_HE
+		TricksterGodHerHis = CHARACTER_HERHIS_HIS
+		TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#NightGod
+		NightGodName = ir_al_qaum
+		NightGodNamePossessive = ir_al_qaum_possessive
+		NightGodSheHe = CHARACTER_SHEHE_HE
+		NightGodHerHis = CHARACTER_HERHIS_HIS
+		NightGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WaterGod
+		WaterGodName = paganism_water_god_name
+		WaterGodNamePossessive = paganism_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_SHE
+		WaterGodHerHis = CHARACTER_HERHIS_HER
+		WaterGodHerHim = CHARACTER_HERHIM_HER
+
+		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { ir_ailiah ir_al_kutbay ir_al_qaum ir_al_uzza ir_alilat ir_manat ir_orotalt ir_ta_lab }
+		DevilName = paganism_devil_name
+		DevilNamePossessive = paganism_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = paganism_devil_herselfhimself
+		EvilGodNames = { ir_ailiah ir_al_kutbay ir_al_qaum ir_al_uzza ir_alilat ir_manat ir_orotalt ir_ta_lab }
+		HouseOfWorship = islam_house_of_worship
+		HouseOfWorship2 = islam_house_of_worship
+		HouseOfWorship3 = islam_house_of_worship
+		HouseOfWorshipPlural = islam_house_of_worship_plural
+		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
+		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
+		ReligiousHeadName = paganism_religious_head_title
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = islam_priest
+		PriestMalePlural = islam_priest_plural
+		PriestFemale = islam_priest
+		PriestFemalePlural = islam_priest_plural
+		PriestNeuter = islam_priest
+		PriestNeuterPlural = islam_priest_plural
+		AltPriestTermPlural = islam_priest_alternate_plural
+		BishopMale = islam_bishop
+		BishopMalePlural = islam_bishop_plural
+		BishopFemale = islam_bishop
+		BishopFemalePlural = islam_bishop_plural
+		BishopNeuter = islam_bishop
+		BishopNeuterPlural = islam_bishop_plural
+		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
+		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
+		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
+		DeathDeityName = paganism_death_deity_name
+		DeathDeityNamePossessive = paganism_death_deity_name_possessive
+		DeathDeitySheHe = paganism_devil_shehe
+		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = witchgodname_paganism_the_shadow
+		WitchGodNamePossessive = witchgodname_paganism_the_shadow_possessive
+		WitchGodSheHe = CHARACTER_SHEHE_IT
+		WitchGodHerHis = CHARACTER_HERHIS_ITS
+		WitchGodHerHim = CHARACTER_HERHIM_IT
+		WitchGodMistressMaster = witch_spirit
+			WitchGodMotherFather = witch_source
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+burmic_religion = {
+	religion_details = {
+		family = rf_pagan
+		graphical_faith = dharmic_gfx
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	pagan_roots = yes
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_equal
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_approval
+	doctrine = doctrine_bastardry_none
+	doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece
+
+	#Crimes
+	doctrine = doctrine_homosexuality_accepted
+	doctrine = doctrine_adultery_men_shunned
+	doctrine = doctrine_adultery_women_shunned
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_shunned
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_alms_and_pacification
+	doctrine = doctrine_clerical_gender_female_only
+	doctrine = doctrine_clerical_marriage_disallowed
+	doctrine = doctrine_clerical_succession_spiritual_appointment
+
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_cremation
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = { brave compassionate content diligent lifestyle_mystic } # IRToCK3: missing "transgender" trait excluded
+		sins = { gluttonous cynical craven }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa custom_faith_cool_s
+	}
+
+	localization = {
+		#HighGod
+		HighGodName = burmic_high_god_name
+		HighGodName2 = burmic_high_god_name
+		HighGodNamePossessive = burmic_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = burmic_high_god_name_alternate
+		HighGodNameAlternatePossessive = burmic_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = burmic_creator_god_name
+		CreatorNamePossessive = burmic_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = burmic_health_god_name
+		HealthGodNamePossessive = burmic_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_HE
+		HealthGodHerHis = CHARACTER_HERHIS_HIS
+		HealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FertilityGod
+		FertilityGodName = burmic_fertility_god_name
+		FertilityGodNamePossessive = burmic_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = burmic_wealth_god_name
+		WealthGodNamePossessive = burmic_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#HouseholdGod
+		HouseholdGodName = burmic_household_god_name
+		HouseholdGodNamePossessive = burmic_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_HE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HIS
+		HouseholdGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FateGod
+		FateGodName = burmic_fate_god_name
+		FateGodNamePossessive = burmic_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_ITS
+		FateGodHerHim = CHARACTER_HERHIM_IT
+
+		#KnowledgeGod
+		KnowledgeGodName = burmic_knowledge_god_name
+		KnowledgeGodNamePossessive = burmic_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WarGod
+		WarGodName = burmic_war_god_name
+		WarGodNamePossessive = burmic_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = burmic_trickster_god_name
+		TricksterGodNamePossessive = burmic_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_HE
+		TricksterGodHerHis = CHARACTER_HERHIS_HIS
+		TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#NightGod
+		NightGodName = burmic_night_god_name
+		NightGodNamePossessive = burmic_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_SHE
+		NightGodHerHis = CHARACTER_HERHIS_HER
+		NightGodHerHim = CHARACTER_HERHIM_HER
+
+		#WaterGod
+		WaterGodName = burmic_water_god_name
+		WaterGodNamePossessive = burmic_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+		PantheonTerm = religion_the_gods
+		PantheonTerm2 = religion_the_gods
+		PantheonTerm3 = religion_the_gods
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = {
+			burmic_high_god_name
+			burmic_high_god_name_alternate
+			burmic_health_god_name
+			burmic_fertility_god_name
+			burmic_wealth_god_name
+			burmic_knowledge_god_name
+			burmic_trickster_god_name
+		}
+		DevilName = burmic_devil_name
+		DevilNamePossessive = burmic_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_HE
+		DevilHerHis = CHARACTER_HERHIS_HIS
+		DevilHerselfHimself = burmic_devil_herselfhimself
+		EvilGodNames = {
+			burmic_devil_name
+			witchgodname_burmic_the_shadow
+		}
+		HouseOfWorship = burmic_house_of_worship
+		HouseOfWorship2 = burmic_house_of_worship
+		HouseOfWorship3 = burmic_house_of_worship
+		HouseOfWorshipPlural = burmic_house_of_worship_plural
+		ReligiousSymbol = burmic_religious_symbol
+		ReligiousSymbol2 = burmic_religious_symbol
+		ReligiousSymbol3 = burmic_religious_symbol
+		ReligiousText = burmic_religious_text
+		ReligiousText2 = burmic_religious_text
+		ReligiousText3 = burmic_religious_text
+		ReligiousHeadName = burmic_religious_head_title
+		ReligiousHeadTitleName = burmic_religious_head_title_name
+		DevoteeMale = burmic_devotee
+		DevoteeMalePlural = burmic_devotee_plural
+		DevoteeFemale = burmic_devotee
+		DevoteeFemalePlural = burmic_devotee_plural
+		DevoteeNeuter = burmic_devotee
+		DevoteeNeuterPlural = burmic_devotee_plural
+		PriestMale = burmic_priest
+		PriestMalePlural = burmic_priest_plural
+		PriestFemale = burmic_priest
+		PriestFemalePlural = burmic_priest_plural
+		PriestNeuter = burmic_priest
+		PriestNeuterPlural = burmic_priest_plural
+		AltPriestTermPlural = burmic_priest_term_plural
+		BishopMale = burmic_bishop
+		BishopMalePlural = burmic_bishop_plural
+		BishopFemale = burmic_bishop
+		BishopFemalePlural = burmic_bishop_plural
+		BishopNeuter = burmic_bishop
+		BishopNeuterPlural = burmic_bishop_plural
+		DivineRealm = burmic_divine_realm
+		DivineRealm2 = burmic_divine_realm
+		DivineRealm3 = burmic_divine_realm
+		PositiveAfterLife = burmic_positive_afterlife
+		PositiveAfterLife2 = burmic_positive_afterlife
+		PositiveAfterLife3 = burmic_positive_afterlife
+		NegativeAfterLife = burmic_negative_afterlife
+		NegativeAfterLife2 = burmic_negative_afterlife
+		NegativeAfterLife3 = burmic_negative_afterlife
+		DeathDeityName = burmic_death_deity_name
+		DeathDeityNamePossessive = burmic_death_deity_name_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_HE
+		DeathDeityHerHis = CHARACTER_HERHIS_HIS
+		DeathDeityHerHim = CHARACTER_HERHIM_HIM
+		WitchGodName = witchgodname_burmic_the_shadow
+		WitchGodNamePossessive = witchgodname_burmic_the_shadow_possessive
+		WitchGodHerHis = CHARACTER_HERHIS_HER
+		WitchGodSheHe = CHARACTER_SHEHE_SHE
+		WitchGodHerHim = CHARACTER_HERHIM_HER
+		WitchGodMistressMaster = mistress
+		WitchGodMotherFather = mother
+
+		GHWName = ghw_purification
+		GHWNamePlural = ghw_purifications
+	}
+}
+
+dinka_religion = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	pagan_roots = yes
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_righteous
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_polygamy
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_restricted
+
+	#Crimes
+	doctrine = doctrine_homosexuality_shunned
+	doctrine = doctrine_adultery_men_crime
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_any_dynasty_member_crime
+	doctrine = doctrine_deviancy_crime
+	doctrine = doctrine_witchcraft_crime
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_alms_and_pacification
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_spiritual_fixed_appointment
+
+	#Allow pilgrimages
+	doctrine = doctrine_pilgrimage_encouraged
+
+	#Funeral tradition
+	doctrine = doctrine_funeral_bewailment
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = { generous forgiving patient twin } #lots of Dinka clans trace their linage to a twin birth between human and animal ie. divine
+		sins = { wrathful vengeful greedy }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa custom_faith_cool_s
+	}
+
+	holy_order_names = {
+		{ name = "holy_order_spirit_guardians" }
+		{ name = "holy_order_possessed" }
+		{ name = "holy_order_guardians_of_divinerealm" }
+		{ name = "holy_order_faithful_of_highgod" }
+		{ name = "holy_order_warriors_of_the_symbol" }
+	}
+
+	holy_order_maa = { sahel_horsemen }
+
+	localization = {
+		HighGodName = dinka_high_god_name
+		HighGodName2 = dinka_high_god_name
+		HighGodNamePossessive = dinka_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodNameAlternate = dinka_high_god_name_alternate
+		HighGodNameAlternatePossessive = dinka_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = dinka_high_god_name
+		CreatorNamePossessive = dinka_high_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = dinka_health_god_name
+		HealthGodNamePossessive = dinka_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_SHE
+		HealthGodHerHis = CHARACTER_HERHIS_HER
+		HealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#FertilityGod
+		FertilityGodName = dinka_fertility_god_name
+		FertilityGodNamePossessive = dinka_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = dinka_health_god_name
+		WealthGodNamePossessive = dinka_health_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_SHE
+		WealthGodHerHis = CHARACTER_HERHIS_HER
+		WealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#HouseholdGod
+		HouseholdGodName = dinka_household_god_name
+		HouseholdGodNamePossessive = dinka_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_THEY
+		HouseholdGodHerHis = CHARACTER_HERHIS_THEIR
+		HouseholdGodHerHim = CHARACTER_HERHIM_THEM
+
+		#FateGod
+		FateGodName = dinka_fate_god_name
+		FateGodNamePossessive = dinka_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_HE
+		FateGodHerHis = CHARACTER_HERHIS_HIS
+		FateGodHerHim = CHARACTER_HERHIM_HIM
+
+		#KnowledgeGod
+		KnowledgeGodName = dinka_knowledge_god_name
+		KnowledgeGodNamePossessive = dinka_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WarGod
+		WarGodName = dinka_war_god_name
+		WarGodNamePossessive = dinka_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = dinka_trickster_god_name
+		TricksterGodNamePossessive = dinka_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_THEY
+		TricksterGodHerHis = CHARACTER_HERHIS_THEIR
+		TricksterGodHerHim = CHARACTER_HERHIM_THEM
+
+		#NightGod
+		NightGodName = dinka_trickster_god_name
+		NightGodNamePossessive = dinka_trickster_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_THEY
+		NightGodHerHis = CHARACTER_HERHIS_THEIR
+		NightGodHerHim = CHARACTER_HERHIM_THEM
+
+		#WaterGod
+		WaterGodName = dinka_water_god_name
+		WaterGodNamePossessive = dinka_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+		PantheonTerm = religion_the_gods
+		PantheonTerm2 = religion_the_gods_2
+		PantheonTerm3 = religion_the_gods_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { dinka_high_god_name dinka_household_god_name dinka_high_god_name_alternate dinka_health_god_name dinka_fertility_god_name dinka_good_god_ayum dinka_good_god_aciek }
+		DevilName = dinka_devil_name
+		DevilNamePossessive = dinka_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_HE
+		DevilHerHis = CHARACTER_HERHIS_HIS
+		DevilHerselfHimself = CHARACTER_HIMSELF
+		EvilGodNames = dinka_devil_name
+		HouseOfWorship = dinka_house_of_worship
+		HouseOfWorship2 = dinka_house_of_worship
+		HouseOfWorship3 = dinka_house_of_worship
+		HouseOfWorshipPlural = dinka_house_of_worship_plural
+		ReligiousSymbol = dinka_religious_symbol
+		ReligiousText = dinka_religious_text
+		ReligiousSymbol2 = dinka_religious_symbol
+		ReligiousText2 = dinka_religious_text
+		ReligiousSymbol3 = dinka_religious_symbol
+		ReligiousText3 = dinka_religious_text
+		ReligiousHeadName = dinka_religious_head_title
+		ReligiousHeadTitleName = dinka_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = dinka_priest_male
+		PriestMalePlural = dinka_priest_male_plural
+		PriestFemale = dinka_priest_female
+		PriestFemalePlural = dinka_priest_female_plural
+		PriestNeuter = dinka_priest_neuter
+		PriestNeuterPlural = dinka_priest_neuter_plural
+		AltPriestTermPlural =  dinka_priest_alternate_plural
+		BishopMale = dinka_bishop_male
+		BishopMalePlural = dinka_bishop_male_plural
+		BishopFemale = dinka_bishop_female
+		BishopFemalePlural = dinka_bishop_female_plural
+		BishopNeuter = dinka_bishop_neuter
+		BishopNeuterPlural = dinka_bishop_neuter_plural
+		DivineRealm = dinka_divine_realm
+		PositiveAfterLife = dinka_divine_realm
+		NegativeAfterLife = dinka_divine_realm
+		DivineRealm2 = dinka_divine_realm
+		PositiveAfterLife2 = dinka_divine_realm
+		NegativeAfterLife2 = dinka_divine_realm
+		DivineRealm3 = dinka_divine_realm
+		PositiveAfterLife3 = dinka_divine_realm
+		NegativeAfterLife3 = dinka_divine_realm
+		DeathDeityName = dinka_death_deity_name
+		DeathDeityNamePossessive = dinka_death_deity_name_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_HE
+		DeathDeityHerHis = CHARACTER_HERHIS_HIS
+		DeathDeityHerHim = CHARACTER_HERHIM_HIM
+		WitchGodName = witchgodname_the_jak
+		WitchGodNamePossessive = witchgodname_the_jak_possessive
+		WitchGodHerHis = CHARACTER_HERHIS_ITS
+		WitchGodSheHe = CHARACTER_SHEHE_IT
+		WitchGodHerHim = CHARACTER_HERHIM_IT
+		WitchGodMistressMaster = witch_spirit
+		WitchGodMotherFather = witch_source
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+anatolian_religion = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	pagan_roots = yes
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_shunned
+	doctrine = doctrine_adultery_men_crime
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_crime
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_recruitment
+	doctrine = doctrine_clerical_gender_male_only
+	doctrine = doctrine_clerical_marriage_disallowed # They're eunuchs...
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_cremation
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = { just honest eunuch }
+		sins = { craven arbitrary deceitful }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1
+	}
+
+	holy_order_names = {
+		{ name = holy_order_guardians_of_divinerealm }
+		{ name = holy_order_faithful_of_highgod }
+		{ name = holy_order_warriors_of_the_symbol }
+	}
+
+	holy_order_maa = { horse_archers }
+
+	localization = {
+		HighGodName = ir_cybele
+		HighGodName2 = ir_cybele
+
+		HighGodNamePossessive = ir_cybele_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_SHE
+		HighGodHerselfHimself = CHARACTER_HERSELF
+		HighGodHerHis = CHARACTER_HERHIS_HER
+		HighGodNameAlternate = paganism_high_god_name_alternate
+		HighGodNameAlternatePossessive = paganism_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = paganism_creator_god_name
+		CreatorNamePossessive = paganism_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_SHE
+		CreatorHerHis = CHARACTER_HERHIS_HER
+		CreatorHerHim = CHARACTER_HERHIM_HER
+
+		#HealthGod
+		HealthGodName = ir_dindymene
+		HealthGodNamePossessive = ir_dindymene_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_SHE
+		HealthGodHerHis = CHARACTER_HERHIS_HER
+		HealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#FertilityGod
+		FertilityGodName = ir_cybele
+		FertilityGodNamePossessive = ir_cybele_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = ir_agdistis
+		WealthGodNamePossessive = ir_agdistis_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_SHE
+		WealthGodHerHis = CHARACTER_HERHIS_HER
+		WealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#HouseholdGod
+		HouseholdGodName = ir_dactyls
+		HouseholdGodNamePossessive = ir_dactyls_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_THEY
+		HouseholdGodHerHis = CHARACTER_HERHIS_THEIR
+		HouseholdGodHerHim = CHARACTER_HERHIM_THEM
+
+		#FateGod
+		FateGodName = ir_attis
+		FateGodNamePossessive = ir_attis_possessive
+		FateGodSheHe = CHARACTER_SHEHE_HE
+		FateGodHerHis = CHARACTER_HERHIS_HIS
+		FateGodHerHim = CHARACTER_HERHIM_HIM
+
+		#KnowledgeGod
+		KnowledgeGodName = paganism_knowledge_god_name
+		KnowledgeGodNamePossessive = paganism_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_SHE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HER
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HER
+
+		#WarGod
+		WarGodName = ir_ma
+		WarGodNamePossessive = ir_ma_possessive
+		WarGodSheHe = CHARACTER_SHEHE_SHE
+		WarGodHerHis = CHARACTER_HERHIS_HER
+		WarGodHerHim = CHARACTER_HERHIM_HER
+
+		#TricksterGod
+		TricksterGodName = paganism_trickster_god_name
+		TricksterGodNamePossessive = paganism_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_HE
+		TricksterGodHerHis = CHARACTER_HERHIS_HIS
+		TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#NightGod
+		NightGodName = ir_men
+		NightGodNamePossessive = ir_men_possessive
+		NightGodSheHe = CHARACTER_SHEHE_SHE
+		NightGodHerHis = CHARACTER_HERHIS_HER
+		NightGodHerHim = CHARACTER_HERHIM_HER
+
+		#WaterGod
+		WaterGodName = ir_kakasbos
+		WaterGodNamePossessive = ir_kakasbos_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+
+		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { ir_agdistis ir_kakasbos ir_men ir_dactyls ir_dindymene ir_attis ir_cybele ir_ma }
+		DevilName = paganism_devil_name
+		DevilNamePossessive = paganism_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = paganism_devil_herselfhimself
+		EvilGodNames = { ir_agdistis ir_kakasbos ir_men ir_dactyls ir_dindymene ir_attis ir_cybele ir_ma }
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
+		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
+		ReligiousHeadName = paganism_religious_head_title
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = cyb_gallus
+		PriestMalePlural = cyb_galluses
+		PriestFemale = cyb_gallus
+		PriestFemalePlural = cyb_galluses
+		PriestNeuter = cyb_gallus
+		PriestNeuterPlural = cyb_gallus
+		AltPriestTermPlural = cyb_galluses
+		BishopMale = cyb_archigallus
+		BishopMalePlural = cyb_archigalluses
+		BishopFemale = cyb_archigallus
+		BishopFemalePlural = cyb_archigalluses
+		BishopNeuter = cyb_archigallus
+		BishopNeuterPlural = cyb_archigalluses
+		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
+		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
+		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
+		DeathDeityName = paganism_death_deity_name
+		DeathDeityNamePossessive = paganism_death_deity_name_possessive
+		DeathDeitySheHe = paganism_devil_shehe
+		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = witchgodname_paganism_the_shadow
+		WitchGodNamePossessive = witchgodname_paganism_the_shadow_possessive
+		WitchGodSheHe = CHARACTER_SHEHE_IT
+		WitchGodHerHis = CHARACTER_HERHIS_ITS
+		WitchGodHerHim = CHARACTER_HERHIM_IT
+		WitchGodMistressMaster = witch_spirit
+			WitchGodMotherFather = witch_source
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+armenian_religion = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	pagan_roots = yes
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_shunned
+	doctrine = doctrine_adultery_men_crime
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_crime
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_recruitment
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_cremation
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = { brave just honest }
+		sins = { craven arbitrary deceitful }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1
+	}
+
+	holy_order_names = {
+		{ name = holy_order_guardians_of_divinerealm }
+		{ name = holy_order_faithful_of_highgod }
+		{ name = holy_order_warriors_of_the_symbol }
+	}
+
+	holy_order_maa = { horse_archers }
+
+	localization = {
+		HighGodName = ir_khaldi
+		HighGodName2 = ir_khaldi
+		HighGodNamePossessive = ir_khaldi_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = ir_theispas
+		HighGodNameAlternatePossessive = ir_theispas_possessive
+
+		#Creator
+		CreatorName = ir_aramazd
+		CreatorNamePossessive = ir_aramazd_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = ir_bagvarti
+		HealthGodNamePossessive = ir_bagvarti_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_SHE
+		HealthGodHerHis = CHARACTER_HERHIS_HER
+		HealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#FertilityGod
+		FertilityGodName = ir_arubani
+		FertilityGodNamePossessive = ir_arubani_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = ir_shivini
+		WealthGodNamePossessive = ir_shivini_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#HouseholdGod
+		HouseholdGodName = ir_epaninaue
+		HouseholdGodNamePossessive = ir_epaninaue_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+		#FateGod
+		FateGodName = ir_huba
+		FateGodNamePossessive = ir_huba_possessive
+		FateGodSheHe = CHARACTER_SHEHE_SHE
+		FateGodHerHis = CHARACTER_HERHIS_HER
+		FateGodHerHim = CHARACTER_HERHIM_HER
+
+		#KnowledgeGod
+		KnowledgeGodName = ir_nane
+		KnowledgeGodNamePossessive = ir_nane_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_SHE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HER
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HER
+
+		#WarGod
+		WarGodName = ir_khaldi
+		WarGodNamePossessive = ir_khaldi_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = paganism_trickster_god_name
+		TricksterGodNamePossessive = paganism_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_HE
+		TricksterGodHerHis = CHARACTER_HERHIS_HIS
+		TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#NightGod
+		NightGodName = paganism_night_god_name
+		NightGodNamePossessive = paganism_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_HE
+		NightGodHerHis = CHARACTER_HERHIS_HIS
+		NightGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WaterGod
+		WaterGodName = ir_tsovinar
+		WaterGodNamePossessive = ir_tsovinar_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_SHE
+		WaterGodHerHis = CHARACTER_HERHIS_HER
+		WaterGodHerHim = CHARACTER_HERHIM_HER
+
+
+		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { ir_shivini ir_theispas ir_khaldi ir_arubani ir_dsvininaue ir_epaninaue ir_bagvarti ir_huba ir_aramazd ir_vahagn ir_nane ir_mihr ir_tir ir_tsovinar ir_anahit ir_spandaramet }
+		DevilName = ir_spandaramet
+		DevilNamePossessive = ir_spandaramet_possessive
+		DevilSheHe = CHARACTER_SHEHE_SHE
+		DevilHerHis = CHARACTER_HERHIS_HER
+		DevilHerselfHimself = paganism_devil_herselfhimself
+		EvilGodNames = { ir_shivini ir_theispas ir_khaldi ir_arubani ir_dsvininaue ir_epaninaue ir_bagvarti ir_huba ir_aramazd ir_vahagn ir_nane ir_mihr ir_tir ir_tsovinar ir_anahit ir_spandaramet }
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
+		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
+		ReligiousHeadName = paganism_religious_head_title
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = paganism_priest
+		PriestMalePlural = paganism_priest_plural
+		PriestFemale = paganism_priest
+		PriestFemalePlural = paganism_priest_plural
+		PriestNeuter = paganism_priest
+		PriestNeuterPlural = paganism_priest_plural
+		AltPriestTermPlural = paganism_priest_alternate_plural
+		BishopMale = paganism_priest
+		BishopMalePlural = paganism_priest_plural
+		BishopFemale = paganism_priest
+		BishopFemalePlural = paganism_priest_plural
+		BishopNeuter = paganism_priest
+		BishopNeuterPlural = paganism_priest_plural
+		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
+		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
+		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
+		DeathDeityName = ir_mihr
+		DeathDeityNamePossessive = ir_mihr_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_HE
+		DeathDeityHerHis = CHARACTER_HERHIS_HIS
+		DeathDeityHerHim = CHARACTER_HERHIM_HIM
+		WitchGodName = ir_dsvininaue
+		WitchGodNamePossessive = ir_dsvininaue_possessive
+		WitchGodSheHe = CHARACTER_SHEHE_SHE
+		WitchGodHerHis = CHARACTER_HERHIS_HER
+		WitchGodHerHim = CHARACTER_HERHIM_HER
+		WitchGodMistressMaster = witch_spirit
+			WitchGodMotherFather = witch_source
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+canaanite_religion = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	pagan_roots = yes	# Religious names tied to this religious family
+
+	reserved_male_names = {
+		Adonibaal Baal Baalhanno Carthalo Hannibal Hasdrubal Abibaal Itthobaal
+	}
+	reserved_female_names = {
+		Astarte Asherah Iezabel
+	}
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_shunned
+	doctrine = doctrine_adultery_men_crime
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_crime
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_recruitment
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_bewailment
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = { brave just honest }
+		sins = { craven arbitrary deceitful }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1
+	}
+
+	holy_order_names = {
+		{ name = holy_order_guardians_of_divinerealm }
+		{ name = holy_order_faithful_of_highgod }
+		{ name = holy_order_warriors_of_the_symbol }
+	}
+
+	holy_order_maa = { shomer }
+
+	localization = {
+		HighGodName = ir_el
+		HighGodName2 = ir_el
+		HighGodNamePossessive = ir_el_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = ir_ba_al
+		HighGodNameAlternatePossessive = ir_ba_al_possessive
+
+		#Creator
+		CreatorName = ir_el
+		CreatorNamePossessive = ir_el_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = ir_eshmun
+		HealthGodNamePossessive = ir_eshmun_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_HE
+		HealthGodHerHis = CHARACTER_HERHIS_HIS
+		HealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FertilityGod
+		FertilityGodName = ir_astarte
+		FertilityGodNamePossessive = ir_astarte_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = ir_kothar
+		WealthGodNamePossessive = ir_kothar_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_SHE
+		WealthGodHerHis = CHARACTER_HERHIS_HER
+		WealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#HouseholdGod
+		HouseholdGodName = ir_melqart
+		HouseholdGodNamePossessive = ir_melqart_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_HE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HIS
+		HouseholdGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FateGod
+		FateGodName = paganism_fate_god_name
+		FateGodNamePossessive = paganism_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_ITS
+		FateGodHerHim = CHARACTER_HERHIM_IT
+
+		#KnowledgeGod
+		KnowledgeGodName = ir_anat
+		KnowledgeGodNamePossessive = ir_anat_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_SHE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HER
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HER
+
+		#WarGod
+		WarGodName = ir_melqart
+		WarGodNamePossessive = ir_melqart_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = ir_attar
+		TricksterGodNamePossessive = ir_attar_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_IT
+		TricksterGodHerHis = CHARACTER_HERHIS_ITS
+		TricksterGodHerHim = CHARACTER_HERHIM_IT
+
+		#NightGod
+		NightGodName = paganism_night_god_name
+		NightGodNamePossessive = paganism_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_HE
+		NightGodHerHis = CHARACTER_HERHIS_HIS
+		NightGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WaterGod
+		WaterGodName = ir_yam
+		WaterGodNamePossessive = ir_yam_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+
+		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { ir_anat ir_el ir_yam ir_ba_al ir_eshmun ir_shapash ir_kothar ir_melqart ir_ba_alat ir_astarte ir_atargatis ir_attar ir_tanit ir_ba_al_hammon ir_ba_al_qarnaim }
+		DevilName = ir_ba_al_qarnaim
+		DevilNamePossessive = ir_ba_al_qarnaim_possessive
+		DevilSheHe = CHARACTER_SHEHE_HE
+		DevilHerHis = CHARACTER_HERHIS_HIS
+		DevilHerselfHimself = paganism_devil_herselfhimself
+		EvilGodNames = { ir_anat ir_el ir_yam ir_ba_al ir_eshmun ir_shapash ir_kothar ir_melqart ir_ba_alat ir_astarte ir_atargatis ir_attar ir_tanit ir_ba_al_hammon ir_ba_al_qarnaim }
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
+		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
+		ReligiousHeadName = paganism_religious_head_title
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = judaism_priest
+		PriestMalePlural = judaism_priest_plural
+		PriestFemale = judaism_priest
+		PriestFemalePlural = judaism_priest_plural
+		PriestNeuter = judaism_priest
+		PriestNeuterPlural = judaism_priest_plural
+		AltPriestTermPlural = judaism_priest_plural
+		BishopMale = judaism_bishop
+		BishopMalePlural = judaism_bishop_plural
+		BishopFemale = judaism_bishop
+		BishopFemalePlural = judaism_bishop_plural
+		BishopNeuter = judaism_bishop
+		BishopNeuterPlural = judaism_bishop_plural
+		DivineRealm = thing_sheol
+		DivineRealm2 = canaanite_religion_divine_realm_2
+		DivineRealm3 = canaanite_religion_divine_realm_3
+		PositiveAfterLife = thing_sheol
+		PositiveAfterLife2 = thing_sheol
+		PositiveAfterLife3 = thing_sheol
+		NegativeAfterLife = thing_sheol
+		NegativeAfterLife2 = thing_sheol
+		NegativeAfterLife3 = thing_sheol
+		DeathDeityName = paganism_death_deity_name
+		DeathDeityNamePossessive = paganism_death_deity_name_possessive
+		DeathDeitySheHe = paganism_devil_shehe
+		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = judaism_witchgodname_raziel
+		WitchGodNamePossessive = judaism_witchgodname_raziel_possessive
+		WitchGodHerHis = CHARACTER_HERHIS_HIS
+		WitchGodSheHe = CHARACTER_SHEHE_HE
+		WitchGodHerHim = CHARACTER_HERHIM_HIM
+		WitchGodMistressMaster = master
+		WitchGodMotherFather = father
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+caucasian_religion = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	pagan_roots = yes
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_shunned
+	doctrine = doctrine_adultery_men_crime
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_crime
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_recruitment
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_stoic
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = { brave just honest }
+		sins = { craven arbitrary deceitful }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1
+	}
+
+	holy_order_names = {
+		{ name = holy_order_guardians_of_divinerealm }
+		{ name = holy_order_faithful_of_highgod }
+		{ name = holy_order_warriors_of_the_symbol }
+	}
+
+	holy_order_maa = { light_horsemen bowmen }
+
+	localization = {
+		HighGodName = ir_armazi
+		HighGodName2 = ir_armazi
+		HighGodNamePossessive = ir_armazi_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = paganism_high_god_name_alternate
+		HighGodNameAlternatePossessive = paganism_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = ir_ghmerti
+		CreatorNamePossessive = ir_ghmerti_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = ir_dali
+		HealthGodNamePossessive = ir_dali_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_SHE
+		HealthGodHerHis = CHARACTER_HERHIS_HER
+		HealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#FertilityGod
+		FertilityGodName = ir_adgilis_deda
+		FertilityGodNamePossessive = ir_adgilis_deda_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = ir_zadeni
+		WealthGodNamePossessive = ir_zadeni_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#HouseholdGod
+		HouseholdGodName = paganism_household_god_name
+		HouseholdGodNamePossessive = paganism_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+		#FateGod
+		FateGodName = paganism_fate_god_name
+		FateGodNamePossessive = paganism_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_ITS
+		FateGodHerHim = CHARACTER_HERHIM_IT
+
+		#KnowledgeGod
+		KnowledgeGodName = paganism_knowledge_god_name
+		KnowledgeGodNamePossessive = paganism_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_SHE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HER
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HER
+
+		#WarGod
+		WarGodName = ir_kopala
+		WarGodNamePossessive = ir_kopala_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = paganism_trickster_god_name
+		TricksterGodNamePossessive = paganism_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_HE
+		TricksterGodHerHis = CHARACTER_HERHIS_HIS
+		TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#NightGod
+		NightGodName = paganism_night_god_name
+		NightGodNamePossessive = paganism_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_HE
+		NightGodHerHis = CHARACTER_HERHIS_HIS
+		NightGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WaterGod
+		WaterGodName = paganism_water_god_name
+		WaterGodNamePossessive = paganism_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_SHE
+		WaterGodHerHis = CHARACTER_HERHIS_HER
+		WaterGodHerHim = CHARACTER_HERHIM_HER
+
+
+		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { ir_kopala ir_zadeni ir_armazi ir_ghmerti ir_dali ir_ga ir_adgilis_deda ir_gacim ir_ainina_and_danina }
+		DevilName = paganism_devil_name
+		DevilNamePossessive = paganism_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = paganism_devil_herselfhimself
+		EvilGodNames = { ir_kopala ir_zadeni ir_armazi ir_ghmerti ir_dali ir_ga ir_adgilis_deda ir_gacim ir_ainina_and_danina }
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
+		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
+		ReligiousHeadName = paganism_religious_head_title
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = paganism_priest
+		PriestMalePlural = paganism_priest_plural
+		PriestFemale = paganism_priest
+		PriestFemalePlural = paganism_priest_plural
+		PriestNeuter = paganism_priest
+		PriestNeuterPlural = paganism_priest_plural
+		AltPriestTermPlural = paganism_priest_alternate_plural
+		BishopMale = paganism_priest
+		BishopMalePlural = paganism_priest_plural
+		BishopFemale = paganism_priest
+		BishopFemalePlural = paganism_priest_plural
+		BishopNeuter = paganism_priest
+		BishopNeuterPlural = paganism_priest_plural
+		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
+		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
+		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
+		DeathDeityName = paganism_death_deity_name
+		DeathDeityNamePossessive = paganism_death_deity_name_possessive
+		DeathDeitySheHe = paganism_devil_shehe
+		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = witchgodname_paganism_the_shadow
+		WitchGodNamePossessive = witchgodname_paganism_the_shadow_possessive
+		WitchGodSheHe = CHARACTER_SHEHE_IT
+		WitchGodHerHis = CHARACTER_HERHIS_ITS
+		WitchGodHerHim = CHARACTER_HERHIM_IT
+		WitchGodMistressMaster = witch_spirit
+			WitchGodMotherFather = witch_source
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+celtic_religion = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	pagan_roots = yes	# Religious names tied to this religious family
+
+	reserved_male_names = {
+		Lugotorix Segovax
+	}
+	reserved_female_names = {
+		Damona Brigantia Allauna
+	}
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_shunned
+	doctrine = doctrine_adultery_men_crime
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_crime
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_recruitment
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_cremation
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = { brave just honest }
+		sins = { craven arbitrary deceitful }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1
+	}
+
+	holy_order_names = {
+		{ name = holy_order_guardians_of_divinerealm }
+		{ name = holy_order_faithful_of_highgod }
+		{ name = holy_order_warriors_of_the_symbol }
+	}
+
+	holy_order_maa = { light_footmen bowmen }
+
+	localization = {
+		HighGodName = ir_toutatis
+		HighGodName2 = ir_toutatis
+		HighGodNamePossessive = ir_toutatis_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = ir_taranis
+		HighGodNameAlternatePossessive = ir_taranis_possessive
+
+		#Creator
+		CreatorName = ir_lugus
+		CreatorNamePossessive = ir_lugus_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = ir_maponos
+		HealthGodNamePossessive = ir_maponos_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_HE
+		HealthGodHerHis = CHARACTER_HERHIS_HIS
+		HealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FertilityGod
+		FertilityGodName = ir_nantosuelta
+		FertilityGodNamePossessive = ir_nantosuelta_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = ir_ogmios
+		WealthGodNamePossessive = ir_ogmios_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#HouseholdGod
+		HouseholdGodName = ir_gobannus
+		HouseholdGodNamePossessive = ir_gobannus_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_HE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HIS
+		HouseholdGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FateGod
+		FateGodName = ir_brigantia
+		FateGodNamePossessive = ir_brigantia_possessive
+		FateGodSheHe = CHARACTER_SHEHE_SHE
+		FateGodHerHis = CHARACTER_HERHIS_HER
+		FateGodHerHim = CHARACTER_HERHIM_HER
+
+		#KnowledgeGod
+		KnowledgeGodName = ir_belisama
+		KnowledgeGodNamePossessive = ir_belisama_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_SHE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HER
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HER
+
+		#WarGod
+		WarGodName = ir_cicollus
+		WarGodNamePossessive = ir_cicollus_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = ir_artio
+		TricksterGodNamePossessive = ir_artio_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_SHE
+		TricksterGodHerHis = CHARACTER_HERHIS_HER
+		TricksterGodHerHim = CHARACTER_HERHIM_HER
+
+		#NightGod
+		NightGodName = paganism_night_god_name
+		NightGodNamePossessive = paganism_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_HE
+		NightGodHerHis = CHARACTER_HERHIS_HIS
+		NightGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WaterGod
+		WaterGodName = ir_icovellauna
+		WaterGodNamePossessive = ir_icovellauna_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_SHE
+		WaterGodHerHis = CHARACTER_HERHIS_HER
+		WaterGodHerHim = CHARACTER_HERHIM_HER
+
+
+		PantheonTerm = cel_tuath_de
+		PantheonTerm2 = cel_tuath_de
+		PantheonTerm3 = cel_tuath_de
+		PantheonTermHasHave = pantheon_term_has
+		GoodGodNames = { ir_cicollus ir_taranis ir_toutatis ir_belinus ir_belisama ir_gobannus ir_maponos ir_ogmios ir_cernunnos ir_cissonius ir_lugus ir_nantosuelta ir_artio ir_icovellauna ir_rosmerta ir_brigantia ir_andraste ir_belatucadros ir_nodens ir_sulis ir_coventina ir_camulus ir_lenus ir_intarabus ir_ancamna ir_berobreo ir_glanis ir_eki ir_mari ir_sucellus ir_nemetona }
+		DevilName = ir_cernunnos
+		DevilNamePossessive = ir_cernunnos_possessive
+		DevilSheHe = CHARACTER_SHEHE_HE
+		DevilHerHis = CHARACTER_HERHIS_HIS
+		DevilHerselfHimself = paganism_devil_herselfhimself
+		EvilGodNames = { ir_cicollus ir_taranis ir_toutatis ir_belinus ir_belisama ir_gobannus ir_maponos ir_ogmios ir_cernunnos ir_cissonius ir_lugus ir_nantosuelta ir_artio ir_icovellauna ir_rosmerta ir_brigantia ir_andraste ir_belatucadros ir_nodens ir_sulis ir_coventina ir_camulus ir_lenus ir_intarabus ir_ancamna ir_berobreo ir_glanis ir_eki ir_mari ir_sucellus ir_nemetona }
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
+		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
+		ReligiousHeadName = paganism_religious_head_title
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = cel_druid
+		PriestMalePlural = cel_druids
+		PriestFemale = cel_druidess
+		PriestFemalePlural = cel_druidesses
+		PriestNeuter = cel_druid
+		PriestNeuterPlural = cel_druids
+		AltPriestTermPlural = cel_druids
+		BishopMale = cel_druid
+		BishopMalePlural = cel_druids
+		BishopFemale = cel_druidess
+		BishopFemalePlural = cel_druidesses
+		BishopNeuter = cel_druid
+		BishopNeuterPlural = cel_druids
+		DivineRealm = cel_avalon
+		DivineRealm2 = cel_tir_na_nog # https://en.wikipedia.org/wiki/T%C3%ADr_na_n%C3%93g
+		DivineRealm3 = celtic_religion_divine_realm_3
+		PositiveAfterLife = cel_annwn
+		PositiveAfterLife2 = celtic_religion_positive_afterlife_2
+		PositiveAfterLife3 = celtic_religion_positive_afterlife_3
+		NegativeAfterLife = cel_tech_duinn
+		NegativeAfterLife2 = celtic_religion_negative_afterlife_2
+		NegativeAfterLife3 = celtic_religion_negative_afterlife_3
+		DeathDeityName = ir_berobreo
+		DeathDeityNamePossessive = ir_berobreo_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_HE
+		DeathDeityHerHis = CHARACTER_HERHIS_HIS
+		DeathDeityHerHim = CHARACTER_HERHIM_HIM
+		WitchGodName = ir_andraste
+		WitchGodNamePossessive = ir_andraste_possessive
+		WitchGodSheHe = CHARACTER_SHEHE_SHE
+		WitchGodHerHis = CHARACTER_HERHIS_HER
+		WitchGodHerHim = CHARACTER_HERHIM_HER
+		WitchGodMistressMaster = witch_spirit
+			WitchGodMotherFather = witch_source
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+iberic_religion = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	pagan_roots = yes
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_shunned
+	doctrine = doctrine_adultery_men_crime
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_crime
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_recruitment
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_cremation
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = { brave just honest }
+		sins = { craven arbitrary deceitful }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1
+	}
+
+	holy_order_names = {
+		{ name = holy_order_guardians_of_divinerealm }
+		{ name = holy_order_faithful_of_highgod }
+		{ name = holy_order_warriors_of_the_symbol }
+	}
+
+	holy_order_maa = { armored_footmen }
+
+	localization = {
+		HighGodName = ir_candamius
+		HighGodName2 = ir_candamius
+		HighGodNamePossessive = ir_candamius_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = paganism_high_god_name_alternate
+		HighGodNameAlternatePossessive = paganism_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = paganism_creator_god_name
+		CreatorNamePossessive = paganism_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_SHE
+		CreatorHerHis = CHARACTER_HERHIS_HER
+		CreatorHerHim = CHARACTER_HERHIM_HER
+
+		#HealthGod
+		HealthGodName = ir_betatun
+		HealthGodNamePossessive = ir_betatun_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_HE
+		HealthGodHerHis = CHARACTER_HERHIS_HIS
+		HealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FertilityGod
+		FertilityGodName = paganism_fertility_god_name
+		FertilityGodNamePossessive = paganism_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = ir_dercetius
+		WealthGodNamePossessive = ir_dercetius_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#HouseholdGod
+		HouseholdGodName = paganism_household_god_name
+		HouseholdGodNamePossessive = paganism_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+		#FateGod
+		FateGodName = ir_endouellicus
+		FateGodNamePossessive = ir_endouellicus_possessive
+		FateGodSheHe = CHARACTER_SHEHE_HE
+		FateGodHerHis = CHARACTER_HERHIS_HIS
+		FateGodHerHim = CHARACTER_HERHIM_HIM
+
+		#KnowledgeGod
+		KnowledgeGodName = paganism_knowledge_god_name
+		KnowledgeGodNamePossessive = paganism_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_SHE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HER
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HER
+
+		#WarGod
+		WarGodName = ir_cariocecus
+		WarGodNamePossessive = ir_cariocecus_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = paganism_trickster_god_name
+		TricksterGodNamePossessive = paganism_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_HE
+		TricksterGodHerHis = CHARACTER_HERHIS_HIS
+		TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#NightGod
+		NightGodName = ir_ataecina
+		NightGodNamePossessive = ir_ataecina_possessive
+		NightGodSheHe = CHARACTER_SHEHE_SHE
+		NightGodHerHis = CHARACTER_HERHIS_HER
+		NightGodHerHim = CHARACTER_HERHIM_HER
+
+		#WaterGod
+		WaterGodName = ir_eacus
+		WaterGodNamePossessive = ir_eacus_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+
+		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { ir_candamius ir_semnocosus ir_cariocecus ir_ataecina ir_eacus ir_betatun ir_dercetius ir_endouellicus ir_the_duillae }
+		DevilName = ir_semnocosus
+		DevilNamePossessive = ir_semnocosus_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = paganism_devil_herselfhimself
+		EvilGodNames = { ir_candamius ir_semnocosus ir_cariocecus ir_ataecina ir_eacus ir_betatun ir_dercetius ir_endouellicus ir_the_duillae }
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
+		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
+		ReligiousHeadName = paganism_religious_head_title
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = paganism_priest
+		PriestMalePlural = paganism_priest_plural
+		PriestFemale = paganism_priest
+		PriestFemalePlural = paganism_priest_plural
+		PriestNeuter = paganism_priest
+		PriestNeuterPlural = paganism_priest_plural
+		AltPriestTermPlural = paganism_priest_alternate_plural
+		BishopMale = paganism_priest
+		BishopMalePlural = paganism_priest_plural
+		BishopFemale = paganism_priest
+		BishopFemalePlural = paganism_priest_plural
+		BishopNeuter = paganism_priest
+		BishopNeuterPlural = paganism_priest_plural
+		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
+		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
+		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
+		DeathDeityName = paganism_death_deity_name
+		DeathDeityNamePossessive = paganism_death_deity_name_possessive
+		DeathDeitySheHe = paganism_devil_shehe
+		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = ir_the_duillae
+		WitchGodNamePossessive = ir_the_duillae_possessive
+		WitchGodSheHe = CHARACTER_SHEHE_THEY
+		WitchGodHerHis = CHARACTER_HERHIS_THEIR
+		WitchGodHerHim = CHARACTER_HERHIM_THEM
+		WitchGodMistressMaster = witch_spirit
+			WitchGodMotherFather = witch_source
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+ajivika_religion = {
+	religion_details = {
+		family = rf_eastern
+		graphical_faith = dharmic_gfx
+	}
+
+	doctrine = eastern_hostility_doctrine
+
+	doctrine = doctrine_polytheist
+
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_cremation
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	custom_faith_icons = {  # copied from Hinduism
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa custom_faith_cool_s
+	}
+
+	traits = {
+		virtues = {
+			temperate content honest
+			# a unique virtue to give them could be cynical since they were the most aethiest parallel shrmanic faith
+			cynical
+		}
+		sins = {
+			deceitful impatient sadistic wrathful
+		}
+	}
+
+	holy_order_names = {
+		{ name = holy_order_guardians_of_divinerealm }
+		{ name = holy_order_faithful_of_highgod }
+		{ name = holy_order_warriors_of_the_symbol }
+	}
+
+	holy_order_maa = { khandayat } # IRToCK3: copied from Buddhism and Jainism
+
+	localization = {
+		#HighGod
+		HighGodName = ajivika_high_god_name
+		HighGodName2 = ajivika_high_god_name
+		HighGodNamePossessive = ajivika_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_IT
+		HighGodHerselfHimself = CHARACTER_ITSELF
+		HighGodHerHis = CHARACTER_HERHIS_ITS
+		HighGodNameAlternate = ajivika_high_god_name_alternate
+		HighGodNameAlternatePossessive = ajivika_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = ajivika_creator_god_name
+		CreatorNamePossessive = ajivika_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_IT
+		CreatorHerHis = CHARACTER_HERHIS_ITS
+		CreatorHerHim = CHARACTER_HERHIM_IT
+
+		#HealthGod
+		HealthGodName = ajivika_health_god_name
+		HealthGodNamePossessive = ajivika_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_IT
+		HealthGodHerHis = CHARACTER_HERHIS_ITS
+		HealthGodHerHim = CHARACTER_HERHIM_IT
+
+		#FertilityGod
+		FertilityGodName = ajivika_fertility_god_name
+		FertilityGodNamePossessive = ajivika_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_IT
+		FertilityGodHerHis = CHARACTER_HERHIS_ITS
+		FertilityGodHerHim = CHARACTER_HERHIM_IT
+
+		#WealthGod
+		WealthGodName = ajivika_wealth_god_name
+		WealthGodNamePossessive = ajivika_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_IT
+		WealthGodHerHis = CHARACTER_HERHIS_ITS
+		WealthGodHerHim = CHARACTER_HERHIM_IT
+
+		#HouseholdGod
+		HouseholdGodName = ajivika_household_god_name
+		HouseholdGodNamePossessive = ajivika_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_IT
+		HouseholdGodHerHis = CHARACTER_HERHIS_ITS
+		HouseholdGodHerHim = CHARACTER_HERHIM_IT
+
+		#FateGod
+		FateGodName = ajivika_fate_god_name
+		FateGodNamePossessive = ajivika_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_ITS
+		FateGodHerHim = CHARACTER_HERHIM_IT
+
+		#KnowledgeGod
+		KnowledgeGodName = makkhalist_knowledge_god_name # copied from makkhalist faith
+		KnowledgeGodNamePossessive = makhallist_knowledge_god_name_possessive # copied from makkhalist faith
+		KnowledgeGodSheHe = CHARACTER_SHEHE_IT
+		KnowledgeGodHerHis = CHARACTER_HERHIS_ITS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_IT
+
+		#WarGod
+		WarGodName = ajivika_war_god_name
+		WarGodNamePossessive = ajivika_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_IT
+		WarGodHerHis = CHARACTER_HERHIS_ITS
+		WarGodHerHim = CHARACTER_HERHIM_IT
+
+		#TricksterGod
+		TricksterGodName = ajivika_trickster_god_name
+		TricksterGodNamePossessive = ajivika_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_IT
+		TricksterGodHerHis = CHARACTER_HERHIS_ITS
+		TricksterGodHerHim = CHARACTER_HERHIM_IT
+
+		#NightGod
+		NightGodName = ajivika_night_god_name
+		NightGodNamePossessive = ajivika_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_IT
+		NightGodHerHis = CHARACTER_HERHIS_ITS
+		NightGodHerHim = CHARACTER_HERHIM_IT
+
+		#WaterGod
+		WaterGodName = ajivika_water_god_name
+		WaterGodNamePossessive = ajivika_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_IT
+		WaterGodHerHis = CHARACTER_HERHIS_ITS
+		WaterGodHerHim = CHARACTER_HERHIM_IT
+
+		PantheonTerm = ajivika_high_god_name
+		PantheonTerm2 = ajivika_high_god_name
+		PantheonTerm3 = ajivika_high_god_name
+		PantheonTermHasHave = pantheon_term_has
+		GoodGodNames = ajivika_high_god_name
+		DevilName = ajivika_devil_name
+		DevilNamePossessive = ajivika_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = CHARACTER_ITSELF
+		EvilGodNames = ajivika_devil_name
+		HouseOfWorship = ajivika_house_of_worship
+		HouseOfWorship2 = ajivika_house_of_worship
+		HouseOfWorship3 = ajivika_house_of_worship
+		HouseOfWorshipPlural = ajivika_house_of_worship_plural
+		ReligiousSymbol = ajivika_religious_symbol
+		ReligiousSymbol2 = ajivika_religious_symbol
+		ReligiousSymbol3 = ajivika_religious_symbol
+		ReligiousText = ajivika_religious_text
+		ReligiousText2 = ajivika_religious_text
+		ReligiousText3 = ajivika_religious_text
+		ReligiousHeadName = ajivika_religious_head_title
+		ReligiousHeadTitleName = ajivika_religious_head_title_name
+		DevoteeMale = ajivika_devotee_male
+		DevoteeMalePlural = ajivika_devotee_male_plural
+		DevoteeFemale = ajivika_devotee_female
+		DevoteeFemalePlural = ajivika_devotee_female_plural
+		DevoteeNeuter = ajivika_devotee_neuter
+		DevoteeNeuterPlural = ajivika_devotee_neuter_plural
+		PriestMale = ajivika_priest_male
+		PriestMalePlural = ajivika_priest_male_plural
+		PriestFemale = ajivika_priest_male
+		PriestFemalePlural = ajivika_priest_male_plural
+		PriestNeuter = ajivika_priest_male
+		PriestNeuterPlural = ajivika_priest_male_plural
+		AltPriestTermPlural = ajivika_priest_alternate_plural
+		BishopMale = ajivika_bishop
+		BishopMalePlural = ajivika_bishop_plural
+		BishopFemale = ajivika_bishop
+		BishopFemalePlural = ajivika_bishop_plural
+		BishopNeuter = ajivika_bishop
+		BishopNeuterPlural = ajivika_bishop_plural
+		DivineRealm = ajivika_positive_afterlife
+		DivineRealm2 = ajivika_positive_afterlife
+		DivineRealm3 = ajivika_positive_afterlife
+		PositiveAfterLife = ajivika_positive_afterlife
+		PositiveAfterLife2 = ajivika_positive_afterlife
+		PositiveAfterLife3 = ajivika_positive_afterlife
+		NegativeAfterLife = ajivika_negative_afterlife
+		NegativeAfterLife2 = ajivika_negative_afterlife
+		NegativeAfterLife3 = ajivika_negative_afterlife
+		DeathDeityName = ajivika_death_deity
+		DeathDeityNamePossessive = ajivika_death_deity_possessive
+		DeathDeitySheHe = ajivika_death_deity_shehe
+		DeathDeityHerHis = ajivika_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = ajivika_high_god_name
+		WitchGodNamePossessive = ajivika_high_god_name_possessive
+		WitchGodHerHis = CHARACTER_HERHIS_ITS
+		WitchGodSheHe = CHARACTER_SHEHE_IT
+		WitchGodHerHim = CHARACTER_HERHIM_IT
+		WitchGodMistressMaster = master
+		WitchGodMotherFather = father
+
+		GHWName = ghw_purification
+		GHWNamePlural = ghw_purifications
+	}
+}
+
+mesopotamian_religion = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	pagan_roots = yes
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_polygamy
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_accepted
+	doctrine = doctrine_adultery_men_crime
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_crime
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_recruitment
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_mandatory # chat.deepseek.com: "The Babylonian nobility (awilu), as part of the upper class, were expected to participate in the Akitu festival, but their involvement was not enforced through legal penalties. Instead, their participation was driven by social and religious expectations"
+
+	# Funerals
+	doctrine = doctrine_funeral_bewailment
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = { brave just honest }
+		sins = { craven arbitrary deceitful }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1
+	}
+
+	holy_order_names = {
+		{ name = holy_order_guardians_of_divinerealm }
+		{ name = holy_order_faithful_of_highgod }
+		{ name = holy_order_warriors_of_the_symbol }
+	}
+
+	holy_order_maa = { armored_footmen light_footmen }
+
+	localization = {
+		HighGodName = ir_enlil
+		HighGodName2 = ir_enlil
+		HighGodNamePossessive = ir_enlil_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = ir_asshur
+		HighGodNameAlternatePossessive = ir_asshur_possessive
+
+		#Creator
+		CreatorName = ir_enlil
+		CreatorNamePossessive = ir_enlil_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = ir_marduk
+		HealthGodNamePossessive = ir_marduk_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_HE
+		HealthGodHerHis = CHARACTER_HERHIS_HIS
+		HealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FertilityGod
+		FertilityGodName = ir_ishtar
+		FertilityGodNamePossessive = ir_ishtar_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = ir_shamash
+		WealthGodNamePossessive = ir_shamash_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#HouseholdGod
+		HouseholdGodName = paganism_household_god_name
+		HouseholdGodNamePossessive = paganism_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+		#FateGod
+		FateGodName = paganism_fate_god_name
+		FateGodNamePossessive = paganism_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_ITS
+		FateGodHerHim = CHARACTER_HERHIM_IT
+
+		#KnowledgeGod
+		KnowledgeGodName = ir_nabu
+		KnowledgeGodNamePossessive = ir_nabu_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WarGod
+		WarGodName = ir_ninurta
+		WarGodNamePossessive = ir_ninurta_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = paganism_trickster_god_name
+		TricksterGodNamePossessive = paganism_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_HE
+		TricksterGodHerHis = CHARACTER_HERHIS_HIS
+		TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#NightGod
+		NightGodName = ir_sin
+		NightGodNamePossessive = ir_sin_possessive
+		NightGodSheHe = CHARACTER_SHEHE_HE
+		NightGodHerHis = CHARACTER_HERHIS_HIS
+		NightGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WaterGod
+		WaterGodName = ir_ea
+		WaterGodNamePossessive = ir_ea_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+
+		PantheonTerm = babyl_annunaki
+		PantheonTerm2 = babyl_annunaki
+		PantheonTerm3 = babyl_annunaki
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { ir_ishtar ir_ninurta ir_enlil ir_ea ir_marduk ir_nabu ir_shamash ir_sin ir_asshur }
+		DevilName = paganism_devil_name
+		DevilNamePossessive = paganism_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = paganism_devil_herselfhimself
+		EvilGodNames = { ir_ishtar ir_ninurta ir_enlil ir_ea ir_marduk ir_nabu ir_shamash ir_sin ir_asshur }
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
+		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
+		ReligiousHeadName = paganism_religious_head_title
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = paganism_priest
+		PriestMalePlural = paganism_priest_plural
+		PriestFemale = paganism_priest
+		PriestFemalePlural = paganism_priest_plural
+		PriestNeuter = paganism_priest
+		PriestNeuterPlural = paganism_priest_plural
+		AltPriestTermPlural = paganism_priest_alternate_plural
+		BishopMale = paganism_priest
+		BishopMalePlural = paganism_priest_plural
+		BishopFemale = paganism_priest
+		BishopFemalePlural = paganism_priest_plural
+		BishopNeuter = paganism_priest
+		BishopNeuterPlural = paganism_priest_plural
+		DivineRealm = babyl_arallu
+		DivineRealm2 = mesopotamian_religion_divine_realm_2
+		DivineRealm3 = mesopotamian_religion_divine_realm_3
+		PositiveAfterLife = babyl_ganzer
+		PositiveAfterLife2 = babyl_ganzer
+		PositiveAfterLife3 = babyl_ganzer
+		NegativeAfterLife = babyl_irkallu
+		NegativeAfterLife2 = babyl_irkallu
+		NegativeAfterLife3 = babyl_irkallu
+		DeathDeityName = paganism_death_deity_name
+		DeathDeityNamePossessive = paganism_death_deity_name_possessive
+		DeathDeitySheHe = paganism_devil_shehe
+		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = witchgodname_paganism_the_shadow
+		WitchGodNamePossessive = witchgodname_paganism_the_shadow_possessive
+		WitchGodSheHe = CHARACTER_SHEHE_IT
+		WitchGodHerHis = CHARACTER_HERHIS_ITS
+		WitchGodHerHim = CHARACTER_HERHIM_IT
+		WitchGodMistressMaster = witch_spirit
+			WitchGodMotherFather = witch_source
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+paleo_balkan_religion = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	pagan_roots = yes
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_shunned
+	doctrine = doctrine_adultery_men_crime
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_crime
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_recruitment
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_cremation
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = { brave just honest }
+		sins = { craven arbitrary deceitful }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa custom_faith_cool_s
+	}
+
+	holy_order_names = {
+		{ name = holy_order_guardians_of_divinerealm }
+		{ name = holy_order_faithful_of_highgod }
+		{ name = holy_order_warriors_of_the_symbol }
+	}
+
+	holy_order_maa = { horse_archers }
+
+	localization = {
+		HighGodName = ir_zalmoxis
+		HighGodName2 = ir_zalmoxis
+		HighGodNamePossessive = ir_zalmoxis_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = ir_sabazios
+		HighGodNameAlternatePossessive = ir_sabazios_possessive
+
+		#Creator
+		CreatorName = ir_sabazios
+		CreatorNamePossessive = ir_sabazios_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = ir_derzelas
+		HealthGodNamePossessive = ir_derzelas_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_HE
+		HealthGodHerHis = CHARACTER_HERHIS_HIS
+		HealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FertilityGod
+		FertilityGodName = ir_semele
+		FertilityGodNamePossessive = ir_semele_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = ir_bendis
+		WealthGodNamePossessive = ir_bendis_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_SHE
+		WealthGodHerHis = CHARACTER_HERHIS_HER
+		WealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#HouseholdGod
+		HouseholdGodName = paganism_household_god_name
+		HouseholdGodNamePossessive = paganism_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+		#FateGod
+		FateGodName = paganism_fate_god_name
+		FateGodNamePossessive = paganism_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_ITS
+		FateGodHerHim = CHARACTER_HERHIM_IT
+
+		#KnowledgeGod
+		KnowledgeGodName = paganism_knowledge_god_name
+		KnowledgeGodNamePossessive = paganism_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_SHE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HER
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HER
+
+		#WarGod
+		WarGodName = ir_pleistoros
+		WarGodNamePossessive = ir_pleistoros_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = ir_bassareus
+		TricksterGodNamePossessive = ir_bassareus_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_HE
+		TricksterGodHerHis = CHARACTER_HERHIS_HIS
+		TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#NightGod
+		NightGodName = paganism_night_god_name
+		NightGodNamePossessive = paganism_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_HE
+		NightGodHerHis = CHARACTER_HERHIS_HIS
+		NightGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WaterGod
+		WaterGodName = ir_zibelthiurdos
+		WaterGodNamePossessive = ir_zibelthiurdos_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+
+		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { ir_pleistoros ir_zalmoxis ir_sabazios ir_zibelthiurdos ir_derzelas ir_bassareus ir_semele ir_bendis }
+		DevilName = paganism_devil_name
+		DevilNamePossessive = paganism_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = paganism_devil_herselfhimself
+		EvilGodNames = { ir_pleistoros ir_zalmoxis ir_sabazios ir_zibelthiurdos ir_derzelas ir_bassareus ir_semele ir_bendis }
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
+		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
+		ReligiousHeadName = paganism_religious_head_title
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = paganism_priest
+		PriestMalePlural = paganism_priest_plural
+		PriestFemale = paganism_priest
+		PriestFemalePlural = paganism_priest_plural
+		PriestNeuter = paganism_priest
+		PriestNeuterPlural = paganism_priest_plural
+		AltPriestTermPlural = paganism_priest_alternate_plural
+		BishopMale = paganism_priest
+		BishopMalePlural = paganism_priest_plural
+		BishopFemale = paganism_priest
+		BishopFemalePlural = paganism_priest_plural
+		BishopNeuter = paganism_priest
+		BishopNeuterPlural = paganism_priest_plural
+		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
+		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
+		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
+		DeathDeityName = paganism_death_deity_name
+		DeathDeityNamePossessive = paganism_death_deity_name_possessive
+		DeathDeitySheHe = paganism_devil_shehe
+		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = witchgodname_paganism_the_shadow
+		WitchGodNamePossessive = witchgodname_paganism_the_shadow_possessive
+		WitchGodSheHe = CHARACTER_SHEHE_IT
+		WitchGodHerHis = CHARACTER_HERHIS_ITS
+		WitchGodHerHim = CHARACTER_HERHIM_IT
+		WitchGodMistressMaster = witch_spirit
+			WitchGodMotherFather = witch_source
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+hurrian_religion_group = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_adultery_men_shunned
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_close_kin_crime
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_bewailment
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = { brave just humble }
+		sins = { craven arbitrary arrogant }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 ibadi_custom muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1
+	}
+
+	holy_order_names = {
+		{ name = "holy_order_guardians_of_divinerealm" }
+		{ name = "holy_order_faithful_of_highgod" }
+		{ name = "holy_order_warriors_of_the_symbol" }
+	}
+
+	holy_order_maa = { bowmen }
+
+	localization = {
+		HighGodName = hurrian_high_god_name
+		HighGodName2 = hurrian_high_god_name
+		HighGodNamePossessive = hurrian_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = hurrian_high_god_name_alternate
+		HighGodNameAlternatePossessive = hurrian_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = hurrian_high_god_name
+		CreatorNamePossessive = hurrian_high_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = hurrian_health_god_name
+		HealthGodNamePossessive = hurrian_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_HE
+		HealthGodHerHis = CHARACTER_HERHIS_HIS
+		HealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FertilityGod
+		FertilityGodName = hurrian_fertility_god_name
+		FertilityGodNamePossessive = hurrian_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = hurrian_wealth_god_name
+		WealthGodNamePossessive = hurrian_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_SHE
+		WealthGodHerHis = CHARACTER_HERHIS_HER
+		WealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#HouseholdGod
+		HouseholdGodName = hurrian_wealth_god_name
+		HouseholdGodNamePossessive = hurrian_wealth_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+		#FateGod
+		FateGodName = hurrian_high_god_name
+		FateGodNamePossessive = hurrian_high_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_HE
+		FateGodHerHis = CHARACTER_HERHIS_HIS
+		FateGodHerHim = CHARACTER_HERHIM_HIM
+
+		#KnowledgeGod
+		KnowledgeGodName = hurrian_knowledge_god_name
+		KnowledgeGodNamePossessive = hurrian_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WarGod
+		WarGodName = hurrian_war_god_name
+		WarGodNamePossessive = hurrian_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = hurrian_knowledge_god_name
+		TricksterGodNamePossessive = hurrian_knowledge_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_HE
+		TricksterGodHerHis = CHARACTER_HERHIS_HIS
+		TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#NightGod
+		NightGodName = hurrian_night_god_name
+		NightGodNamePossessive = hurrian_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_SHE
+		NightGodHerHis = CHARACTER_HERHIS_HER
+		NightGodHerHim = CHARACTER_HERHIM_HER
+
+		#WaterGod
+		WaterGodName = hurrian_water_god_name
+		WaterGodNamePossessive = hurrian_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_IT
+		WaterGodHerHis = CHARACTER_HERHIS_ITS
+		WaterGodHerHim = CHARACTER_HERHIM_IT
+
+
+		PantheonTerm = hurrian_pantheon
+		PantheonTerm2 = hurrian_pantheon
+		PantheonTerm3 = hurrian_pantheon
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { hurrian_high_god_name hurrian_high_god_name_alternate hurrian_health_god_name hurrian_knowledge_god_name }
+		DevilName = paganism_evil_god_decay
+		DevilNamePossessive = paganism_evil_god_decay_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = CHARACTER_ITSELF
+		EvilGodNames = { paganism_evil_god_decay paganism_evil_god_drought paganism_devil_name }
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = akom_gye_nyame
+		ReligiousSymbol2 = akom_gye_nyame
+		ReligiousSymbol3 = akom_gye_nyame
+		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
+		ReligiousHeadName = hurrian_religious_head
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = ba_generic_priest_name
+		PriestMalePlural = ba_generic_priest_name_plural
+		PriestFemale = ba_generic_priestess_name
+		PriestFemalePlural = ba_generic_priestess_name_plural
+		PriestNeuter = ba_generic_priest_name
+		PriestNeuterPlural = ba_generic_priest_name_plural
+		AltPriestTermPlural = ba_generic_priest_name_plural
+		BishopMale = ba_generic_high_priest_name
+		BishopMalePlural = ba_generic_high_priest_name_plural
+		BishopFemale = ba_generic_high_priestess_name
+		BishopFemalePlural = ba_generic_high_priestess_name_plural
+		BishopNeuter = ba_generic_high_priest_name
+		BishopNeuterPlural = ba_generic_high_priest_name_plural
+		DivineRealm = hurrian_divine_realm
+		DivineRealm2 = hurrian_divine_realm_2
+		DivineRealm3 = hurrian_divine_realm_3
+		PositiveAfterLife = hurrian_afterlife
+		PositiveAfterLife2 = hurrian_afterlife
+		PositiveAfterLife3 = hurrian_afterlife
+		NegativeAfterLife = hurrian_afterlife
+		NegativeAfterLife2 = hurrian_afterlife
+		NegativeAfterLife3 = hurrian_afterlife
+		DeathDeityName = paganism_death_deity_name
+		DeathDeityNamePossessive = paganism_death_deity_name_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_IT
+		DeathDeityHerHis = CHARACTER_HERHIS_ITS
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = hurrian_night_god_name
+		WitchGodNamePossessive = hurrian_night_god_name_possessive
+		WitchGodHerHis = CHARACTER_HERHIS_HER
+		WitchGodSheHe = CHARACTER_SHEHE_SHE
+		WitchGodHerHim = CHARACTER_HERHIM_HER
+		WitchGodMistressMaster = mistress
+		WitchGodMotherFather = mother
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+hattian_religion = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	pagan_roots = yes
+
+	doctrine = pagan_hostility_doctrine
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head # IRToCK3: changed from doctrine_spiritual_head because that way we don't need a HoF landed title
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Mortuary Practices
+	doctrine = doctrine_funeral_stoic
+
+	#Marriage
+	doctrine = doctrine_monogamy
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_accepted
+	doctrine = doctrine_adultery_men_shunned
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_extended_family_crime
+	doctrine = doctrine_deviancy_accepted
+	doctrine = doctrine_witchcraft_accepted
+
+	#Allow pilgrimages
+	doctrine = doctrine_pilgrimage_encouraged
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_recruitment
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	traits = {
+		virtues = { generous temperate calm content honest }
+		sins = { greedy gluttonous wrathful ambitious deceitful }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7
+		custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2
+		buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1
+		sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6
+		judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr
+		custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer
+		custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus
+		custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush
+		custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys
+		custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa
+		custom_faith_cool_s
+	}
+
+	holy_order_names = {
+		{ name = "holy_order_guardians_of_divinerealm" }
+		{ name = "holy_order_faithful_of_highgod" }
+		{ name = "holy_order_warriors_of_the_symbol" }
+	}
+
+	holy_order_maa = { bowmen }
+
+	localization = {
+		HighGodName = hattian_high_god_name
+		HighGodName2 = hattian_high_god_name_2
+		HighGodNamePossessive = hattian_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_SHE
+		HighGodHerselfHimself = CHARACTER_HERSELF
+		HighGodHerHis = CHARACTER_HERHIS_HER
+		HighGodNameAlternate = hattian_high_god_name_alternate
+		HighGodNameAlternatePossessive = hattian_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = hattian_creator_god_name
+		CreatorNamePossessive = hattian_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = hattian_health_god_name
+		HealthGodNamePossessive = hattian_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_SHE
+		HealthGodHerHis = CHARACTER_HERHIS_HER
+		HealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#FertilityGod
+		FertilityGodName = hattian_fertility_god_name
+		FertilityGodNamePossessive = hattian_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = hattian_wealth_god_name
+		WealthGodNamePossessive = hattian_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#HouseholdGod
+		HouseholdGodName = hattian_household_god_name
+		HouseholdGodNamePossessive = hattian_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+		#FateGod
+		FateGodName = hattian_fate_god_name
+		FateGodNamePossessive = hattian_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_SHE
+		FateGodHerHis = CHARACTER_HERHIS_HER
+		FateGodHerHim = CHARACTER_HERHIM_HER
+
+		#KnowledgeGod
+		KnowledgeGodName = hattian_knowledge_god_name
+		KnowledgeGodNamePossessive = hattian_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_SHE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HER
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HER
+
+		#WarGod
+		WarGodName = hattian_war_god_name
+		WarGodNamePossessive = hattian_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = hattian_trickster_god_name
+		TricksterGodNamePossessive = hattian_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_SHE
+		TricksterGodHerHis = CHARACTER_HERHIS_HER
+		TricksterGodHerHim = CHARACTER_HERHIM_HER
+
+		#NightGod
+		NightGodName = hattian_night_god_name
+		NightGodNamePossessive = hattian_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_HE
+		NightGodHerHis = CHARACTER_HERHIS_HIS
+		NightGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WaterGod
+		WaterGodName = hattian_water_god_name
+		WaterGodNamePossessive = hattian_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#SunGod
+		# SunGodName = hattian_sun_god_name
+		# SunGodNamePossessive = hattian_sun_god_name_possessive
+		# SunGodSheHe = CHARACTER_SHEHE_SHE
+		# SunGodHerHis = CHARACTER_HERHIS_HER
+		# SunGodHerHim = CHARACTER_HERHIM_HER
+
+
+		PantheonTerm = religion_the_gods
+		PantheonTerm2 = religion_the_gods_2
+		PantheonTerm3 = religion_the_gods_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = {
+			hattian_high_god_name
+			hattian_high_god_name_alternate
+			hattian_fertility_god_name
+			hattian_wealth_god_name
+			hattian_household_god_name
+			hattian_fate_god_name
+			hattian_trickster_god_name
+			hattian_water_god_name
+			hattian_witch_god_name
+			hattian_good_god_kattahha
+			hattian_good_god_mezulla
+			hattian_good_god_hatepuna
+		}
+		DevilName = hattian_devil_name
+		DevilNamePossessive = hattian_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_HE
+		DevilHerHis = CHARACTER_HERHIS_HIS
+		DevilHerselfHimself = CHARACTER_HIMSELF
+		EvilGodNames = {
+			hattian_devil_name
+			hattian_war_god_name
+			hattian_night_god_name
+			hattian_death_deity_name
+			hattian_evil_god_istustaya_and_papaya
+		}
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = hattian_religious_symbol
+		ReligiousSymbol2 = hattian_religious_symbol_2
+		ReligiousSymbol3 = hattian_religious_symbol_3
+		ReligiousText = hattian_religious_text
+		ReligiousText2 = hattian_religious_text_2
+		ReligiousText3 = hattian_religious_text_3
+		ReligiousHeadName = hattian_religious_head
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = ba_generic_priest_name
+		PriestMalePlural = ba_generic_priest_name_plural
+		PriestFemale = ba_generic_priestess_name
+		PriestFemalePlural = ba_generic_priestess_name_plural
+		PriestNeuter = ba_generic_priest_name
+		PriestNeuterPlural = ba_generic_priest_name_plural
+		AltPriestTermPlural = ba_generic_priest_name_plural
+		BishopMale = ba_generic_high_priest_name
+		BishopMalePlural = ba_generic_high_priest_name_plural
+		BishopFemale = ba_generic_high_priestess_name
+		BishopFemalePlural = ba_generic_high_priestess_name_plural
+		BishopNeuter = ba_generic_high_priest_name
+		BishopNeuterPlural = ba_generic_high_priest_name_plural
+		DivineRealm = hattian_divine_realm
+		DivineRealm2 = hattian_divine_realm_2
+		DivineRealm3 = hattian_divine_realm_3
+		PositiveAfterLife = hattian_positive_afterlife
+		PositiveAfterLife2 = hattian_positive_afterlife_2
+		PositiveAfterLife3 = hattian_positive_afterlife_3
+		NegativeAfterLife = hattian_negative_afterlife
+		NegativeAfterLife2 = hattian_negative_afterlife_2
+		NegativeAfterLife3 = hattian_negative_afterlife_3
+		DeathDeityName = hattian_death_deity_name
+		DeathDeityNamePossessive = hattian_death_deity_name_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_SHE
+		DeathDeityHerHis = CHARACTER_HERHIS_HER
+		DeathDeityHerHim = CHARACTER_HERHIM_HER
+		WitchGodName = hattian_witch_god_name
+		WitchGodNamePossessive = hattian_witch_god_name_possessive
+		WitchGodHerHis = CHARACTER_HERHIS_HER
+		WitchGodSheHe = CHARACTER_SHEHE_SHE
+		WitchGodHerHim = CHARACTER_HERHIM_HER
+		WitchGodMistressMaster = mistress
+		WitchGodMotherFather = mother
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+elamite_religion = {
+	religion_details = {
+		family = rf_pagan
+	}
+
+	pagan_roots = yes
+
+	doctrine = pagan_hostility_doctrine
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_spiritual_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Mortuary Practices
+	doctrine = doctrine_funeral_stoic
+
+	#Marriage
+	doctrine = doctrine_monogamy
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece
+
+	#Crimes
+	doctrine = doctrine_homosexuality_shunned
+	doctrine = doctrine_adultery_men_crime
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_close_kin_crime
+	doctrine = doctrine_deviancy_shunned
+	doctrine = doctrine_witchcraft_shunned
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_taxation
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	#Allow pilgrimages
+	doctrine = doctrine_pilgrimage_encouraged
+
+	#Coronation tradition
+	doctrine = doctrine_anointment_permitted
+
+	traits = {
+		virtues = { honest just diligent compassionate }
+		sins = { deceitful arbitrary lazy sadistic callous }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa custom_faith_cool_s
+	}
+
+	holy_order_names = {
+		{ name = "holy_order_guardians_of_divinerealm" }
+		{ name = "holy_order_faithful_of_highgod" }
+		{ name = "holy_order_warriors_of_the_symbol" }
+	}
+
+	holy_order_maa = { bowmen }
+
+	localization = {
+		HighGodName = elamite_high_god_name
+		HighGodName2 = elamite_high_god_name_2
+		HighGodNamePossessive = elamite_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_HE
+		HighGodHerselfHimself = CHARACTER_HIMSELF
+		HighGodHerHis = CHARACTER_HERHIS_HIS
+		HighGodNameAlternate = elamite_high_god_name_alternate
+		HighGodNameAlternatePossessive = elamite_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = elamite_creator_god_name
+		CreatorNamePossessive = elamite_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = elamite_health_god_name
+		HealthGodNamePossessive = elamite_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_SHE
+		HealthGodHerHis = CHARACTER_HERHIS_HER
+		HealthGodHerHim = CHARACTER_HERHIM_HER
+
+		#FertilityGod
+		FertilityGodName = elamite_fertility_god_name
+		FertilityGodNamePossessive = elamite_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = elamite_wealth_god_name
+		WealthGodNamePossessive = elamite_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#HouseholdGod
+		HouseholdGodName = elamite_wealth_god_name
+		HouseholdGodNamePossessive = elamite_wealth_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+		#FateGod
+		FateGodName = elamite_high_god_name
+		FateGodNamePossessive = elamite_high_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_HE
+		FateGodHerHis = CHARACTER_HERHIS_HIS
+		FateGodHerHim = CHARACTER_HERHIM_HIM
+
+		#KnowledgeGod
+		KnowledgeGodName = elamite_knowledge_god_name
+		KnowledgeGodNamePossessive = elamite_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WarGod
+		WarGodName = elamite_war_god_name
+		WarGodNamePossessive = elamite_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_SHE
+		WarGodHerHis = CHARACTER_HERHIS_HER
+		WarGodHerHim = CHARACTER_HERHIM_HER
+
+		#TricksterGod
+		TricksterGodName = elamite_trickster_god_name
+		TricksterGodNamePossessive = elamite_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_HE
+		TricksterGodHerHis = CHARACTER_HERHIS_HIS
+		TricksterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#NightGod
+		NightGodName = elamite_night_god_name
+		NightGodNamePossessive = elamite_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_HE
+		NightGodHerHis = CHARACTER_HERHIS_HIS
+		NightGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WaterGod
+		WaterGodName = elamite_water_god_name
+		WaterGodNamePossessive = elamite_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+		#SunGod
+		#SunGodName = elamite_sun_god_name
+		#SunGodNamePossessive = elamite_sun_god_name_possessive
+		#SunGodSheHe = CHARACTER_SHEHE_HE
+		#SunGodHerHis = CHARACTER_HERHIS_HIS
+		#SunGodHerHim = CHARACTER_HERHIM_HIM
+
+		GoodGodNames = {
+			elamite_high_god_name
+			elamite_high_god_name_alternate
+			elamite_creator_god_name
+			elamite_health_god_name
+			elamite_fertility_god_name
+			elamite_wealth_god_name
+			elamite_household_god_name
+			elamite_knowledge_god_name
+			elamite_water_god_name
+			elamite_good_god_hutran
+			elamite_good_god_upurkupak
+		}
+		EvilGodNames = {
+			elamite_devil_name
+			elamite_death_deity_name
+			elamite_war_god_name
+			elamite_trickster_god_name
+			elamite_night_god_name
+			elamite_evil_god_kirmashir
+			elamite_evil_god_hishmitik
+		}
+
+		PantheonTerm = elamite_pantheon
+		PantheonTerm2 = elamite_pantheon_2
+		PantheonTerm3 = elamite_pantheon_3
+		PantheonTermHasHave = pantheon_term_have
+		DevilName = elamite_devil_name
+		DevilNamePossessive = elamite_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_SHE
+		DevilHerHis = CHARACTER_HERHIS_HER
+		DevilHerselfHimself = CHARACTER_HERSELF
+		HouseOfWorship = mesopotamian_house_of_worship
+		HouseOfWorship2 = mesopotamian_house_of_worship_2
+		HouseOfWorship3 = mesopotamian_house_of_worship_3
+		HouseOfWorshipPlural = mesopotamian_house_of_worship_plural
+		ReligiousSymbol = elamite_religious_symbol
+		ReligiousSymbol2 = elamite_religious_symbol_2
+		ReligiousSymbol3 = elamite_religious_symbol_3
+		ReligiousText = elamite_religious_text
+		ReligiousText2 = elamite_religious_text_2
+		ReligiousText3 = elamite_religious_text_3
+		ReligiousHeadName = ba_generic_high_priest_name
+		ReligiousHeadTitleName = ba_generic_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = ba_generic_priest_name
+		PriestMalePlural = ba_generic_priest_name_plural
+		PriestFemale = ba_generic_priestess_name
+		PriestFemalePlural = ba_generic_priestess_name_plural
+		PriestNeuter = ba_generic_priest_name
+		PriestNeuterPlural = ba_generic_priest_name_plural
+		AltPriestTermPlural = ba_generic_priest_name_plural
+		BishopMale = ba_generic_high_priest_name
+		BishopMalePlural = ba_generic_high_priest_name_plural
+		BishopFemale = ba_generic_high_priestess_name
+		BishopFemalePlural = ba_generic_high_priestess_name_plural
+		BishopNeuter = ba_generic_high_priest_name
+		BishopNeuterPlural = ba_generic_high_priest_name_plural
+		DivineRealm = elamite_divine_realm
+		DivineRealm2 = elamite_divine_realm_2
+		DivineRealm3 = elamite_divine_realm_3
+		PositiveAfterLife = elamite_positive_afterlife
+		PositiveAfterLife2 = elamite_positive_afterlife_2
+		PositiveAfterLife3 = elamite_positive_afterlife_3
+		NegativeAfterLife = elamite_negative_afterlife
+		NegativeAfterLife2 = elamite_negative_afterlife_2
+		NegativeAfterLife3 = elamite_negative_afterlife_3
+		DeathDeityName = elamite_death_deity_name
+		DeathDeityNamePossessive = elamite_death_deity_name_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_HE
+		DeathDeityHerHis = CHARACTER_HERHIS_HIS
+		DeathDeityHerHim = CHARACTER_HERHIM_HIM
+		WitchGodName = elamite_witch_god_name
+		WitchGodNamePossessive = elamite_witch_god_name_possessive
+		WitchGodHerHis = CHARACTER_HERHIS_HIS
+		WitchGodSheHe = CHARACTER_SHEHE_HE
+		WitchGodHerHim = CHARACTER_HERHIM_HIM
+		WitchGodMistressMaster = master
+		WitchGodMotherFather = father
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}
+}
+
+chinese_religion = {
+	religion_details = {
+		family = rf_sinitic
+		graphical_faith = sinitic_gfx
+	}
+
+	doctrine = eastern_hostility_doctrine
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_none
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_accepted
+	doctrine = doctrine_adultery_men_shunned
+	doctrine = doctrine_adultery_women_shunned
+	doctrine = doctrine_kinslaying_any_dynasty_member_crime
+	doctrine = doctrine_deviancy_shunned
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_alms_and_pacification
+	doctrine = doctrine_clerical_gender_male_only
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	#Special Doctrine for Eastern Syncretism
+	doctrine = special_doctrine_immaterial_harmony
+
+	#Allow pilgrimages
+	doctrine = doctrine_pilgrimage_local_rites
+
+	#Funeral tradition
+	doctrine = doctrine_funeral_stoic
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = {
+			compassionate
+			content
+			humble
+		}
+		sins = {
+			sadistic
+			ambitious
+			arrogant
+		}
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa custom_faith_cool_s custom_faith_magatama custom_faith_soto custom_faith_benzhuism
+	}
+
+	# For now just using Taoism localization
+	localization = {
+		HighGodName = taoism_high_god_name
+		HighGodName2 = taoism_high_god_name_2
+		HighGodNamePossessive = taoism_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_IT
+		HighGodHerselfHimself = CHARACTER_ITSELF
+		HighGodHerHis = CHARACTER_HERHIS_ITS
+		HighGodNameAlternate = taoism_high_god_name_alternate
+		HighGodNameAlternatePossessive = taoism_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = taoism_creator_god_name
+		CreatorNamePossessive = taoism_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = taoism_health_god_name
+		HealthGodNamePossessive = taoism_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_HE
+		HealthGodHerHis = CHARACTER_HERHIS_HIS
+		HealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FertilityGod
+		FertilityGodName = taoism_fertility_god_name
+		FertilityGodNamePossessive = taoism_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_HE
+		FertilityGodHerHis = CHARACTER_HERHIS_HIS
+		FertilityGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WealthGod
+		WealthGodName = taoism_wealth_god_name
+		WealthGodNamePossessive = taoism_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#HouseholdGod
+		HouseholdGodName = taoism_household_god_name
+		HouseholdGodNamePossessive = taoism_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_HE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HIS
+		HouseholdGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FateGod
+		FateGodName = taoism_fate_god_name
+		FateGodNamePossessive = taoism_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_ITS
+		FateGodHerHim = CHARACTER_HERHIM_IT
+
+		#KnowledgeGod
+		KnowledgeGodName = taoism_knowledge_god_name
+		KnowledgeGodNamePossessive = taoism_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WarGod
+		WarGodName = taoism_war_god_name
+		WarGodNamePossessive = taoism_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = taoism_trickster_god_name
+		TricksterGodNamePossessive = taoism_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_SHE
+		TricksterGodHerHis = CHARACTER_HERHIS_HER
+		TricksterGodHerHim = CHARACTER_HERHIM_HER
+
+		#NightGod
+		NightGodName = taoism_night_god_name
+		NightGodNamePossessive = taoism_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_SHE
+		NightGodHerHis = CHARACTER_HERHIS_HER
+		NightGodHerHim = CHARACTER_HERHIM_HER
+
+		#WaterGod
+		WaterGodName = taoism_water_god_name
+		WaterGodNamePossessive = taoism_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+		PantheonTerm = religion_the_gods
+		PantheonTerm2 = religion_the_gods_2
+		PantheonTerm3 = religion_the_gods_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = {
+			taoism_good_god_name_three_pure_ones
+			taoism_wealth_god_name
+			taoism_health_god_name
+			taoism_knowledge_god_name
+			taoism_war_god_name
+			taoism_night_god_name
+			taoism_water_god_name
+		}
+		DevilName = taoism_devil_name
+		DevilNamePossessive = taoism_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = CHARACTER_ITSELF
+		EvilGodNames = { taoism_devil_name }
+		HouseOfWorship = taoism_house_of_worship
+		HouseOfWorship2 = taoism_house_of_worship_2
+		HouseOfWorship3 = taoism_house_of_worship_3
+		HouseOfWorshipPlural = taoism_house_of_worship_plural
+		ReligiousSymbol = taoism_religious_symbol
+		ReligiousSymbol2 = taoism_religious_symbol_2
+		ReligiousSymbol3 = taoism_religious_symbol_3
+		ReligiousText = taoism_religious_text
+		ReligiousText2 = taoism_religious_text_2
+		ReligiousText3 = taoism_religious_text_3
+		ReligiousHeadName = taoism_religious_head_title
+		ReligiousHeadTitleName = taoism_religious_head_title_name
+		DevoteeMale = taoism_devotee_male
+		DevoteeMalePlural = taoism_devotee_male_plural
+		DevoteeFemale = taoism_devotee_female
+		DevoteeFemalePlural = taoism_devotee_female_plural
+		DevoteeNeuter = taoism_devotee_neuter
+		DevoteeNeuterPlural = taoism_devotee_neuter_plural
+		PriestMale = taoism_priest_male
+		PriestMalePlural = taoism_priest_male_plural
+		PriestFemale = taoism_priest_female
+		PriestFemalePlural = taoism_priest_female_plural
+		PriestNeuter = taoism_priest_neuter
+		PriestNeuterPlural = taoism_priest_neuter_plural
+		AltPriestTermPlural = taoism_alternate_priest_term_plural
+		BishopMale = taoism_priest_male
+		BishopMalePlural = taoism_priest_male_plural
+		BishopFemale = taoism_priest_female
+		BishopFemalePlural = taoism_priest_female_plural
+		BishopNeuter = taoism_priest_neuter
+		BishopNeuterPlural = taoism_priest_neuter_plural
+
+		DivineRealm = taoism_divine_realm
+		DivineRealm2 = taoism_divine_realm_2
+		DivineRealm3 = taoism_divine_realm_3
+		PositiveAfterLife = taoism_positive_afterlife
+		PositiveAfterLife2 = taoism_positive_afterlife_2
+		PositiveAfterLife3 = taoism_positive_afterlife_3
+		NegativeAfterLife = taoism_negative_afterlife
+		NegativeAfterLife2 = taoism_negative_afterlife_2
+		NegativeAfterLife3 = taoism_negative_afterlife_3
+		DeathDeityName = paganism_death_deity_name
+		DeathDeityNamePossessive = paganism_death_deity_name_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_IT
+		DeathDeityHerHis = CHARACTER_HERSHIS_ITS
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = witchgodname_taoism_daode_tianzun
+		WitchGodNamePossessive = witchgodname_taoism_daode_tianzun_possessive
+		WitchGodHerHis = CHARACTER_HERHIS_HER
+		WitchGodSheHe = CHARACTER_SHEHE_SHE
+		WitchGodHerHim = CHARACTER_HERHIM_HER
+		WitchGodMistressMaster = mistress
+		WitchGodMotherFather = mother
+
+		GHWName = ghw_purification
+		GHWNamePlural = ghw_purifications
+	}
+}
+
+baiyue_religion = {
+	religion_details = {
+		family = rf_sinitic
+		graphical_faith = dharmic_gfx
+	}
+
+	doctrine = pagan_hostility_doctrine
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_none
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_accepted
+	doctrine = doctrine_adultery_men_shunned
+	doctrine = doctrine_adultery_women_shunned
+	doctrine = doctrine_kinslaying_any_dynasty_member_crime
+	doctrine = doctrine_deviancy_shunned
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_alms_and_pacification
+	doctrine = doctrine_clerical_gender_male_only
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	#Special Doctrine for Eastern Syncretism
+	doctrine = special_doctrine_immaterial_harmony
+
+	#Allow pilgrimages
+	doctrine = doctrine_pilgrimage_local_rites
+
+	#Funeral tradition
+	doctrine = doctrine_funeral_stoic
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = {
+			compassionate
+			content
+			humble
+		}
+		sins = {
+			sadistic
+			ambitious
+			arrogant
+		}
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa custom_faith_cool_s custom_faith_magatama custom_faith_soto custom_faith_benzhuism
+	}
+
+	# For now just using Taoism localization
+	localization = {
+		HighGodName = taoism_high_god_name
+		HighGodName2 = taoism_high_god_name_2
+		HighGodNamePossessive = taoism_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_IT
+		HighGodHerselfHimself = CHARACTER_ITSELF
+		HighGodHerHis = CHARACTER_HERHIS_ITS
+		HighGodNameAlternate = taoism_high_god_name_alternate
+		HighGodNameAlternatePossessive = taoism_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = taoism_creator_god_name
+		CreatorNamePossessive = taoism_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = taoism_health_god_name
+		HealthGodNamePossessive = taoism_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_HE
+		HealthGodHerHis = CHARACTER_HERHIS_HIS
+		HealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FertilityGod
+		FertilityGodName = taoism_fertility_god_name
+		FertilityGodNamePossessive = taoism_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_HE
+		FertilityGodHerHis = CHARACTER_HERHIS_HIS
+		FertilityGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WealthGod
+		WealthGodName = taoism_wealth_god_name
+		WealthGodNamePossessive = taoism_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#HouseholdGod
+		HouseholdGodName = taoism_household_god_name
+		HouseholdGodNamePossessive = taoism_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_HE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HIS
+		HouseholdGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FateGod
+		FateGodName = taoism_fate_god_name
+		FateGodNamePossessive = taoism_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_ITS
+		FateGodHerHim = CHARACTER_HERHIM_IT
+
+		#KnowledgeGod
+		KnowledgeGodName = taoism_knowledge_god_name
+		KnowledgeGodNamePossessive = taoism_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WarGod
+		WarGodName = taoism_war_god_name
+		WarGodNamePossessive = taoism_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = taoism_trickster_god_name
+		TricksterGodNamePossessive = taoism_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_SHE
+		TricksterGodHerHis = CHARACTER_HERHIS_HER
+		TricksterGodHerHim = CHARACTER_HERHIM_HER
+
+		#NightGod
+		NightGodName = taoism_night_god_name
+		NightGodNamePossessive = taoism_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_SHE
+		NightGodHerHis = CHARACTER_HERHIS_HER
+		NightGodHerHim = CHARACTER_HERHIM_HER
+
+		#WaterGod
+		WaterGodName = taoism_water_god_name
+		WaterGodNamePossessive = taoism_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+		PantheonTerm = religion_the_gods
+		PantheonTerm2 = religion_the_gods_2
+		PantheonTerm3 = religion_the_gods_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = {
+			taoism_good_god_name_three_pure_ones
+			taoism_wealth_god_name
+			taoism_health_god_name
+			taoism_knowledge_god_name
+			taoism_war_god_name
+			taoism_night_god_name
+			taoism_water_god_name
+		}
+		DevilName = taoism_devil_name
+		DevilNamePossessive = taoism_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = CHARACTER_ITSELF
+		EvilGodNames = { taoism_devil_name }
+		HouseOfWorship = taoism_house_of_worship
+		HouseOfWorship2 = taoism_house_of_worship_2
+		HouseOfWorship3 = taoism_house_of_worship_3
+		HouseOfWorshipPlural = taoism_house_of_worship_plural
+		ReligiousSymbol = taoism_religious_symbol
+		ReligiousSymbol2 = taoism_religious_symbol_2
+		ReligiousSymbol3 = taoism_religious_symbol_3
+		ReligiousText = taoism_religious_text
+		ReligiousText2 = taoism_religious_text_2
+		ReligiousText3 = taoism_religious_text_3
+		ReligiousHeadName = taoism_religious_head_title
+		ReligiousHeadTitleName = taoism_religious_head_title_name
+		DevoteeMale = taoism_devotee_male
+		DevoteeMalePlural = taoism_devotee_male_plural
+		DevoteeFemale = taoism_devotee_female
+		DevoteeFemalePlural = taoism_devotee_female_plural
+		DevoteeNeuter = taoism_devotee_neuter
+		DevoteeNeuterPlural = taoism_devotee_neuter_plural
+		PriestMale = taoism_priest_male
+		PriestMalePlural = taoism_priest_male_plural
+		PriestFemale = taoism_priest_female
+		PriestFemalePlural = taoism_priest_female_plural
+		PriestNeuter = taoism_priest_neuter
+		PriestNeuterPlural = taoism_priest_neuter_plural
+		AltPriestTermPlural = taoism_alternate_priest_term_plural
+		BishopMale = taoism_priest_male
+		BishopMalePlural = taoism_priest_male_plural
+		BishopFemale = taoism_priest_female
+		BishopFemalePlural = taoism_priest_female_plural
+		BishopNeuter = taoism_priest_neuter
+		BishopNeuterPlural = taoism_priest_neuter_plural
+
+		DivineRealm = taoism_divine_realm
+		DivineRealm2 = taoism_divine_realm_2
+		DivineRealm3 = taoism_divine_realm_3
+		PositiveAfterLife = taoism_positive_afterlife
+		PositiveAfterLife2 = taoism_positive_afterlife_2
+		PositiveAfterLife3 = taoism_positive_afterlife_3
+		NegativeAfterLife = taoism_negative_afterlife
+		NegativeAfterLife2 = taoism_negative_afterlife_2
+		NegativeAfterLife3 = taoism_negative_afterlife_3
+		DeathDeityName = paganism_death_deity_name
+		DeathDeityNamePossessive = paganism_death_deity_name_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_IT
+		DeathDeityHerHis = CHARACTER_HERSHIS_ITS
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = witchgodname_taoism_daode_tianzun
+		WitchGodNamePossessive = witchgodname_taoism_daode_tianzun_possessive
+		WitchGodHerHis = CHARACTER_HERHIS_HER
+		WitchGodSheHe = CHARACTER_SHEHE_SHE
+		WitchGodHerHim = CHARACTER_HERHIM_HER
+		WitchGodMistressMaster = mistress
+		WitchGodMotherFather = mother
+
+		GHWName = ghw_purification
+		GHWNamePlural = ghw_purifications
+	}
+}

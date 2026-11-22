@@ -1,0 +1,15 @@
+doctrine_a1 = {
+	doctrine_group_type = doctrine_group_a
+}
+doctrine_a2 = {
+	doctrine_group_type = doctrine_group_a
+}
+doctrine_b1 = {
+	doctrine_group_type = doctrine_group_b
+}
+doctrine_c1 = {
+	doctrine_group_type = doctrine_group_c
+}
+doctrine_c2 = {
+	doctrine_group_type = doctrine_group_c
+}

@@ -35,12 +35,12 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 		History = historyFactory.GetHistory(reader);
 	}
 	public void CopyEntriesFromProvince(Province sourceProvince) {
-		// Culture, faith and terrain can be copied from source province.
+		// Culture, faith, rite and terrain can be copied from source province.
 		BaseProvinceId = sourceProvince.Id;
 
 		var srcProvinceHistoryFields = sourceProvince.History.Fields;
 
-		var fieldsToCopy = new[] {"culture", "faith", "terrain"};
+		var fieldsToCopy = new[] {"culture", "faith", "rite", "terrain"};
 		foreach (var fieldName in fieldsToCopy) {
 			if (History.Fields.TryGetValue(fieldName, out var field)) {
 				if (field.DateToEntriesDict.Count != 0) {
@@ -69,7 +69,7 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 		secondaryImperatorProvinces.UnionWith(secondarySourceProvinces);
 		PrimaryImperatorProvince = primarySourceProvince;
 
-		var fieldsToKeep = new[] {"culture", "faith", "terrain", "special_building_slot"};
+		var fieldsToKeep = new[] {"culture", "faith", "rite", "terrain", "special_building_slot"};
 		foreach (var field in History.Fields.Where(f=>!fieldsToKeep.Contains(f.Id))) {
 			field.RemoveAllEntries();
 		}
@@ -118,7 +118,7 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 				);
 				if (religionMatch is not null) {
 					Logger.Warn($"Using country religion for province {Id}");
-					SetFaithId(religionMatch, date: null);
+					ApplyReligionMatch(religionMatch);
 					religionSet = true;
 					break;
 				}
@@ -146,12 +146,19 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 				config: config
 			);
 			if (religionMatch is not null) {
-				SetFaithId(religionMatch, date: null);
+				ApplyReligionMatch(religionMatch);
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	private void ApplyReligionMatch(ReligionMatch religionMatch) {
+		SetFaithId(religionMatch.FaithId, date: null);
+		if (religionMatch.RiteId is not null) {
+			SetRiteId(religionMatch.RiteId, date: null);
+		}
 	}
 
 	private bool TrySetReligionFromSecondarySources(ImperatorProvince primarySource, OrderedSet<ImperatorProvince> secondarySources, ReligionMapper religionMapper, Configuration config, string? cultureId) {
@@ -166,7 +173,7 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 				config: config
 			);
 			if (religionMatch is not null) {
-				SetFaithId(religionMatch, date: null);
+				ApplyReligionMatch(religionMatch);
 				return true;
 			}
 		}

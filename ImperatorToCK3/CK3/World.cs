@@ -73,6 +73,16 @@ internal sealed class World {
 	/// </summary>
 	public Date CorrectedDate { get; private set; } = new Date(2, 1, 1); // overwritten by DetermineCK3BookmarkDate
 
+	public void ConvertFaithHistoryToRites() {
+		Logger.Info("Converting faith history entries to rites...");
+		foreach (var character in Characters) {
+			Religions.ConvertFaithHistoryToRites(character.History);
+		}
+		foreach (var province in Provinces) {
+			Religions.ConvertFaithHistoryToRites(province.History);
+		}
+	}
+
 	internal World(Imperator.World impWorld, Configuration config, Thread? irCoaExtractThread) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
 
@@ -189,10 +199,16 @@ internal sealed class World {
 				Religions.LoadReligions(ModFS, ck3ColorFactory);
 				Logger.Info("Loaded CK3 religions.");
 				Logger.IncrementProgress();
+				Logger.Info("Loading converter religions...");
+				Religions.LoadConverterReligions("configurables/converter_religions.liquid", ck3ColorFactory, liquidVariables);
+				Logger.Info("Loaded converter religions.");
 				Logger.Info("Loading converter faiths...");
 				Religions.LoadConverterFaiths("configurables/converter_faiths.liquid", ck3ColorFactory, liquidVariables);
 				Logger.Info("Loaded converter faiths.");
 				Logger.IncrementProgress();
+				Logger.Info("Loading converter rites...");
+				Religions.LoadConverterRites("configurables/converter_rites.liquid", ck3ColorFactory, liquidVariables);
+				Logger.Info("Loaded converter rites.");
 				Religions.RemoveChristianAndIslamicSyncretismFromAllFaiths();
 				// Now that all the faiths are loaded, remove liege entries from the history of religious head titles.
 				LandedTitles.RemoveLiegeEntriesFromReligiousHeadHistory(Religions);
@@ -221,6 +237,11 @@ internal sealed class World {
 		);
 
 		var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, CK3RegionMapper);
+
+		// CK3 1.20+ character history uses rite instead of faith.
+		foreach (var character in Characters) {
+			Religions.ResolveRiteIdsInFaithHistory(character.History);
+		}
 
 		Parallel.Invoke(
 			() => Cultures.ImportTechnology(impWorld.Countries, cultureMapper, provinceMapper, impWorld.InventionsDB, impWorld.LocDB, liquidVariables),

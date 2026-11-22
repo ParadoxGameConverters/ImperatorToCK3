@@ -103,8 +103,9 @@ public class ProvinceTests {
 			Cultures);
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		var religion = new Religion("test_religion",
-			new BufferedReader("faiths={ hellenic={} }"), ck3Religions, new ColorFactory());
+			new BufferedReader("{}"), ck3Religions);
 		ck3Religions.AddOrReplace(religion);
+		religion.Faiths.AddOrReplace(new Faith("hellenic", new FaithData { ReligionId = "test_religion" }, religion));
 		var religionMapper = new ReligionMapper(
 			new BufferedReader("link={ir=hellenic ck3=hellenic}"),
 			ck3Religions,

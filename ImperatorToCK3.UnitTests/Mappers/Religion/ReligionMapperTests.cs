@@ -49,8 +49,8 @@ public class ReligionMapperTests {
 		var reader = new BufferedReader("link = { ck3 = ck3Faith ir = impReligion }");
 		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, ck3RegionMapper);
 
-		var ck3FaithId = mapper.Match("impReligion", null, 45, 456, null, new Configuration());
-		Assert.Equal("ck3Faith", ck3FaithId);
+		var religionMatch = mapper.Match("impReligion", null, 45, 456, null, new Configuration());
+		Assert.Equal("ck3Faith", religionMatch?.FaithId);
 	}
 
 	[Fact]
@@ -64,8 +64,8 @@ public class ReligionMapperTests {
 		);
 		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, ck3RegionMapper);
 
-		var ck3FaithId = mapper.Match("impReligion2", null, 45, 456, null, new Configuration());
-		Assert.Equal("ck3Faith", ck3FaithId);
+		var religionMatch = mapper.Match("impReligion2", null, 45, 456, null, new Configuration());
+		Assert.Equal("ck3Faith", religionMatch?.FaithId);
 	}
 
 	[Fact]
@@ -80,8 +80,8 @@ public class ReligionMapperTests {
 		);
 		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, ck3RegionMapper);
 
-		var ck3FaithId = mapper.Match("impReligion2", null, 45, 456, null, new Configuration());
-		Assert.Equal("ck3Faith2", ck3FaithId);
+		var religionMatch = mapper.Match("impReligion2", null, 45, 456, null, new Configuration());
+		Assert.Equal("ck3Faith2", religionMatch?.FaithId);
 	}
 
 	[Fact]
@@ -98,8 +98,110 @@ public class ReligionMapperTests {
 		""");
 		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, ck3RegionMapper);
 
-		Assert.Equal("ck3Faith", mapper.Match(irReligion, null, 45, 456, "ROM", new Configuration()));
-		Assert.Equal("ck3Faith2", mapper.Match(irReligion, null, 45, 456, "ARM", new Configuration()));
-		Assert.Equal("ck3Faith3", mapper.Match(irReligion, null, 45, 456, "LOL", new Configuration()));
+		Assert.Equal("ck3Faith", mapper.Match(irReligion, null, 45, 456, "ROM", new Configuration())?.FaithId);
+		Assert.Equal("ck3Faith2", mapper.Match(irReligion, null, 45, 456, "ARM", new Configuration())?.FaithId);
+		Assert.Equal("ck3Faith3", mapper.Match(irReligion, null, 45, 456, "LOL", new Configuration())?.FaithId);
+	}
+
+	[Fact]
+	public void RiteIdIsPreferredOverFaithId() {
+		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
+		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
+		var rite = new Rite(
+			"test_rite",
+			new BufferedReader("{ faith = religion_a_faith }"),
+			ck3Religions,
+			new ColorFactory());
+		ck3Religions.Rites.AddOrReplace(rite);
+
+		var reader = new BufferedReader("link = { ck3 = test_rite ir = impReligion }");
+		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, new CK3RegionMapper());
+
+		var match = mapper.Match("impReligion", null, null, null, null, new Configuration());
+		Assert.Equal("religion_a_faith", match?.FaithId);
+		Assert.Equal("test_rite", match?.RiteId);
+	}
+
+	[Fact]
+	public void FaithIdCanBeMappedWithoutRite() {
+		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
+		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
+
+		var reader = new BufferedReader("link = { ck3 = religion_a_faith ir = impReligion }");
+		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, new CK3RegionMapper());
+
+		var match = mapper.Match("impReligion", null, null, null, null, new Configuration());
+		Assert.Equal("religion_a_faith", match?.FaithId);
+		Assert.Null(match?.RiteId);
+	}
+
+	[Fact]
+	public void UnknownCk3IdIsDropped() {
+		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
+		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
+
+		var reader = new BufferedReader("link = { ck3 = nonexistent_rite_or_faith ir = impReligion }");
+		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, new CK3RegionMapper());
+
+		Assert.Null(mapper.Match("impReligion", null, null, null, null, new Configuration()));
+	}
+
+	[Fact]
+	public void UnresolvedMappingFallsThroughToNextValidMapping() {
+		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
+		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
+
+		var reader = new BufferedReader("""
+			link = { ck3 = nonexistent_rite_or_faith ir = impReligion }
+			link = { ck3 = ck3Faith ir = impReligion }
+			""");
+		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, new CK3RegionMapper());
+
+		var match = mapper.Match("impReligion", null, null, null, null, new Configuration());
+		Assert.Equal("ck3Faith", match?.FaithId);
+		Assert.Null(match?.RiteId);
+	}
+
+	[Fact]
+	public void RiteMappingTakesPriorityAndFaithMappingServesAsFallback() {
+		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
+		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
+		var rite = new Rite(
+			"priority_test_rite",
+			new BufferedReader("{ faith = religion_a_faith }"),
+			ck3Religions,
+			new ColorFactory());
+		ck3Religions.Rites.AddOrReplace(rite);
+
+		var reader = new BufferedReader("""
+			link = { ck3 = priority_test_rite ir = impReligion historicalTag = ROM }
+			link = { ck3 = religion_a_faith ir = impReligion }
+			""");
+		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, new CK3RegionMapper());
+
+		var priorityMatch = mapper.Match("impReligion", null, null, null, "ROM", new Configuration());
+		Assert.Equal("religion_a_faith", priorityMatch?.FaithId);
+		Assert.Equal("priority_test_rite", priorityMatch?.RiteId);
+
+		var fallbackMatch = mapper.Match("impReligion", null, null, null, "LOL", new Configuration());
+		Assert.Equal("religion_a_faith", fallbackMatch?.FaithId);
+		Assert.Null(fallbackMatch?.RiteId);
+	}
+
+	[Fact]
+	public void FaithlessRiteMappingIsDropped() {
+		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
+		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
+		var rite = new Rite(
+			"faithless_test_rite",
+			new BufferedReader("{ color = rgb { 1 2 3 } }"),
+			ck3Religions,
+			new ColorFactory());
+		ck3Religions.Rites.AddOrReplace(rite);
+
+		var reader = new BufferedReader("link = { ck3 = faithless_test_rite ir = impReligion }");
+		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, new CK3RegionMapper());
+
+		Assert.Null(mapper.Match("impReligion", null, null, null, null, new Configuration()));
 	}
 }

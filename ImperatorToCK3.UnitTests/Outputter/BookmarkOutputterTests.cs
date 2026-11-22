@@ -394,6 +394,33 @@ public class BookmarkOutputterTests {
 	}
 
 	[Fact]
+	public async Task AddTitleToBookmarkScreenPrefersRiteOverFaith() {
+		try {
+			Directory.CreateDirectory(Path.Combine("output", OutputModName, "common", "bookmark_portraits"));
+			var config = new Configuration { OutputModName = OutputModName, CK3BookmarkDate = ConversionDate };
+
+			var characters = new CharacterCollection();
+			var holder = new Character("char_rite", "Riteus", new Date(700, 1, 1), characters);
+			characters.AddOrReplace(holder);
+			holder.SetFaithId("faith_jupiter", ConversionDate);
+			holder.SetRiteId("jupiter_rite", ConversionDate);
+			holder.SetCultureId("culture_roman", ConversionDate);
+
+			var cRome = CreateRomeCounty(holder);
+			var ck3LocDB = new TestCK3LocDB();
+
+			var sb = new StringBuilder();
+			await BookmarkOutputter.AddTitleToBookmarkScreen(cRome, sb, holder.Id, characters, ck3LocDB, (540, 540), config);
+
+			var text = sb.ToString();
+			Assert.Contains("religion=jupiter_rite", text, StringComparison.Ordinal);
+			Assert.DoesNotContain("religion=faith_jupiter", text, StringComparison.Ordinal);
+		} finally {
+			TryDeleteDir(Path.Combine("output", OutputModName));
+		}
+	}
+
+	[Fact]
 	public async Task AddTitleToBookmarkScreenFallsBackToRawNameKeyAndOmitsMissingFields() {
 		try {
 			Directory.CreateDirectory(Path.Combine("output", OutputModName, "common", "bookmark_portraits"));

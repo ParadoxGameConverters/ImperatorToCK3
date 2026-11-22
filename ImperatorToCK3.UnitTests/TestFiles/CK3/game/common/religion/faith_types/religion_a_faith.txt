@@ -1,0 +1,16 @@
+religion_a_faith = {
+	faith_details = {
+		religion = religion_a
+	}
+
+	holy_sites = {
+		site1
+		site2
+	}
+
+	eminent_holy_sites = {
+		site3
+		site4
+		site5
+	}
+}
