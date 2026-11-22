@@ -147,6 +147,48 @@ public class ReligionMapperTests {
 	}
 
 	[Fact]
+	public void UnresolvedMappingFallsThroughToNextValidMapping() {
+		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
+		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
+
+		var reader = new BufferedReader("""
+			link = { ck3 = nonexistent_rite_or_faith ir = impReligion }
+			link = { ck3 = ck3Faith ir = impReligion }
+			""");
+		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, new CK3RegionMapper());
+
+		var match = mapper.Match("impReligion", null, null, null, null, new Configuration());
+		Assert.Equal("ck3Faith", match?.FaithId);
+		Assert.Null(match?.RiteId);
+	}
+
+	[Fact]
+	public void RiteMappingTakesPriorityAndFaithMappingServesAsFallback() {
+		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
+		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
+		var rite = new Rite(
+			"priority_test_rite",
+			new BufferedReader("{ faith = religion_a_faith }"),
+			ck3Religions,
+			new ColorFactory());
+		ck3Religions.Rites.AddOrReplace(rite);
+
+		var reader = new BufferedReader("""
+			link = { ck3 = priority_test_rite ir = impReligion historicalTag = ROM }
+			link = { ck3 = religion_a_faith ir = impReligion }
+			""");
+		var mapper = new ReligionMapper(reader, ck3Religions, irRegionMapper, new CK3RegionMapper());
+
+		var priorityMatch = mapper.Match("impReligion", null, null, null, "ROM", new Configuration());
+		Assert.Equal("religion_a_faith", priorityMatch?.FaithId);
+		Assert.Equal("priority_test_rite", priorityMatch?.RiteId);
+
+		var fallbackMatch = mapper.Match("impReligion", null, null, null, "LOL", new Configuration());
+		Assert.Equal("religion_a_faith", fallbackMatch?.FaithId);
+		Assert.Null(fallbackMatch?.RiteId);
+	}
+
+	[Fact]
 	public void FaithlessRiteMappingIsDropped() {
 		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
 		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
