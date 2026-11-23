@@ -28,6 +28,8 @@ internal sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 
 	private readonly OrderedSet<string> innovationsFromImperator = [];
 	private readonly Dictionary<string, ushort> innovationProgressesFromImperator = [];
+	internal IReadOnlyCollection<string> InnovationsFromImperator => innovationsFromImperator;
+	internal IReadOnlyDictionary<string, ushort> InnovationProgressesFromImperator => innovationProgressesFromImperator;
 
 	public Culture(string id, CultureData cultureData) {
 		Id = id;

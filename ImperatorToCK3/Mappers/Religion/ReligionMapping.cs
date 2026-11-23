@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.Mappers.Region;
 using System.Collections.Generic;
 
@@ -7,7 +8,12 @@ namespace ImperatorToCK3.Mappers.Religion;
 internal sealed class ReligionMapping {
 	private readonly SortedSet<string> irReligionIds = [];
 	public IReadOnlySet<string> IrReligionIds => irReligionIds;
+	/// <summary>
+	/// Raw CK3 ID from the mapping file. It can be either a rite ID or a faith ID.
+	/// </summary>
 	public string? CK3FaithId { get; private set; }
+	public string? ResolvedFaithId { get; private set; }
+	public string? ResolvedRiteId { get; private set; }
 	private readonly SortedSet<string> ck3CultureIds = [];
 
 	private readonly SortedSet<ulong> irProvinceIds = [];
@@ -49,7 +55,67 @@ internal sealed class ReligionMapping {
 		return mappingToReturn;
 	}
 
+	public void Resolve(ReligionCollection ck3Religions) {
+		ResolvedFaithId = null;
+		ResolvedRiteId = null;
+
+		var ck3Id = CK3FaithId;
+		if (ck3Id is null) {
+			return;
+		}
+
+		if (ck3Religions.Rites.TryGetValue(ck3Id, out var rite)) {
+			if (rite.FaithId is null) {
+				Logger.Warn($"CK3 rite {ck3Id} has no faith and cannot be used in a religion mapping!");
+				return;
+			}
+
+			ResolvedFaithId = rite.FaithId;
+			ResolvedRiteId = rite.Id;
+			return;
+		}
+
+		if (ck3Religions.GetFaith(ck3Id) is not null) {
+			ResolvedFaithId = ck3Id;
+			return;
+		}
+
+		Logger.Warn($"CK3 rite or faith {ck3Id} not found for religion mapping!");
+	}
+
 	public string? Match(
+		string irReligion,
+		string? ck3CultureId,
+		ulong? ck3ProvinceId,
+		ulong? irProvinceId,
+		string? irHistoricalTag,
+		Configuration config,
+		ImperatorRegionMapper imperatorRegionMapper,
+		CK3RegionMapper ck3RegionMapper) {
+		return CriteriaMatch(irReligion, ck3CultureId, ck3ProvinceId, irProvinceId, irHistoricalTag, config, imperatorRegionMapper, ck3RegionMapper)
+			? CK3FaithId
+			: null;
+	}
+
+	public ReligionMatch? MatchWithRite(
+		string irReligion,
+		string? ck3CultureId,
+		ulong? ck3ProvinceId,
+		ulong? irProvinceId,
+		string? irHistoricalTag,
+		Configuration config,
+		ImperatorRegionMapper imperatorRegionMapper,
+		CK3RegionMapper ck3RegionMapper) {
+		if (ResolvedFaithId is null) {
+			return null;
+		}
+
+		return CriteriaMatch(irReligion, ck3CultureId, ck3ProvinceId, irProvinceId, irHistoricalTag, config, imperatorRegionMapper, ck3RegionMapper)
+			? new ReligionMatch(ResolvedFaithId, ResolvedRiteId)
+			: null;
+	}
+
+	private bool CriteriaMatch(
 		string irReligion,
 		string? ck3CultureId,
 		ulong? ck3ProvinceId,
@@ -60,27 +126,23 @@ internal sealed class ReligionMapping {
 		CK3RegionMapper ck3RegionMapper) {
 		// We need at least a viable Imperator religion.
 		if (!BasicCriteriaMatch(irReligion, irHistoricalTag, config) || !CultureMatches(ck3CultureId)) {
-			return null;
+			return false;
 		}
 
 		// Simple religion-religion match.
 		if (ck3Provinces.Count == 0 && irProvinceIds.Count == 0 && ck3Regions.Count == 0 && imperatorRegions.Count == 0) {
-			return CK3FaithId;
+			return true;
 		}
 
 		if (ck3ProvinceId is null && irProvinceId is null) {
-			return null;
+			return false;
 		}
 
 		if (Ck3ProvinceOrRegionMatches(irReligion, ck3ProvinceId, ck3RegionMapper)) {
-			return CK3FaithId;
+			return true;
 		}
 
-		if (ImperatorProvinceOrRegionMatches(irProvinceId, imperatorRegionMapper)) {
-			return CK3FaithId;
-		}
-		
-		return null;
+		return ImperatorProvinceOrRegionMatches(irProvinceId, imperatorRegionMapper);
 	}
 
 	private bool BasicCriteriaMatch(string irReligion, string? irHistoricalTag, Configuration config) {

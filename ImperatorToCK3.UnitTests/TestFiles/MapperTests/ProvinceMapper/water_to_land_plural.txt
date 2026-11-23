@@ -1,0 +1,4 @@
+test_version = {
+	# Water province mapped to two land provinces (plural warning).
+	link = { imp = 2 ck3 = 1 ck3 = 3 }
+}

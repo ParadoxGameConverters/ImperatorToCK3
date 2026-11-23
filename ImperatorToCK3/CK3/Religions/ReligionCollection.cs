@@ -7,11 +7,13 @@ using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Mappers.HolySiteEffect;
 using Open.Collections;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
@@ -19,10 +21,24 @@ namespace ImperatorToCK3.CK3.Religions;
 
 internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObjectCollection<string, Religion> {
 	private readonly Dictionary<string, OrderedSet<string>> replaceableHolySitesByFaith = [];
+	private readonly Dictionary<string, string?> defaultRiteByFaithCache = new(StringComparer.Ordinal);
 	private Dictionary<string, Faith>? faithCache;
 	public IReadOnlyDictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith => replaceableHolySitesByFaith;
 	public IdObjectCollection<string, HolySite> HolySites { get; } = [];
 	public IdObjectCollection<string, DoctrineGroup> DoctrineGroups { get; } = [];
+	public IdObjectCollection<string, DoctrineType> DoctrineTypes { get; } = [];
+	public IdObjectCollection<string, Rite> Rites { get; } = [];
+
+	/// <summary>
+	/// IDs of CK3 tenet types. In CK3 1.20+ tenets are defined separately from doctrines.
+	/// </summary>
+	public OrderedSet<string> TenetIds { get; } = [];
+
+	/// <summary>
+	/// IDs of faiths defined by the converter. In CK3 1.20+ faiths with no characters or counties
+	/// count as non-created, so the converter marks its faiths as created in faith history.
+	/// </summary>
+	public OrderedSet<string> ConverterFaithIds { get; } = [];
 
 	public IEnumerable<Faith> Faiths {
 		get {
@@ -30,42 +46,312 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		}
 	}
 
+	public bool IsTenet(string id) {
+		if (TenetIds.Count > 0) {
+			return TenetIds.Contains(id);
+		}
+		// Tenet types not loaded (e.g. in unit tests). Fall back to the naming convention used by CK3.
+		return id.StartsWith("tenet_", StringComparison.Ordinal);
+	}
+
+	/// <summary>
+	/// CK3 1.20+ history files use rite instead of faith. Reads the separate rite history field
+	/// and adds matching faith entries, so the rest of the converter can keep working with faith IDs.
+	/// The rite entries are kept intact for output.
+	/// </summary>
+	public void ResolveRiteIdsInFaithHistory(History history) {
+		if (Rites.Count == 0
+			|| !history.Fields.TryGetValue("faith", out var faithField)
+			|| !history.Fields.TryGetValue("rite", out var riteField)) {
+			return;
+		}
+
+		RemoveInvalidRiteEntries(riteField);
+		AddFaithEntriesFromRites(riteField.InitialEntries, faithField, date: null);
+		foreach (var (date, entries) in riteField.DateToEntriesDict) {
+			AddFaithEntriesFromRites(entries, faithField, date);
+		}
+	}
+
+	private void AddFaithEntriesFromRites(List<KeyValuePair<string, object>> riteEntries, IHistoryField faithField, Date? date) {
+		foreach (var (_, value) in riteEntries) {
+			var riteId = GetHistoryId(value);
+			if (riteId is null || !Rites.TryGetValue(riteId, out var rite) || rite.FaithId is null) {
+				continue;
+			}
+
+			AddFaithEntryIfMissing(faithField, date, rite.FaithId);
+		}
+	}
+
+	private static void AddFaithEntryIfMissing(IHistoryField faithField, Date? date, string faithId) {
+		List<KeyValuePair<string, object>>? entries = date is null
+			? faithField.InitialEntries
+			: faithField.DateToEntriesDict.TryGetValue(date.Value, out var datedEntries) ? datedEntries : null;
+
+		if (entries is not null) {
+			foreach (var (setter, value) in entries) {
+				if (setter is "faith" or "religion" && GetHistoryId(value) == faithId) {
+					return;
+				}
+			}
+		}
+
+		faithField.AddEntryToHistory(date, "faith", HistoryFactory.GetValue(faithId));
+	}
+
+	private void RemoveInvalidRiteEntries(IHistoryField riteField) {
+		int removed = riteField.RemoveAllEntries(value => {
+			var riteId = GetHistoryId(value);
+			return riteId is null || !Rites.ContainsKey(riteId);
+		});
+		if (removed > 0) {
+			Logger.Debug($"Removed {removed} invalid rite entries from history.");
+		}
+
+		// Empty date blocks would otherwise shadow earlier valid entries when reading history values.
+		var emptyDates = riteField.DateToEntriesDict
+			.Where(kvp => kvp.Value.Count == 0)
+			.Select(kvp => kvp.Key)
+			.ToArray();
+		foreach (var date in emptyDates) {
+			riteField.DateToEntriesDict.Remove(date);
+		}
+	}
+
+	/// <summary>
+	/// Converts faith entries in a history to rite entries for output. Existing matching rites are kept;
+	/// otherwise the faith's main rite (or first rite for the faith) is used.
+	/// </summary>
+	public void ConvertFaithHistoryToRites(History history) {
+		if (!history.Fields.TryGetValue("faith", out var faithField)
+			|| !history.Fields.TryGetValue("rite", out var riteField)) {
+			return;
+		}
+
+		RemoveInvalidRiteEntries(riteField);
+
+		if (faithField.InitialEntries.Count > 0) {
+			var faithId = GetHistoryId(faithField.InitialEntries[^1].Value);
+			if (faithId is not null) {
+				var riteId = GetMatchingRiteId(riteField, date: null, faithId) ?? GetDefaultRiteIdForFaith(faithId);
+				if (riteId is not null) {
+					faithField.InitialEntries.RemoveAll(_ => true);
+					SetRiteEntry(riteField, date: null, riteId);
+				}
+			}
+		}
+
+		foreach (var (date, faithEntries) in faithField.DateToEntriesDict.ToArray()) {
+			if (faithEntries.Count == 0) {
+				continue;
+			}
+
+			var faithId = GetHistoryId(faithEntries[^1].Value);
+			if (faithId is null) {
+				continue;
+			}
+
+			var riteId = GetMatchingRiteId(riteField, date, faithId) ?? GetDefaultRiteIdForFaith(faithId);
+			if (riteId is null) {
+				continue;
+			}
+
+			faithField.DateToEntriesDict.Remove(date);
+			SetRiteEntry(riteField, date, riteId);
+		}
+	}
+
+	public string? GetDefaultRiteIdForFaith(string faithId) {
+		if (defaultRiteByFaithCache.TryGetValue(faithId, out var cachedRiteId)) {
+			return cachedRiteId;
+		}
+
+		string? riteId = null;
+		if (GetFaith(faithId) is { } faith) {
+			var mainRiteId = faith.MainRiteId;
+			// A rite can be shared by multiple faiths (for example roman_rite is the main rite
+			// of both christian_faith and catholic), so don't require rite.FaithId to match.
+			if (mainRiteId is not null && Rites.ContainsKey(mainRiteId)) {
+				riteId = mainRiteId;
+			} else {
+				foreach (var rite in Rites) {
+					if (rite.FaithId == faithId) {
+						riteId = rite.Id;
+						break;
+					}
+				}
+			}
+		}
+
+		if (riteId is null) {
+			Logger.Warn($"No rite found for faith {faithId}, cannot output rite history!");
+		}
+
+		defaultRiteByFaithCache[faithId] = riteId;
+		return riteId;
+	}
+
+	private string? GetMatchingRiteId(IHistoryField riteField, Date? date, string faithId) {
+		List<KeyValuePair<string, object>>? entries = date is null
+			? riteField.InitialEntries
+			: riteField.DateToEntriesDict.TryGetValue(date.Value, out var datedEntries) ? datedEntries : null;
+		if (entries is null) {
+			return null;
+		}
+
+		for (int i = entries.Count - 1; i >= 0; --i) {
+			var riteId = GetHistoryId(entries[i].Value);
+			if (riteId is not null && Rites.TryGetValue(riteId, out var rite) && rite.FaithId == faithId) {
+				return riteId;
+			}
+		}
+
+		return null;
+	}
+
+	private static void SetRiteEntry(IHistoryField riteField, Date? date, string riteId) {
+		if (date is null) {
+			riteField.InitialEntries.RemoveAll(_ => true);
+		} else {
+			riteField.DateToEntriesDict.Remove(date.Value);
+		}
+		riteField.AddEntryToHistory(date, "rite", HistoryFactory.GetValue(riteId));
+	}
+
+	private static string? GetHistoryId(object value) => value.ToString()?.RemQuotes();
+
 	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
 		faithCache = null;
+		defaultRiteByFaithCache.Clear();
+
+		Logger.Info("Loading CK3 religions...");
 		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
-			var religion = new Religion(religionId, religionReader, this, colorFactory);
+			var religion = new Religion(religionId, religionReader, this);
+			if (religion.FamilyId is null) {
+				Logger.Warn($"Religion {religionId} has no family defined in religion_details!");
+			}
 			AddOrReplace(religion);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseGameFolder("common/religion/religion_types", ck3ModFS, "txt", recursive: true);
+
+		// In CK3 1.20+ faiths have their own folder and reference their religion in faith_details.
+		LoadFaiths(ck3ModFS, colorFactory);
+		// Rites are the lowest level of the religious hierarchy in CK3 1.20+.
+		LoadRites(ck3ModFS, colorFactory);
+	}
+
+	public void LoadFaiths(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
+		faithCache = null;
+		defaultRiteByFaithCache.Clear();
+
+		Logger.Info("Loading CK3 faiths...");
+		var faithDataParser = new FaithDataParser(colorFactory);
+		var parser = new Parser(implicitVariableHandling: true);
+		parser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => {
+			var faithData = faithDataParser.Parse(faithReader);
+			AddOrReplaceFaith(faithId, faithData, isFromConverter: false);
+		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.ParseGameFolder("common/religion/faith_types", ck3ModFS, "txt", recursive: true);
+	}
+
+	public void LoadRites(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
+		faithCache = null;
+		defaultRiteByFaithCache.Clear();
+
+		Logger.Info("Loading CK3 rites...");
+		var parser = new Parser(implicitVariableHandling: true);
+		parser.RegisterRegex(CommonRegexes.String, (riteReader, riteId) => {
+			Rites.AddOrReplace(new Rite(riteId, riteReader, this, colorFactory));
+		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.ParseGameFolder("common/religion/rite_types", ck3ModFS, "txt", recursive: true);
+	}
+
+	private Faith? AddOrReplaceFaith(string faithId, FaithData faithData, bool isFromConverter) {
+		if (faithData.InvalidatingFaithIds.Count != 0) { // Faith is an optional faith.
+			foreach (var existingFaith in Faiths) {
+				if (!faithData.InvalidatingFaithIds.Contains(existingFaith.Id)) {
+					continue;
+				}
+				Logger.Debug($"Faith {faithId} is invalidated by existing {existingFaith.Id}.");
+				return null;
+			}
+			Logger.Debug($"Loading optional faith {faithId}...");
+		}
+
+		var religionId = faithData.ReligionId;
+		if (religionId is null) {
+			Logger.Warn($"Faith {faithId} has no religion defined in faith_details!");
+			return null;
+		}
+		if (!TryGetValue(religionId, out var religion)) {
+			Logger.Warn($"Religion {religionId} of faith {faithId} not found!");
+			return null;
+		}
+
+		// The faith might have already been added to another religion.
+		foreach (var otherReligion in this) {
+			if (!ReferenceEquals(otherReligion, religion)) {
+				otherReligion.Faiths.Remove(faithId);
+			}
+		}
+
+		var faith = new Faith(faithId, faithData, religion, isFromConverter);
+		religion.Faiths.AddOrReplace(faith);
+		faithCache = null;
+		return faith;
+	}
+
+	public void LoadConverterReligions(string converterReligionsPath, ColorFactory colorFactory, Hash liquidVariables) {
+		if (!File.Exists(converterReligionsPath)) {
+			return;
+		}
+
+		Logger.Info("Loading converter religions...");
+		faithCache = null;
+		var parser = new Parser(implicitVariableHandling: true);
+		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
+			if (ContainsKey(religionId)) {
+				Logger.Debug($"Religion {religionId} already exists, ignoring the converter's definition.");
+				return;
+			}
+			var religion = new Religion(religionId, religionReader, this);
+			if (religion.FamilyId is null) {
+				Logger.Warn($"Converter religion {religionId} has no family defined in religion_details!");
+			}
+			Add(religion);
+		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.ParseLiquidFile(converterReligionsPath, liquidVariables);
 	}
 
 	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory, Hash liquidVariables) {
 		faithCache = null;
+		defaultRiteByFaithCache.Clear();
 		OrderedSet<Faith> loadedConverterFaiths = [];
-		
-		var parser = new Parser(implicitVariableHandling: true);
-		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
-			var optReligion = new Religion(religionId, religionReader, this, colorFactory);
-			
-			// For validation, store all faiths loaded inside the converter religion.
-			loadedConverterFaiths.UnionWith(optReligion.Faiths);
+		var faithDataParser = new FaithDataParser(colorFactory);
 
-			// Check if religion already exists. If it does, add converter faiths to it.
-			// Otherwise, add the converter faith's religion.
-			if (TryGetValue(religionId, out var religion)) {
-				foreach (var faith in optReligion.Faiths) {
-					faith.Religion = religion;
-					religion.Faiths.Add(faith);
-				}
-			} else {
-				Add(optReligion);
+		var parser = new Parser(implicitVariableHandling: true);
+		parser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => {
+			var faithData = faithDataParser.Parse(faithReader);
+			var faith = AddOrReplaceFaith(faithId, faithData, isFromConverter: true);
+			if (faith is null) {
+				return;
 			}
+			loadedConverterFaiths.Add(faith);
+			ConverterFaithIds.Add(faith.Id);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseLiquidFile(converterFaithsPath, liquidVariables);
-		
+		faithCache = null;
+
+		// Create mainline rites for converter faiths that don't have a scripted rite.
+		GenerateMainlineRitesForConverterFaiths(loadedConverterFaiths);
+
 		// Validation: every faith should have a pilgrimage doctrine.
 		ValidatePilgrimageDoctrine(loadedConverterFaiths);
 
@@ -77,6 +363,36 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 		// Validation: every faith should have a theism doctrine.
 		ValidateTheismDoctrine(loadedConverterFaiths);
+	}
+
+	public void LoadConverterRites(string converterRitesPath, ColorFactory colorFactory, Hash liquidVariables) {
+		if (!File.Exists(converterRitesPath)) {
+			return;
+		}
+
+		faithCache = null;
+		defaultRiteByFaithCache.Clear();
+		Logger.Info("Loading converter rites...");
+		var parser = new Parser(implicitVariableHandling: true);
+		parser.RegisterRegex(CommonRegexes.String, (riteReader, riteId) => {
+			Rites.AddOrReplace(new Rite(riteId, riteReader, this, colorFactory));
+		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.ParseLiquidFile(converterRitesPath, liquidVariables);
+	}
+
+	private void GenerateMainlineRitesForConverterFaiths(IEnumerable<Faith> converterFaiths) {
+		foreach (var faith in converterFaiths) {
+			if (faith.MainRiteId is not null) {
+				continue;
+			}
+
+			if (!Rites.ContainsKey(faith.Id)) {
+				// Without a scripted rite, the game creates a dynamic rite with a key that cannot be referenced.
+				Rites.AddOrReplace(Rite.CreateMainlineRite(faith));
+			}
+			faith.MainRiteId = faith.Id;
+		}
 	}
 
 	private void ValidateTheismDoctrine(OrderedSet<Faith> loadedConverterFaiths)
@@ -161,6 +477,10 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		foreach (var faith in Faiths) {
 			faith.DoctrineIds.Remove(tenetsToRemove);
 		}
+		// In CK3 1.20+ tenets are defined on rites.
+		foreach (var rite in Rites) {
+			rite.DoctrineIds.Remove(tenetsToRemove);
+		}
 	}
 
 	private void RegisterHolySitesKeywords(Parser parser, bool areSitesFromConverter) {
@@ -223,11 +543,42 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	}
 
 	public void LoadDoctrines(ModFilesystem ck3ModFS) {
-		var parser = new Parser(implicitVariableHandling: true);
-		parser.RegisterRegex(CommonRegexes.String, (reader, groupId) =>
+		// Doctrine groups define what categories doctrines belong to.
+		var groupParser = new Parser(implicitVariableHandling: true);
+		groupParser.RegisterRegex(CommonRegexes.String, (reader, groupId) =>
 			DoctrineGroups.AddOrReplace(new DoctrineGroup(groupId, reader)));
-		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("common/religion/doctrine_group_types", ck3ModFS, "txt", recursive: true);
+		groupParser.IgnoreAndLogUnregisteredItems();
+		groupParser.ParseGameFolder("common/religion/doctrine_group_types", ck3ModFS, "txt", recursive: true);
+
+		// In CK3 1.20+ doctrines declare their group with doctrine_group_type.
+		var doctrineParser = new Parser(implicitVariableHandling: true);
+		doctrineParser.RegisterRegex(CommonRegexes.String, (reader, doctrineId) => {
+			var doctrineType = new DoctrineType(doctrineId, reader);
+			DoctrineTypes.AddOrReplace(doctrineType);
+
+			if (doctrineType.GroupId is null) {
+				Logger.Debug($"Doctrine {doctrineId} has no doctrine_group_type!");
+				return;
+			}
+			if (DoctrineGroups.TryGetValue(doctrineType.GroupId, out var group)) {
+				group.AddDoctrineId(doctrineId);
+			} else {
+				Logger.Debug($"Doctrine group {doctrineType.GroupId} of doctrine {doctrineId} not found!");
+			}
+		});
+		doctrineParser.IgnoreAndLogUnregisteredItems();
+		doctrineParser.ParseGameFolder("common/religion/doctrine_types", ck3ModFS, "txt", recursive: true);
+
+		// In CK3 1.20+ tenets are defined separately from doctrines.
+		var tenetParser = new Parser(implicitVariableHandling: true);
+		tenetParser.RegisterRegex(CommonRegexes.String, (reader, tenetId) => {
+			TenetIds.Add(tenetId);
+			ParserHelpers.IgnoreItem(reader);
+		});
+		tenetParser.IgnoreAndLogUnregisteredItems();
+		tenetParser.ParseGameFolder("common/religion/tenet_types", ck3ModFS, "txt", recursive: true);
+
+		Logger.Info($"Loaded {DoctrineGroups.Count} doctrine groups, {DoctrineTypes.Count} doctrines and {TenetIds.Count} tenets.");
 	}
 
 	public Faith? GetFaith(string id) {
@@ -450,8 +801,8 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 				.Select(c => c.GetCultureId(date))
 				.FirstOrDefault();
 		}
-		if (cultureId is null && faith.ReligiousHeadTitleId is not null) {
-			if (titles.TryGetValue(faith.ReligiousHeadTitleId, out var title)) {
+		if (cultureId is null && faith.HeadTitleId is not null) {
+			if (titles.TryGetValue(faith.HeadTitleId, out var title)) {
 				var capitalCounty = title.CapitalCounty;
 				var capitalProvince = capitalCounty?.CapitalBaronyProvinceId;
 				if (capitalProvince is not null) {
@@ -475,7 +826,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		CultureCollection cultures,
 		Date date
 	) {
-		var religiousHeadTitleId = faith.ReligiousHeadTitleId;
+		var religiousHeadTitleId = faith.HeadTitleId;
 		if (religiousHeadTitleId is null) {
 			return;
 		}

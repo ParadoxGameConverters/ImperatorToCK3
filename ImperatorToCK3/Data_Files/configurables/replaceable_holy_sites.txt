@@ -38,6 +38,7 @@ druze = all
 yazidi = all
 baltic_pagan = all
 melieism = all
+hattian_faith = all
 tengri_pagan = all
 haymanot = all
 kabarism = all

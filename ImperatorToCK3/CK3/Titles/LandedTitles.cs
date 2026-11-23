@@ -103,7 +103,11 @@ internal sealed partial class Title {
 		private void CleanUpTitlesHavingInvalidCapitalCounties() {
 			// Cleanup for titles having invalid capital counties.
 			var validTitleIds = this.Select(t => t.Id).ToFrozenSet();
-			var placeholderCountyId = validTitleIds.Order().First(t => t.StartsWith("c_"));
+			var placeholderCountyId = validTitleIds.Order().FirstOrDefault(t => t.StartsWith("c_"));
+			if (placeholderCountyId is null) {
+				Logger.Warn("No county title found to use as placeholder capital!");
+				return;
+			}
 
 			// Only check titles that actually may need fixing.
 			// For landed titles, the game will generate capitals, so they can be skipped.
@@ -554,8 +558,11 @@ internal sealed partial class Title {
 					} else if (liegeTitle.GetHolderId(date) == "0") {
 						// Instead of removing the liege entry, see if the liege title has a holder at a later date,
 						// and move the liege entry to that date.
-						liegeTitle.History.Fields.TryGetValue("holder", out var liegeHolderField);
-						Date? laterDate = liegeHolderField?.DateToEntriesDict
+						if (!liegeTitle.History.Fields.TryGetValue("holder", out var liegeHolderField)) {
+							liegeField.DateToEntriesDict.Remove(date);
+							continue;
+						}
+						Date? laterDate = liegeHolderField.DateToEntriesDict
 							.Where(kvp => kvp.Key > date && kvp.Key <= ck3BookmarkDate && kvp.Value.Count != 0 && kvp.Value[^1].Value.ToString() != "0")
 							.OrderBy(kvp => kvp.Key)
 							.Select(kvp => (Date?)kvp.Key)
@@ -637,7 +644,7 @@ internal sealed partial class Title {
 			return (independentCountries.ToImmutable(), subjects.ToImmutable());
 		}
 
-		private int ImportSubjects(CountryCollection imperatorCountries, IReadOnlyDictionary<ulong, Dependency> dependenciesBySubjectId,
+		private int ImportSubjects(CountryCollection imperatorCountries, Dictionary<ulong, Dependency> dependenciesBySubjectId,
 			TagTitleMapper tagTitleMapper, LocDB irLocDB, CK3LocDB ck3LocDB, ProvinceMapper provinceMapper, CoaMapper coaMapper,
 			GovernmentMapper governmentMapper, SuccessionLawMapper successionLawMapper, DefiniteFormMapper definiteFormMapper,
 			ReligionMapper religionMapper, CultureMapper cultureMapper, NicknameMapper nicknameMapper,
@@ -1208,7 +1215,7 @@ internal sealed partial class Title {
 					continue;
 				}
 				kingdomRealmShares.TryGetValue(kingdomRealm.Id, out int currentCount);
-				kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinceIds.Count();
+				kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinceIds.Count;
 			}
 
 			if (kingdomRealmShares.Count == 0) {
@@ -1262,7 +1269,7 @@ internal sealed partial class Title {
 				var empireShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
-					var countyProvincesCount = county.CountyProvinceIds.Count();
+					var countyProvincesCount = county.CountyProvinceIds.Count;
 					kingdomProvincesCount += countyProvincesCount;
 
 					var empireRealm = county.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
@@ -1394,7 +1401,7 @@ internal sealed partial class Title {
 				var hegemonyShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
-					var countyProvincesCount = county.CountyProvinceIds.Count();
+					var countyProvincesCount = county.CountyProvinceIds.Count;
 					kingdomProvincesCount += countyProvincesCount;
 					
 					var hegemonyRealm = county.GetRealmOfRank(TitleRank.hegemony, ck3BookmarkDate);
@@ -2022,25 +2029,26 @@ internal sealed partial class Title {
 		/// https://imperator.paradoxwikis.com/Position
 		/// https://ck3.paradoxwikis.com/Council
 		/// https://ck3.paradoxwikis.com/Court#Court_positions
+		/// Also handles the extra offices added by mods, e.g., Reanimāta (which includes the Bigger Government mod).
 		/// </summary>
 		public void ImportImperatorGovernmentOffices(List<OfficeJob> irOfficeJobs, ReligionCollection religionCollection, Date irSaveDate) {
 			Logger.Info("Converting government offices...");
 			var titlesFromImperator = GetCountriesImportedFromImperator();
 			
 			var councilPositionToSourcesDict = new Dictionary<string, string[]> {
-				["councillor_court_chaplain"] = ["office_augur", "office_pontifex", "office_high_priest_monarchy", "office_high_priest", "office_wise_person"],
-				["councillor_chancellor"] = ["office_censor", "office_foreign_minister", "office_arbitrator", "office_elder"],
-				["councillor_steward"] = ["office_praetor", "office_magistrate", "office_steward", "office_tribune_of_the_treasury"],
-				["councillor_marshal"] = ["office_tribune_of_the_soldiers", "office_marshal", "office_master_of_the_guard", "office_warchief", "office_bodyguard"],
+				["councillor_court_chaplain"] = ["office_augur", "office_pontifex", "office_high_priest_monarchy", "office_high_priest", "office_wise_person", "office_sacrificer"],
+				["councillor_chancellor"] = ["office_censor", "office_foreign_minister", "office_arbitrator", "office_elder", "office_prime_minister", "office_proconsul"],
+				["councillor_steward"] = ["office_praetor", "office_magistrate", "office_steward", "office_steward_republic", "office_tribune_of_the_treasury"],
+				["councillor_marshal"] = ["office_tribune_of_the_soldiers", "office_marshal", "office_master_of_the_guard", "office_warchief", "office_bodyguard", "office_quartermaster", "office_grandadmiral", "office_grandadmiral_republic"],
 				["councillor_spymaster"] = [], // No equivalents found in Imperator.
 			};
-			
+
 			// Court positions.
 			var courtPositionToSourcesDict = new Dictionary<string, string[]> {
 				["bodyguard_court_position"] = ["office_master_of_the_guard", "office_bodyguard"],
 				["court_physician_court_position"] = ["office_physician", "office_republic_physician", "office_apothecary"],
 				["court_tutor_court_position"] = ["office_royal_tutor"],
-				["chronicler_court_position"] = ["office_philosopher"], // From I:R wiki: "supervises libraries and the gathering and protection of knowledge"
+				["chronicler_court_position"] = ["office_philosopher", "office_lector"], // From I:R wiki: philosopher "supervises libraries and the gathering and protection of knowledge"
 				["cave_hermit_court_position"] = ["office_wise_person"]
 			};
 
@@ -2213,7 +2221,7 @@ internal sealed partial class Title {
 
 		public void RemoveLiegeEntriesFromReligiousHeadHistory(ReligionCollection religions) {
 			var religiousHeadTitleIds = religions.Faiths
-				.Select(f => f.ReligiousHeadTitleId)
+				.Select(f => f.HeadTitleId)
 				.Distinct()
 				.Where(id => id is not null)
 				.Select(id => id!);

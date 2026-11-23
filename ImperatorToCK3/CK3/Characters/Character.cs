@@ -183,6 +183,7 @@ internal sealed class Character : IIdentifiable<string> {
 		.WithLiteralField("learn_language_of_culture", "learn_language_of_culture")
 		.WithSimpleField("culture", new OrderedSet<string> {"culture", "set_culture"}, null)
 		.WithSimpleField("faith", new OrderedSet<string> { "faith", "religion" }, null)
+		.WithSimpleField("rite", "rite", null)
 		.WithSimpleField("government", "change_government", null)
 		.WithDiffField("traits", new OrderedSet<string> { "trait", "add_trait" }, new OrderedSet<string> { "remove_trait" })
 		.WithLiteralField("trait_xps", "add_trait_xp")
@@ -198,6 +199,10 @@ internal sealed class Character : IIdentifiable<string> {
 		.WithLiteralField("remove_character_modifier", "remove_character_modifier")
 		.WithLiteralField("character_flags", "add_character_flag")
 		.WithSimpleField("birth", "birth", null)
+		// CK3 1.20+ fields
+		.WithSimpleField("obscured", "obscured", null)
+		.WithSimpleField("history_override_priority", "history_override_priority", null)
+		.WithLiteralField("effect_even_if_dead", "effect_even_if_dead")
 		.WithLiteralField("death", "death")
 		.WithSimpleField("give_nickname", "give_nickname", null)
 		.WithSimpleField("remove_nickname", "remove_nickname", null)
@@ -346,7 +351,7 @@ internal sealed class Character : IIdentifiable<string> {
 		}
 
 		if (srcReligion is not null) {
-			var faithMatch = religionMapper.Match(
+			var religionMatch = religionMapper.Match(
 				srcReligion, 
 				GetCultureId(config.CK3BookmarkDate), 
 				ck3Province, 
@@ -354,8 +359,11 @@ internal sealed class Character : IIdentifiable<string> {
 				imperatorCountry.HistoricalTag, 
 				config
 			);
-			if (faithMatch is not null) {
-				SetFaithId(faithMatch, null);
+			if (religionMatch is not null) {
+				SetFaithId(religionMatch.FaithId, null);
+				if (religionMatch.RiteId is not null) {
+					SetRiteId(religionMatch.RiteId, null);
+				}
 			}
 		}
 			
@@ -502,7 +510,7 @@ internal sealed class Character : IIdentifiable<string> {
 	}
 
 	private void DetermineFaithFromImperator(ImperatorCharacter irCharacter, ReligionMapper religionMapper, Date dateOnConversion, Configuration config, ulong? irProvinceId, ulong? ck3ProvinceId) {
-		var faithMatch = religionMapper.Match(
+		var religionMatch = religionMapper.Match(
 			irCharacter.Religion,
 			GetCultureId(dateOnConversion),
 			ck3ProvinceId,
@@ -510,8 +518,11 @@ internal sealed class Character : IIdentifiable<string> {
 			irCharacter.HomeCountry?.HistoricalTag,
 			config
 		);
-		if (faithMatch is not null) {
-			SetFaithId(faithMatch, null);
+		if (religionMatch is not null) {
+			SetFaithId(religionMatch.FaithId, null);
+			if (religionMatch.RiteId is not null) {
+				SetRiteId(religionMatch.RiteId, null);
+			}
 		}
 	}
 
@@ -581,8 +592,28 @@ internal sealed class Character : IIdentifiable<string> {
 		return History.GetFieldValue("faith", date)?.ToString();
 	}
 
-	public OrderedSet<object> GetSpouseIds(Date date) {
-		return History.GetFieldValueAsCollection("spouses", date) ?? new OrderedSet<object>();
+	public void SetRiteId(string riteId, Date? date) {
+		History.AddFieldValue(date, "rite", "rite", riteId);
+	}
+	public string? GetRiteId(Date date) {
+		return History.GetFieldValue("rite", date)?.ToString();
+	}
+
+	public OrderedSet<string> GetSpouseIds(Date date) {
+		var idsAsObjects = History.GetFieldValueAsCollection("spouses", date);
+		if (idsAsObjects is null) {
+			return [];
+		}
+
+		var ids = new OrderedSet<string>();
+		foreach (var idObj in idsAsObjects) {
+			var idStr = idObj.ToString();
+			if (!string.IsNullOrEmpty(idStr)) {
+				ids.Add(idStr);
+			}
+		}
+
+		return ids;
 	}
 	public void AddSpouse(Date date, Character spouse) {
 		History.AddFieldValue(date, "spouses", "add_spouse", spouse.Id);

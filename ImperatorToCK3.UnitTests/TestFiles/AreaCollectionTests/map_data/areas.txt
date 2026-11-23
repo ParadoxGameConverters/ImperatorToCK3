@@ -1,0 +1,4 @@
+test_area = {
+	color = { 100 200 150 }
+	provinces = { 1 2 3 }
+}

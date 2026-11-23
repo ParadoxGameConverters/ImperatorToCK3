@@ -30,6 +30,10 @@ internal class TestCK3CultureCollection : CultureCollection {
 		PillarCollection.Add(pillar);
 	}
 
+	public void AddInnovationId(string innovationId) {
+		InnovationIds.Add(innovationId);
+	}
+
 	public void GenerateTestCulture(string id, string heritageId = "test_heritage") {
 		const string nameListId = "name_list_test";
 		var nameList = new NameList(nameListId, new BufferedReader());

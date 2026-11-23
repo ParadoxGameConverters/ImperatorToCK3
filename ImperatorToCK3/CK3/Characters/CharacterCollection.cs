@@ -887,6 +887,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		string? dynastyId = oldCharacter.GetDynastyId(ck3BookmarkDate);
 		string? dynastyHouseId = oldCharacter.GetDynastyHouseId(ck3BookmarkDate);
 		string? faithId = oldCharacter.GetFaithId(ck3BookmarkDate);
+		string? riteId = oldCharacter.GetRiteId(ck3BookmarkDate);
 		string? cultureId = oldCharacter.GetCultureId(ck3BookmarkDate);
 		string[] maleNames = DetermineMaleNamesForSuccessorsOfCharacter(oldCharacter, cultureId, cultureIdToMaleNames, ck3BookmarkDate);
 
@@ -915,7 +916,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 				// Generate a new successor.
 				successorBirthDate = currentCharacterDeathDate.ChangeByYears(-successorAge);
-				successor = GenerateNewSuccessor(oldCharacter, successorCount, maleNames, successorBirthDate, currentCharacter, cultureId, faithId, dynastyId, dynastyHouseId, random);
+				successor = GenerateNewSuccessor(oldCharacter, successorCount, maleNames, successorBirthDate, currentCharacter, cultureId, faithId, riteId, dynastyId, dynastyHouseId, random);
 			}
 
 			currentCharacter.DeathDate = currentCharacterDeathDate;
@@ -995,8 +996,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	}
 
 	private Character GenerateNewSuccessor(Character oldCharacter, int successorCount, string[] maleNames,
-		Date successorBirthDate, Character currentCharacter, string? cultureId, string? faithId, string? dynastyId,
-		string? dynastyHouseId, Random random)
+		Date successorBirthDate, Character currentCharacter, string? cultureId, string? faithId, string? riteId,
+		string? dynastyId, string? dynastyHouseId, Random random)
 	{
 		string id = $"irtock3_{oldCharacter.Id}_successor_{successorCount}";
 		string firstName = maleNames[random.Next(0, maleNames.Length)];
@@ -1013,6 +1014,9 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		if (faithId is not null) {
 			successor.SetFaithId(faithId, null);
 		}
+		if (riteId is not null) {
+			successor.SetRiteId(riteId, null);
+		}
 		if (dynastyId is not null) {
 			successor.SetDynastyId(dynastyId, null);
 		}
@@ -1023,19 +1027,37 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		return successor;
 	}
 
-	private static string[] DetermineMaleNamesForSuccessorsOfCharacter(Character oldCharacter, string? cultureId,
-		IReadOnlyDictionary<string, string[]> cultureIdToMaleNames, Date ck3BookmarkDate)
+	private string[] DetermineMaleNamesForSuccessorsOfCharacter(Character oldCharacter, string? cultureId,
+		Dictionary<string, string[]> cultureIdToMaleNames, Date ck3BookmarkDate)
 	{
-		string[] maleNames;
-		if (cultureId is not null) {
-			maleNames = cultureIdToMaleNames[cultureId];
-		} else {
-			Logger.Debug($"Failed to find male names for successors of {oldCharacter.Id}.");
-			if (oldCharacter.Female) {
-				maleNames = [oldCharacter.Father?.GetName(ck3BookmarkDate) ?? "Alexander"];
-			} else {
-				maleNames = [oldCharacter.GetName(ck3BookmarkDate) ?? "Alexander"];
+		if (cultureId is not null && cultureIdToMaleNames.TryGetValue(cultureId, out var names) && names.Length > 0) {
+			return names;
+		}
+
+		// Fallback: try to use the culture of oldCharacter's parents or spouse if different.
+		var parentAndSpouseCharacters = new List<Character?> { oldCharacter.Father, oldCharacter.Mother, oldCharacter.GetSpouseIds(ck3BookmarkDate).Select(sId => this[sId]).FirstOrDefault() };
+		foreach (var parentOrSpouse in parentAndSpouseCharacters) {
+			if (parentOrSpouse is null) {
+				continue;
 			}
+
+			var parentOrSpouseCultureId = parentOrSpouse.GetCultureId(ck3BookmarkDate);
+			if (parentOrSpouseCultureId is null || parentOrSpouseCultureId == cultureId) {
+				continue;
+			}
+
+			if (cultureIdToMaleNames.TryGetValue(parentOrSpouseCultureId, out var parentOrSpouseCultureNames)) {
+				return parentOrSpouseCultureNames;
+			}
+		}
+
+		// Final fallback: use the character's own name, if female, the father's name.
+		Logger.Debug($"Failed to find male names for successors of {oldCharacter.Id}.");
+		string[] maleNames;
+		if (oldCharacter.Female) {
+			maleNames = [oldCharacter.Father?.GetName(ck3BookmarkDate) ?? "Alexander"];
+		} else {
+			maleNames = [oldCharacter.GetName(ck3BookmarkDate) ?? "Alexander"];
 		}
 
 		return maleNames;
@@ -1143,7 +1165,6 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
              {
              set_variable = { name = years_with_government value = {{yearsWithChineseGov.ToString("0.#####", CultureInfo.InvariantCulture)}} }
              set_variable = { name = imperator_unrest value = {{unrest.ToString("0.#####", CultureInfo.InvariantCulture)}} }
-             set_variable = { name = imperator_tag value = flag:{{title.ImperatorCountry?.Tag.ToString()}} }
              }
              """;
 			holder.History.AddFieldValue(ck3BookmarkDate, "effects", "effect", new StringOfItem(effectStr));

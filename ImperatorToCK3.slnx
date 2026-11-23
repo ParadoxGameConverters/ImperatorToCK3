@@ -6,6 +6,7 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
   </Folder>
+  <Project Path="DocsGenerator/DocsGenerator.csproj" />
   <Project Path="Fronter.NET/Fronter.NET/Fronter.csproj" />
   <Project Path="ImperatorToCK3.UnitTests/ImperatorToCK3.UnitTests.csproj" />
   <Project Path="ImperatorToCK3/ImperatorToCK3.csproj">

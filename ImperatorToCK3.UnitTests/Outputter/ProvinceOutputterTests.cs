@@ -40,8 +40,8 @@ public class ProvinceOutputterTests {
 	}
 
 	[Fact]
-	public void ReligionIsOutputtedIfProvinceIsCountyCapital() {
-		var provReader = new BufferedReader("religion=orthodox");
+	public void RiteIsOutputtedIfProvinceIsCountyCapital() {
+		var provReader = new BufferedReader("rite=orthodox");
 		var province = new Province(1, provReader);
 
 		var sb = new StringBuilder();
@@ -49,14 +49,14 @@ public class ProvinceOutputterTests {
 
 		var sr = new StringReader(sb.ToString());
 		Assert.Equal("1={", sr.ReadLine());
-		Assert.Equal("\treligion = orthodox", sr.ReadLine());
+		Assert.Equal("\trite = orthodox", sr.ReadLine());
 		Assert.Equal("\tholding = none", sr.ReadLine());
 		Assert.Equal("}", sr.ReadLine());
 	}
 	
 	[Fact]
-	public void ReligionIsNotOutputtedIfProvinceIsNotCountyCapital() {
-		var provReader = new BufferedReader("religion=orthodox");
+	public void RiteIsNotOutputtedIfProvinceIsNotCountyCapital() {
+		var provReader = new BufferedReader("rite=orthodox");
 		var province = new Province(1, provReader);
 
 		var sb = new StringBuilder();

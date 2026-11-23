@@ -1,2 +1,15 @@
-link = { ir = discipline ck3 = knight_effectiveness_mult factor = 10 }
-link = { ir = happiness_for_same_culture_modifier ck3 = same_culture_opinion factor = 100 }
+link = {
+	ir = discipline
+	faith_character_modifier = {
+		ck3 = knight_effectiveness_mult factor = 10
+	}
+	county_holder_character_modifier = {
+		ck3 = knight_effectiveness_mult factor = 10
+	}
+}
+link = {
+	ir = happiness_for_same_culture_modifier
+	faith_character_modifier = {
+		ck3 = same_culture_opinion factor = 100
+	}
+}

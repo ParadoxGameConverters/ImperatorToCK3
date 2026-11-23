@@ -12,7 +12,7 @@ using System.Threading;
 namespace ImperatorToCK3.Helpers;
 
 public static class RakalyCaller {
-	private const string RakalyVersion = "0.8.14";
+	private const string RakalyVersion = "0.8.23";
 	private static readonly string RelativeRakalyPath;
 
 	static RakalyCaller() {
@@ -251,7 +251,7 @@ public static class RakalyCaller {
 			char currentChar = (char)nextChar;
 			if (currentChar == '\r') {
 				if (reader.Peek() == '\n') {
-					reader.Read();
+					_ = reader.Read();
 					return (contentBuilder.ToString(), "\r\n");
 				}
 				return (contentBuilder.ToString(), "\r");

@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
+using System.Reflection;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CommonUtils;
@@ -75,6 +76,112 @@ public class IHistoryFieldTests {
 		var entry = Assert.IsType<KeyValuePair<string, object>>(result.Value);
 		Assert.Equal("setter", entry.Key);
 		Assert.Equal("initial2", entry.Value);
+	}
+
+	[Fact]
+	public void RemoveHistoryPastDateRemovesOnlyEntriesPastGivenDate() {
+		var field = CreateField();
+
+		field.AddEntryToHistory(null, "setter", "initValue");
+		field.AddEntryToHistory(new Date(100, 1, 1), "setter", "first");
+		field.AddEntryToHistory(new Date(200, 1, 1), "setter", "second");
+		field.AddEntryToHistory(new Date(300, 1, 1), "setter", "third");
+
+		field.RemoveHistoryPastDate(new Date(200, 1, 1));
+
+		Assert.Equal(2, field.DateToEntriesDict.Count);
+		Assert.True(field.DateToEntriesDict.ContainsKey(new Date(100, 1, 1)));
+		Assert.True(field.DateToEntriesDict.ContainsKey(new Date(200, 1, 1)));
+		Assert.False(field.DateToEntriesDict.ContainsKey(new Date(300, 1, 1)));
+
+		// Initial entries are never touched by history trimming.
+		Assert.Single(field.InitialEntries);
+
+		// The value as of the removed date falls back to the last kept entry.
+		Assert.Equal("second", field.GetValue(new Date(300, 1, 1)));
+	}
+
+	[Fact]
+	public void RemoveHistoryPastDateKeepsEntryOnGivenDate() {
+		var field = CreateField();
+
+		field.AddEntryToHistory(new Date(100, 1, 1), "setter", "first");
+		field.AddEntryToHistory(new Date(200, 1, 1), "setter", "second");
+
+		field.RemoveHistoryPastDate(new Date(100, 1, 1));
+
+		// Only entries strictly past the given date are removed.
+		Assert.True(field.DateToEntriesDict.ContainsKey(new Date(100, 1, 1)));
+		Assert.False(field.DateToEntriesDict.ContainsKey(new Date(200, 1, 1)));
+		Assert.Equal("first", field.GetValue(new Date(200, 1, 1)));
+	}
+
+	[Fact]
+	public void RemoveHistoryPastDateDoesNothingWhenAllEntriesAreOnOrBeforeGivenDate() {
+		var field = CreateField();
+
+		field.AddEntryToHistory(new Date(50, 1, 1), "setter", "first");
+		field.AddEntryToHistory(new Date(100, 1, 1), "setter", "second");
+
+		field.RemoveHistoryPastDate(new Date(200, 1, 1));
+
+		Assert.Equal(2, field.DateToEntriesDict.Count);
+		Assert.Equal("second", field.GetValue(new Date(200, 1, 1)));
+	}
+
+	[Fact]
+	public void RemoveHistoryPastDateRemovesAllDatedEntriesWhenGivenDateIsEarlierThanThem() {
+		var field = CreateField();
+
+		field.AddEntryToHistory(null, "setter", "initValue");
+		field.AddEntryToHistory(new Date(100, 1, 1), "setter", "first");
+		field.AddEntryToHistory(new Date(200, 1, 1), "setter", "second");
+
+		field.RemoveHistoryPastDate(new Date(50, 1, 1));
+
+		Assert.Empty(field.DateToEntriesDict);
+
+		// The value falls back to the initial entry.
+		Assert.Equal("initValue", field.GetValue(new Date(200, 1, 1)));
+	}
+
+	[Fact]
+	public void RemoveHistoryPastDateDoesNothingWhenThereAreNoDatedEntries() {
+		var field = CreateField();
+
+		field.AddEntryToHistory(null, "setter", "initValue");
+
+		field.RemoveHistoryPastDate(new Date(100, 1, 1));
+
+		Assert.Empty(field.DateToEntriesDict);
+		Assert.Single(field.InitialEntries);
+	}
+
+	[Fact]
+	public void Clone_OfEmptyFieldAllocatesNothingOnEitherInstance() {
+		var field = CreateField();
+
+		var clone = Assert.IsType<SimpleHistoryField>(field.Clone());
+
+		// Cloning must not force allocations on the source instance...
+		Assert.Null(GetBackingFieldValue(field, "initialEntries"));
+		Assert.Null(GetBackingFieldValue(field, "dateToEntriesDict"));
+
+		// ...nor on the clone; both stay fully usable.
+		Assert.Null(GetBackingFieldValue(clone, "initialEntries"));
+		Assert.Null(GetBackingFieldValue(clone, "dateToEntriesDict"));
+		Assert.Empty(clone.InitialEntries);
+		Assert.Empty(clone.DateToEntriesDict);
+
+		clone.AddEntryToHistory(null, "setter", "value");
+		Assert.Equal("value", clone.GetValue(null)?.ToString());
+
+		// Using the clone leaves the source untouched.
+		Assert.Empty(field.InitialEntries);
+	}
+
+	private static object? GetBackingFieldValue(object target, string fieldName) {
+		return target.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(target);
 	}
 
 	private static IHistoryField CreateField() => new SimpleHistoryField(

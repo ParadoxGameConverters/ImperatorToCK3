@@ -1,5 +1,5 @@
 pagan_religion = {
-	faiths = {
-		hellenic={}
+	religion_details = {
+		family = rf_pagan
 	}
 }

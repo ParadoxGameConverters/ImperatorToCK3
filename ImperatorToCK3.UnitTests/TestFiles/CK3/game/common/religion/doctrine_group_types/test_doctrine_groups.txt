@@ -1,0 +1,6 @@
+doctrine_group_a = {
+	category = main_group
+}
+doctrine_group_b = {
+	category = marriage
+}

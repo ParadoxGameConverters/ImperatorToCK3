@@ -1,5 +1,5 @@
 christianity_religion = {
-	faiths = {
-		orthodox={}
+	religion_details = {
+		family = rf_abrahamic
 	}
 }
