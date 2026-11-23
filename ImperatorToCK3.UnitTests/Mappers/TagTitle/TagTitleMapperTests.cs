@@ -110,6 +110,42 @@ public class TagTitleMapperTests {
 	}
 
 	[Fact]
+	public void GovernorshipMappingToOutOfScopeTitleIsSkipped() {
+		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath, rankMappingsPath);
+		const ulong romeId = 1;
+		var country = Country.Parse(new BufferedReader("tag=ROM"), romeId);
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(new BufferedReader("k_sahara = { c_sahara = { b_sahara = { province = 1 } } }"), ColorFactory);
+		country.CK3Title = titles.Add("h_roman_empire");
+
+		irRegionMapper.Regions.Add(new ImperatorRegion("fezzan_region", new BufferedReader(), Areas, ColorFactory));
+		var governorship = new Governorship(new BufferedReader($"who={romeId} governorship=fezzan_region"), new CountryCollection {country}, irRegionMapper);
+		var match = mapper.GetTitleForGovernorship(governorship, titles, new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(),
+			new ProvinceCollection(), irRegionMapper, new ProvinceMapper());
+
+		Assert.Equal("k_IRTOCK3_ROM_fezzan_region", match);
+	}
+
+	[Fact]
+	public void GovernorshipMappingToInScopeTitleIsUsed() {
+		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath, rankMappingsPath);
+		const ulong romeId = 1;
+		var country = Country.Parse(new BufferedReader("tag=ROM"), romeId);
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(new BufferedReader("k_sahara = { c_sahara = { b_sahara = { province = 1 } } }"), ColorFactory);
+		country.CK3Title = titles.Add("h_roman_empire");
+
+		var provMapper = new ProvinceMapper();
+		provMapper.LoadMappings("TestFiles/LandedTitlesTests/province_mappings.txt");
+		irRegionMapper.Regions.Add(new ImperatorRegion("fezzan_region", new BufferedReader(), Areas, ColorFactory));
+		var governorship = new Governorship(new BufferedReader($"who={romeId} governorship=fezzan_region"), new CountryCollection {country}, irRegionMapper);
+		var match = mapper.GetTitleForGovernorship(governorship, titles, new ImperatorToCK3.Imperator.Provinces.ProvinceCollection(),
+			new ProvinceCollection(), irRegionMapper, provMapper);
+
+		Assert.Equal("k_sahara", match);
+	}
+
+	[Fact]
 	public void TitleCanBeMatchedByRanklessLink() {
 		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath, rankMappingsPath); // reads title_map.txt from TestFiles
 		var country = Country.Parse(new BufferedReader("tag=RAN"), 1);

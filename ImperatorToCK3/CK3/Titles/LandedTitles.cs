@@ -1101,23 +1101,33 @@ internal sealed partial class Title {
 		private static FrozenSet<string> GetKingdomIdsWithMajorityOutsideImperatorMap(IEnumerable<Title> deJureKingdoms, ProvinceMapper provinceMapper) {
 			var protectedKingdomIds = new HashSet<string>();
 			foreach (var kingdom in deJureKingdoms) {
-				var kingdomProvinceIds = kingdom.GetDeJureVassalsAndBelow("c").Values
-					.SelectMany(c => c.CountyProvinceIds)
-					.ToFrozenSet();
-				if (kingdomProvinceIds.Count == 0) {
-					continue;
-				}
-
-				var provincesOutsideImperatorMap = kingdomProvinceIds.Count(provinceId => provinceMapper.GetImperatorProvinceNumbers(provinceId).Count == 0);
-				if (provincesOutsideImperatorMap * 2 <= kingdomProvinceIds.Count) {
+				var (outsideCount, totalCount) = GetProvinceCountsOutsideImperatorMap(kingdom, provinceMapper);
+				if (totalCount == 0 || outsideCount * 2 <= totalCount) {
 					continue;
 				}
 
 				protectedKingdomIds.Add(kingdom.Id);
-				Logger.Debug($"Preserving de jure setup for kingdom {kingdom.Id}: {provincesOutsideImperatorMap}/{kingdomProvinceIds.Count} provinces are outside the Imperator map.");
+				Logger.Debug($"Preserving de jure setup for kingdom {kingdom.Id}: {outsideCount}/{totalCount} provinces are outside the Imperator map.");
 			}
 
 			return protectedKingdomIds.ToFrozenSet();
+		}
+
+		private static (int OutsideCount, int TotalCount) GetProvinceCountsOutsideImperatorMap(Title title, ProvinceMapper provinceMapper) {
+			var provinceIds = title.GetDeJureVassalsAndBelow("c").Values
+				.SelectMany(c => c.CountyProvinceIds)
+				.ToFrozenSet();
+			if (provinceIds.Count == 0) {
+				return (0, 0);
+			}
+
+			var outsideCount = provinceIds.Count(provinceId => provinceMapper.GetImperatorProvinceNumbers(provinceId).Count == 0);
+			return (outsideCount, provinceIds.Count);
+		}
+
+		internal static bool HasMajorityOfProvincesOutsideImperatorMap(Title title, ProvinceMapper provinceMapper) {
+			var (outsideCount, totalCount) = GetProvinceCountsOutsideImperatorMap(title, provinceMapper);
+			return totalCount > 0 && outsideCount * 2 > totalCount;
 		}
 
 		private static bool IsInChinaDeJureHierarchy(Title title) {
