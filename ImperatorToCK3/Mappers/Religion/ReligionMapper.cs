@@ -1,5 +1,4 @@
 ﻿using commonItems;
-using commonItems.Collections;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.Mappers.Region;
 using System;
@@ -22,7 +21,7 @@ internal sealed class ReligionMapper {
 
 		Logger.Info($"Loaded {religionMappings.Count} religious links.");
 
-		ResolveMappings(ck3Religions);
+		RemoveMappingsWithNonexistentCK3Faiths(ck3Religions);
 		BuildLookup();
 
 		Logger.IncrementProgress();
@@ -35,11 +34,14 @@ internal sealed class ReligionMapper {
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 
-		ResolveMappings(ck3Religions);
+		RemoveMappingsWithNonexistentCK3Faiths(ck3Religions);
 		BuildLookup();
 	}
 
-	private void ResolveMappings(ReligionCollection ck3Religions) {
+	private void RemoveMappingsWithNonexistentCK3Faiths(ReligionCollection ck3Religions) {
+		// The ck3 value can be either a rite or a faith, and mappings from other mods may reference
+		// IDs that are not present in the current game installation. Drop those links silently
+		// (at debug level) so valid fallback links can still be used.
 		religionMappings.RemoveAll(mapping => {
 			mapping.Resolve(ck3Religions);
 			return mapping.ResolvedFaithId is null;
