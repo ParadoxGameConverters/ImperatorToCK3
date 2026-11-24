@@ -1,0 +1,5 @@
+hellenic = {
+	faith_details = {
+		religion = pagan_religion
+	}
+}

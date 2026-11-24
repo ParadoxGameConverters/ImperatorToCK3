@@ -41,7 +41,9 @@ internal static class ProvincesOutputter {
 
 			var filePath = $"{outputModPath}/history/provinces/{kingdom.Id}.txt";
 			using var historyOutput = new StreamWriter(filePath);
-			historyOutput.Write(sb.ToString());
+			foreach (var chunk in sb.GetChunks()) {
+				historyOutput.Write(chunk.Span);
+			}
 		});
 
 		if (alreadyOutputtedProvIds.Count != provinces.Count) {
@@ -64,7 +66,9 @@ internal static class ProvincesOutputter {
 				}
 
 				if (sb.Length > 0) {
-					await historyOutput.WriteAsync(sb.ToString());
+					foreach (var chunk in sb.GetChunks()) {
+						await historyOutput.WriteAsync(chunk);
+					}
 				}
 			}
 		}

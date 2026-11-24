@@ -38,8 +38,9 @@ public class ReligionsOutputterTests {
 
 		var religions = new ReligionCollection(landedTitles);
 
-		var religionReader = new BufferedReader("faiths = { faith_test = {} }");
-		religions.AddOrReplace(new Religion("christianity_test", religionReader, religions, new ColorFactory()));
+		var religion = new Religion("christianity_test", new BufferedReader("{}"), religions);
+		religion.Faiths.AddOrReplace(new Faith("faith_test", new FaithData { ReligionId = "christianity_test" }, religion));
+		religions.AddOrReplace(religion);
 
 		var siteWithCounty = new HolySite("site_county", new BufferedReader("county = c_test"), landedTitles, isFromConverter: true);
 		var siteWithoutTitle = new HolySite("site_nowhere", new BufferedReader(string.Empty), landedTitles, isFromConverter: false);
@@ -47,6 +48,33 @@ public class ReligionsOutputterTests {
 		religions.HolySites.AddOrReplace(siteWithoutTitle);
 
 		return (religions, new TestCK3LocDB());
+	}
+
+	private static (ReligionCollection religions, TestCK3LocDB locDB) CreateReligionCollectionWithRites() {
+		var (religions, locDB) = CreateReligionCollectionWithSites();
+		var faith = religions.GetFaith("faith_test");
+		Assert.NotNull(faith);
+
+		religions.Rites.AddOrReplace(Rite.CreateMainlineRite(faith));
+
+		var gameRite = new Rite("game_rite", new BufferedReader("""
+			{
+				faith = faith_test
+				color = rgb { 1 2 3 }
+				doctrines = { doctrine_test }
+				cultures = { roman }
+			}
+			"""), religions, new ColorFactory());
+		religions.Rites.AddOrReplace(gameRite);
+
+		var faithlessRite = new Rite("faithless_rite", new BufferedReader("""
+			{
+				color = rgb { 4 5 6 }
+			}
+			"""), religions, new ColorFactory());
+		religions.Rites.AddOrReplace(faithlessRite);
+
+		return (religions, locDB);
 	}
 
 	[Fact]
@@ -57,6 +85,7 @@ public class ReligionsOutputterTests {
 			Directory.CreateDirectory(Path.Combine(tempDir, "common", "religion", "religion_types"));
 
 			var (religions, ck3LocDB) = CreateReligionCollectionWithSites();
+			religions.ConverterFaithIds.Add("faith_test");
 
 			await ReligionsOutputter.OutputReligionsAndHolySites(tempDir, religions, ck3LocDB);
 
@@ -72,11 +101,44 @@ public class ReligionsOutputterTests {
 				TestContext.Current.CancellationToken);
 			Assert.Contains("christianity_test=", religionsText, StringComparison.Ordinal);
 
+			var faithsText = await File.ReadAllTextAsync(
+				Path.Combine(tempDir, "common", "religion", "faith_types", "IRtoCK3_all_faiths.txt"),
+				TestContext.Current.CancellationToken);
+			Assert.Contains("faith_test=", faithsText, StringComparison.Ordinal);
+			Assert.Contains("faith_details = {", faithsText, StringComparison.Ordinal);
+			Assert.Contains("religion = christianity_test", faithsText, StringComparison.Ordinal);
+
+			var faithHistoryText = await File.ReadAllTextAsync(
+				Path.Combine(tempDir, "history", "faiths", "IRtoCK3_converter_faiths.txt"),
+				TestContext.Current.CancellationToken);
+			Assert.Contains("faith_test={", faithHistoryText, StringComparison.Ordinal);
+			Assert.Contains("created = yes", faithHistoryText, StringComparison.Ordinal);
+
 			Assert.Equal("$c_test$", ck3LocDB.GetOrCreateLocBlock("holy_site_site_county_name")["english"]);
 			Assert.Equal("Holy site", ck3LocDB.GetOrCreateLocBlock("holy_site_site_nowhere_name")["english"]);
 
-			var effectLoc = ck3LocDB.GetOrCreateLocBlock("holy_site_site_county_effect_name")["english"];
+			var effectLoc = ck3LocDB.GetOrCreateLocBlock("holy_site_site_county_effects")["english"];
 			Assert.Contains("#weak ($holy_site_site_county_name$)#!", effectLoc, StringComparison.Ordinal);
+		} finally {
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	[Fact]
+	public async Task OutputReligionsAndHolySitesWritesAllRites() {
+		var tempDir = CreateTempDir();
+		try {
+			var (religions, locDB) = CreateReligionCollectionWithRites();
+
+			await ReligionsOutputter.OutputReligionsAndHolySites(tempDir, religions, locDB);
+
+			var ritesText = await File.ReadAllTextAsync(
+				Path.Combine(tempDir, "common", "religion", "rite_types", "IRtoCK3_all_rites.txt"),
+				TestContext.Current.CancellationToken);
+			Assert.Contains("faith_test=", ritesText, StringComparison.Ordinal);
+			Assert.Contains("game_rite=", ritesText, StringComparison.Ordinal);
+			Assert.Contains("faithless_rite=", ritesText, StringComparison.Ordinal);
+			Assert.Contains("cultures = { roman }", ritesText, StringComparison.Ordinal);
 		} finally {
 			TryDeleteDir(tempDir);
 		}

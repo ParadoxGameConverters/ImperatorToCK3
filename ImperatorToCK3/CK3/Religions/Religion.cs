@@ -1,35 +1,39 @@
 using commonItems;
 using commonItems.Collections;
-using commonItems.Colors;
 using commonItems.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions;
 
 internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
+	// Defaults from CK3's NRigion defines.
+	public const int DefaultEminentHolySitesMax = 3;
+	public const int DefaultEminentHolySitesMin = 1;
+	public const int DefaultHolySitesMax = 9;
+	public const int DefaultHolySitesMin = 1;
+
 	public string Id { get; }
 	public OrderedSet<string> DoctrineIds { get; } = [];
 
 	public ReligionCollection ReligionCollection { get; }
 	private readonly OrderedDictionary<string, StringOfItem> localization = [];
+	private readonly OrderedDictionary<string, StringOfItem> detailsAttributes = [];
 
-	public Religion(string id, BufferedReader religionReader, ReligionCollection religions, ColorFactory colorFactory) {
+	public Religion(string id, BufferedReader religionReader, ReligionCollection religions) {
 		Id = id;
 		ReligionCollection = religions;
-		this.colorFactory = colorFactory;
-	
-		InitFaithDataParser();
 
 		var religionParser = new Parser(implicitVariableHandling: true);
 		religionParser.RegisterKeyword("doctrine", reader => DoctrineIds.Add(reader.GetString()));
-		religionParser.RegisterKeyword("faiths", faithsReader => {
-			var faithsParser = new Parser(implicitVariableHandling: true);
-			faithsParser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => LoadFaith(faithId, faithReader));
-			faithsParser.IgnoreAndLogUnregisteredItems();
-			faithsParser.ParseStream(faithsReader);
+		// CK3 1.20+ religions define their family and other details in a religion_details block.
+		religionParser.RegisterKeyword("religion_details", reader => {
+			foreach (var assignment in reader.GetAssignments()) {
+				detailsAttributes[assignment.Key] = new StringOfItem(assignment.Value);
+			}
 		});
 		religionParser.RegisterKeyword("localization", reader => {
 			var localizationParser = new Parser(implicitVariableHandling: true);
@@ -42,84 +46,87 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 			attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
 		});
 		religionParser.ParseStream(religionReader);
-		
-		// Fix a religion having more doctrines in the same category than allowed.
-		foreach (var category in religions.DoctrineGroups) {
-			var categoryDoctrineSet = category.DoctrineIds.ToHashSet(StringComparer.Ordinal);
-			var doctrinesInCategory = new List<string>();
-			foreach (var doctrineId in DoctrineIds) {
-				if (categoryDoctrineSet.Contains(doctrineId)) {
-					doctrinesInCategory.Add(doctrineId);
-				}
+
+		ReadHolySiteLimits();
+
+		// Fix a religion having more than one doctrine in the same group.
+		foreach (var group in religions.DoctrineGroups) {
+			var doctrinesInGroup = DoctrineIds.Intersect(group.DoctrineIds).ToList();
+			if (doctrinesInGroup.Count <= 1) {
+				continue;
 			}
 
-			if (doctrinesInCategory.Count > category.NumberOfPicks) {
-				Logger.Warn($"Religion {Id} has too many doctrines in category {category.Id}: " +
-				            $"{string.Join(", ", doctrinesInCategory)}. Keeping the last {category.NumberOfPicks} of them.");
-				
-				DoctrineIds.ExceptWith(doctrinesInCategory);
-				int kept = 0;
-				for (int i = doctrinesInCategory.Count - 1; i >= 0 && kept < category.NumberOfPicks; --i) {
-					DoctrineIds.Add(doctrinesInCategory[i]);
-					++kept;
-				}
-			}
+			Logger.Warn($"Religion {Id} has too many doctrines in group {group.Id}: " +
+			            $"{string.Join(", ", doctrinesInGroup)}. Keeping the last of them.");
+
+			DoctrineIds.ExceptWith(doctrinesInGroup);
+			DoctrineIds.Add(doctrinesInGroup[^1]);
 		}
-	}
-	private void LoadFaith(string faithId, BufferedReader faithReader) {
-		faithData = new FaithData();
-		
-		faithDataParser.ParseStream(faithReader);
-		if (faithData.InvalidatingFaithIds.Count != 0) { // Faith is an optional faith.
-			foreach (var existingFaith in ReligionCollection.Faiths) {
-				if (!faithData.InvalidatingFaithIds.Contains(existingFaith.Id)) {
-					continue;
-				}
-				Logger.Debug($"Faith {faithId} is invalidated by existing {existingFaith.Id}.");
-				return;
-			}
-			Logger.Debug($"Loading optional faith {faithId}...");
-		}
-				
-		// The faith might have already been added to another religion.
-		foreach (var otherReligion in ReligionCollection) {
-			otherReligion.Faiths.Remove(faithId);
-		}
-		
-		Faiths.AddOrReplace(new Faith(faithId, faithData, this));
 	}
 
-	private void InitFaithDataParser() {
-		faithDataParser.RegisterKeyword("INVALIDATED_BY", reader => {
-			faithData.InvalidatingFaithIds = reader.GetStrings();
-		});
-		faithDataParser.RegisterKeyword("color", reader => {
-			try {
-				faithData.Color = colorFactory.GetColor(reader);
-			} catch (Exception e) {
-				Logger.Warn($"Found invalid color in faith {faithData} in religion {Id}! {e.Message}");
-			}
-		});
-		faithDataParser.RegisterKeyword("religious_head", reader => {
-			var titleId = reader.GetString();
-			if (titleId != "none") {
-				faithData.ReligiousHeadTitleId = titleId;
-			}
-		});
-		faithDataParser.RegisterKeyword("holy_site", reader => faithData.HolySiteIds.Add(reader.GetString()));
-		faithDataParser.RegisterKeyword("doctrine", reader => faithData.DoctrineIds.Add(reader.GetString()));
-		faithDataParser.RegisterKeyword("localization", reader => {
-			var localizationParser = new Parser(implicitVariableHandling: true);
-			localizationParser.RegisterRegex(CommonRegexes.Catchall, (locReader, locKey) => {
-				faithData.Localization[locKey] = locReader.GetStringOfItem();
-			});
-			localizationParser.ParseStream(reader);
-		});
-		faithDataParser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
-			faithData.Attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
-		});
-		faithDataParser.IgnoreAndLogUnregisteredItems();
+	private void ReadHolySiteLimits() {
+		EminentHolySitesMax = GetAttributeInt("eminent_holy_sites_max", DefaultEminentHolySitesMax);
+		EminentHolySitesMin = GetAttributeInt("eminent_holy_sites_min", DefaultEminentHolySitesMin);
+		HolySitesMax = GetAttributeInt("holy_sites_max", DefaultHolySitesMax);
+		HolySitesMin = GetAttributeInt("holy_sites_min", DefaultHolySitesMin);
+
+		var mainHolySiteId = GetAttributeString("main_holy_site");
+		MainHolySiteId = mainHolySiteId == "none" ? null : mainHolySiteId;
+
+		if (HolySitesMin > HolySitesMax) {
+			Logger.Warn($"Religion {Id} has holy_sites_min ({HolySitesMin}) greater than holy_sites_max ({HolySitesMax}).");
+		}
+		if (EminentHolySitesMax > HolySitesMax) {
+			Logger.Warn($"Religion {Id} has eminent_holy_sites_max ({EminentHolySitesMax}) greater than holy_sites_max ({HolySitesMax}). The latter will cap eminent holy sites.");
+		}
+		if (EminentHolySitesMin > EffectiveEminentHolySitesMax) {
+			Logger.Warn($"Religion {Id} has eminent_holy_sites_min ({EminentHolySitesMin}) greater than the effective eminent holy site max ({EffectiveEminentHolySitesMax}).");
+		}
 	}
+
+	private string? GetAttributeString(string key) {
+		for (int i = attributes.Count - 1; i >= 0; --i) {
+			if (attributes[i].Key == key) {
+				return attributes[i].Value.ToString().RemQuotes();
+			}
+		}
+		return null;
+	}
+
+	private int GetAttributeInt(string key, int defaultValue) {
+		var valueStr = GetAttributeString(key);
+		if (valueStr is null) {
+			return defaultValue;
+		}
+
+		if (int.TryParse(valueStr, NumberStyles.Integer, CultureInfo.InvariantCulture, out int value) && value >= 0) {
+			return value;
+		}
+
+		Logger.Warn($"Religion {Id} has invalid {key}: {valueStr}. Using default {defaultValue}.");
+		return defaultValue;
+	}
+
+	/// <summary>
+	/// ID of the religion family, e.g. rf_abrahamic. Defined in the religion_details block in CK3 1.20+.
+	/// </summary>
+	public string? FamilyId => detailsAttributes.TryGetValue("family", out var family) ? family.ToString().RemQuotes() : null;
+
+	public int EminentHolySitesMax { get; private set; } = DefaultEminentHolySitesMax;
+	public int EminentHolySitesMin { get; private set; } = DefaultEminentHolySitesMin;
+	public int HolySitesMax { get; private set; } = DefaultHolySitesMax;
+	public int HolySitesMin { get; private set; } = DefaultHolySitesMin;
+
+	/// <summary>
+	/// The total holy site limit includes eminent holy sites, so it can also cap the eminent limit.
+	/// </summary>
+	public int EffectiveEminentHolySitesMax => Math.Min(EminentHolySitesMax, HolySitesMax);
+	public int EffectiveEminentHolySitesMin => Math.Min(EminentHolySitesMin, EffectiveEminentHolySitesMax);
+
+	/// <summary>
+	/// Optional key of a holy site that cannot be removed from any faith of this religion.
+	/// </summary>
+	public string? MainHolySiteId { get; private set; }
 
 	public IdObjectCollection<string, Faith> Faiths { get; } = [];
 	private readonly List<KeyValuePair<string, StringOfItem>> attributes = [];
@@ -135,11 +142,18 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 			sb.AppendLine("{");
 		}
 
+		sb.Append(contentIndent).AppendLine("religion_details = {");
+		var detailsIndent = contentIndent + '\t';
+		foreach (var (key, value) in detailsAttributes) {
+			sb.Append(detailsIndent).AppendLine($"{key} = {value}");
+		}
+		sb.Append(contentIndent).AppendLine("}");
+
 		foreach (var doctrineId in DoctrineIds) {
 			sb.Append(contentIndent).AppendLine($"doctrine={doctrineId}");
 		}
 
-		sb.Append(contentIndent).AppendLine("localization={");
+		sb.Append(contentIndent).AppendLine("localization = {");
 		foreach (var (key, value) in localization) {
 			sb.Append(contentIndent).Append('\t').AppendLine($"{key}={value}");
 		}
@@ -147,18 +161,10 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 
 		sb.AppendLine(PDXSerializer.Serialize(attributes, indent: contentIndent+'\t', withBraces: false));
 
-		sb.Append(contentIndent).AppendLine("faiths={");
-		sb.AppendLine(PDXSerializer.Serialize(Faiths, contentIndent+'\t'));
-		sb.Append(contentIndent).AppendLine("}");
-
 		if (withBraces) {
 			sb.Append(indent).Append('}');
 		}
 
 		return sb.ToString();
 	}
-
-	private readonly ColorFactory colorFactory;
-	private FaithData faithData = new();
-	private readonly Parser faithDataParser = new(implicitVariableHandling: true);
 }

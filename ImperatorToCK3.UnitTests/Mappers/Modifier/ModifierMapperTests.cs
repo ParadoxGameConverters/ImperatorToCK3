@@ -1,0 +1,22 @@
+using ImperatorToCK3.Mappers.Modifier;
+using System.Collections.Generic;
+using Xunit;
+
+namespace ImperatorToCK3.UnitTests.Mappers.Modifier;
+
+public class ModifierMapperTests {
+	[Theory, MemberData(nameof(TestData))]
+	public void MapperReturnsCorrectValues(string imperatorEffect, double imperatorValue, KeyValuePair<string, double>? match) {
+		const string mappingsFilePath = "TestFiles/ModifierMapperTests/mappings.txt";
+		var mapper = new ModifierMapper(mappingsFilePath);
+		Assert.Equal(match, mapper.Match(imperatorEffect, imperatorValue));
+	}
+
+	public static IEnumerable<object?[]> TestData =>
+		[
+			["wrong_effect", 1, null],
+			["effect_to_multiply", 2, new KeyValuePair<string, double>("doubled_effect", 4)],
+			["effect_to_divide", 4, new KeyValuePair<string, double>("divided_effect", 2)],
+			["effect_to_nullify", 1, new KeyValuePair<string, double>("nullified_effect", 0)]
+		];
+}

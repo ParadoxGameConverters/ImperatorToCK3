@@ -7,6 +7,7 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Characters;
 
+[Collection("Sequential")]
 public class PortraitDataTests {
 	private static GenesDB CreateGenesDB() {
 		return new GenesDB(new BufferedReader("""
@@ -362,5 +363,57 @@ public class PortraitDataTests {
 		var testPortraitData = new ImperatorToCK3.Imperator.Characters.PortraitData("AAAAAAAAAAAAZAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==", genesDB);
 
 		Assert.Equal(200, testPortraitData.EyeColorPaletteCoordinates.Y);
+	}
+
+	[Fact]
+	public void ShortDna_DoesNotThrowAndKeepsDefaults() {
+		var genesDB = CreateGenesDB();
+		var shortDnaBytes = new byte[5];
+		shortDnaBytes[0] = 10;
+		shortDnaBytes[1] = 20;
+		shortDnaBytes[2] = 30;
+		shortDnaBytes[3] = 40;
+		shortDnaBytes[4] = 50;
+		string shortDna = Convert.ToBase64String(shortDnaBytes);
+
+		var exception = Record.Exception(() => new PortraitData(shortDna, genesDB));
+		Assert.Null(exception);
+
+		var data = new PortraitData(shortDna, genesDB);
+		// DNA too short for eye palette (needs 12 bytes) and for gene indices, so coords stay at defaults that were set from first 5 bytes where applicable.
+		// Hair palette (0-3) should be set, skin (4-7) partially, eye (8+) should warn and keep defaults.
+		// After fix, Hair should be derived from bytes 0-3, Skin should warn, Eye should warn.
+		Assert.Equal(20, data.HairColorPaletteCoordinates.X); // 10*2
+		Assert.Equal(40, data.HairColorPaletteCoordinates.Y); // 20*2
+		// Eye should remain default 256 because length <= 11
+		Assert.Equal(256, data.EyeColorPaletteCoordinates.X);
+		Assert.Empty(data.AccessoryGenesDict);
+		Assert.Empty(data.MorphGenesDict);
+	}
+
+	[Fact]
+	public void VeryShortDna_TwoBytes_DoesNotThrow() {
+		var genesDB = CreateGenesDB();
+		var tinyDna = Convert.ToBase64String(new byte[2] { 1, 2 });
+		var exception = Record.Exception(() => new PortraitData(tinyDna, genesDB));
+		Assert.Null(exception);
+		var data = new PortraitData(tinyDna, genesDB);
+		// Even hair palette needs 4 bytes, so should keep defaults
+		Assert.Equal(256, data.HairColorPaletteCoordinates.X);
+	}
+
+	[Fact]
+	public void TwelveByteDna_SetsEyePaletteWithoutThrow() {
+		var genesDB = CreateGenesDB();
+		var dna = new byte[12];
+		for (int i = 0; i < 12; ++i) {
+			dna[i] = (byte)(i + 50);
+		}
+		string b64 = Convert.ToBase64String(dna);
+		var exception = Record.Exception(() => new PortraitData(b64, genesDB));
+		Assert.Null(exception);
+		var data = new PortraitData(b64, genesDB);
+		Assert.Equal(100, data.HairColorPaletteCoordinates.X); // 50*2
+		Assert.Equal(116, data.EyeColorPaletteCoordinates.X); // dna[8]=58*2=116
 	}
 }

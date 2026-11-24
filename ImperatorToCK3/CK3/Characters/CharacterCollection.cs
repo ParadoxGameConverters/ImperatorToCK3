@@ -1079,6 +1079,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		string? dynastyId = oldCharacter.GetDynastyId(ck3BookmarkDate);
 		string? dynastyHouseId = oldCharacter.GetDynastyHouseId(ck3BookmarkDate);
 		string? faithId = oldCharacter.GetFaithId(ck3BookmarkDate);
+		string? riteId = oldCharacter.GetRiteId(ck3BookmarkDate);
 		string? cultureId = oldCharacter.GetCultureId(ck3BookmarkDate);
 		string[] maleNames = DetermineMaleNamesForSuccessorsOfCharacter(oldCharacter, cultureId, cultureIdToMaleNames, ck3BookmarkDate);
 
@@ -1107,7 +1108,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 				// Generate a new successor.
 				successorBirthDate = currentCharacterDeathDate.ChangeByYears(-successorAge);
-				successor = GenerateNewSuccessor(oldCharacter, successorCount, maleNames, successorBirthDate, currentCharacter, cultureId, faithId, dynastyId, dynastyHouseId, random);
+				successor = GenerateNewSuccessor(oldCharacter, successorCount, maleNames, successorBirthDate, currentCharacter, cultureId, faithId, riteId, dynastyId, dynastyHouseId, random);
 			}
 
 			currentCharacter.DeathDate = currentCharacterDeathDate;
@@ -1187,8 +1188,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	}
 
 	private Character GenerateNewSuccessor(Character oldCharacter, int successorCount, string[] maleNames,
-		Date successorBirthDate, Character currentCharacter, string? cultureId, string? faithId, string? dynastyId,
-		string? dynastyHouseId, Random random)
+		Date successorBirthDate, Character currentCharacter, string? cultureId, string? faithId, string? riteId,
+		string? dynastyId, string? dynastyHouseId, Random random)
 	{
 		string id = $"irtock3_{oldCharacter.Id}_successor_{successorCount}";
 		string firstName = maleNames[random.Next(0, maleNames.Length)];
@@ -1204,6 +1205,9 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		}
 		if (faithId is not null) {
 			successor.SetFaithId(faithId, null);
+		}
+		if (riteId is not null) {
+			successor.SetRiteId(riteId, null);
 		}
 		if (dynastyId is not null) {
 			successor.SetDynastyId(dynastyId, null);
@@ -1353,7 +1357,6 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
              {
              set_variable = { name = years_with_government value = {{yearsWithChineseGov.ToString("0.#####", CultureInfo.InvariantCulture)}} }
              set_variable = { name = imperator_unrest value = {{unrest.ToString("0.#####", CultureInfo.InvariantCulture)}} }
-             set_variable = { name = imperator_tag value = flag:{{title.ImperatorCountry?.Tag.ToString()}} }
              }
              """;
 			holder.History.AddFieldValue(ck3BookmarkDate, "effects", "effect", new StringOfItem(effectStr));

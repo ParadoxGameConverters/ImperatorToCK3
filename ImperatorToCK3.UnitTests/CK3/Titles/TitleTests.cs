@@ -26,6 +26,7 @@ using CharacterCollection = ImperatorToCK3.CK3.Characters.CharacterCollection;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.UnitTests.CK3.Titles;
@@ -718,5 +719,29 @@ public class TitleTests {
 		title.SetHolder(holder2, "70.1.1");
 
 		title.GetAllHolderIds().Should().Equal(holder1.Id, holder2.Id);
+	}
+
+	[Fact]
+	public void CountyProvinceIds_AreCachedAndInvalidatedOnDeJureVassalChange() {
+		var titles = new Title.LandedTitles();
+		var county = titles.Add("c_county");
+		var barony1 = titles.Add("b_barony1");
+		barony1.LoadTitles(new BufferedReader("province = 11"), colorFactory);
+		var barony2 = titles.Add("b_barony2");
+		barony2.LoadTitles(new BufferedReader("province = 22"), colorFactory);
+		barony1.DeJureLiege = county;
+		barony2.DeJureLiege = county;
+
+		county.CountyProvinceIds.Should().BeEquivalentTo(new ulong[] { 11, 22 });
+
+		// The cache is exposed read-only, never as a mutable list.
+		Assert.IsNotType<List<ulong>>(county.CountyProvinceIds);
+
+		// Moving a vassal away invalidates the cache.
+		var otherCounty = titles.Add("c_other");
+		barony2.DeJureLiege = otherCounty;
+
+		county.CountyProvinceIds.Should().BeEquivalentTo(new ulong[] { 11 });
+		otherCounty.CountyProvinceIds.Should().BeEquivalentTo(new ulong[] { 22 });
 	}
 }

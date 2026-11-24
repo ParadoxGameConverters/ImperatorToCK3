@@ -37,7 +37,7 @@ internal sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDe
 			try {
 				ParseDefinitionLine(line);
 			} catch (Exception e) {
-				throw new FormatException($"Line: |{line}| is unparseable! Breaking. ({e})");
+				throw new FormatException($"Line: |{line}| is unparseable! Breaking.", e);
 			}
 		}
 	}
@@ -67,7 +67,15 @@ internal sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDe
 			ParseColorComponent(span, ref pos, "g"),
 			ParseColorComponent(span, ref pos, "b")
 		);
-		ProvinceToColorDict.Add(id, color);
+		if (ProvinceToColorDict.ContainsKey(id)) {
+			Logger.Warn($"Duplicate province definition for id {id}, overwriting.");
+			ProvinceToColorDict[id] = color;
+		} else {
+			ProvinceToColorDict.Add(id, color);
+		}
+		if (ColorToProvinceDict.ContainsKey(color)) {
+			Logger.Warn($"Duplicate province color {color} for id {id}, overwriting previous id {ColorToProvinceDict[color]}.");
+		}
 		ColorToProvinceDict[color] = id;
 	}
 

@@ -1,6 +1,6 @@
 # Usage:
 # link = {
-#	ck3 = CK3 faith ID
+#	ck3 = CK3 rite ID (preferred) or faith ID
 #	ir = Imperator religion ID
 #	ck3Culture = CK3 culture ID (optional)
 #	irProvince = Imperator province ID (optional)

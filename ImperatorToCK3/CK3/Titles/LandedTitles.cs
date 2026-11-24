@@ -103,7 +103,11 @@ internal sealed partial class Title {
 		private void CleanUpTitlesHavingInvalidCapitalCounties() {
 			// Cleanup for titles having invalid capital counties.
 			var validTitleIds = this.Select(t => t.Id).ToFrozenSet();
-			var placeholderCountyId = validTitleIds.Order().First(t => t.StartsWith("c_"));
+			var placeholderCountyId = validTitleIds.Order().FirstOrDefault(t => t.StartsWith("c_"));
+			if (placeholderCountyId is null) {
+				Logger.Warn("No county title found to use as placeholder capital!");
+				return;
+			}
 
 			// Only check titles that actually may need fixing.
 			// For landed titles, the game will generate capitals, so they can be skipped.
@@ -554,8 +558,11 @@ internal sealed partial class Title {
 					} else if (liegeTitle.GetHolderId(date) == "0") {
 						// Instead of removing the liege entry, see if the liege title has a holder at a later date,
 						// and move the liege entry to that date.
-						liegeTitle.History.Fields.TryGetValue("holder", out var liegeHolderField);
-						Date? laterDate = liegeHolderField?.DateToEntriesDict
+						if (!liegeTitle.History.Fields.TryGetValue("holder", out var liegeHolderField)) {
+							liegeField.DateToEntriesDict.Remove(date);
+							continue;
+						}
+						Date? laterDate = liegeHolderField.DateToEntriesDict
 							.Where(kvp => kvp.Key > date && kvp.Key <= ck3BookmarkDate && kvp.Value.Count != 0 && kvp.Value[^1].Value.ToString() != "0")
 							.OrderBy(kvp => kvp.Key)
 							.Select(kvp => (Date?)kvp.Key)
@@ -637,7 +644,7 @@ internal sealed partial class Title {
 			return (independentCountries.ToImmutable(), subjects.ToImmutable());
 		}
 
-		private int ImportSubjects(CountryCollection imperatorCountries, IReadOnlyDictionary<ulong, Dependency> dependenciesBySubjectId,
+		private int ImportSubjects(CountryCollection imperatorCountries, Dictionary<ulong, Dependency> dependenciesBySubjectId,
 			TagTitleMapper tagTitleMapper, LocDB irLocDB, CK3LocDB ck3LocDB, ProvinceMapper provinceMapper, CoaMapper coaMapper,
 			GovernmentMapper governmentMapper, SuccessionLawMapper successionLawMapper, DefiniteFormMapper definiteFormMapper,
 			ReligionMapper religionMapper, CultureMapper cultureMapper, NicknameMapper nicknameMapper,
@@ -1208,7 +1215,7 @@ internal sealed partial class Title {
 					continue;
 				}
 				kingdomRealmShares.TryGetValue(kingdomRealm.Id, out int currentCount);
-				kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinceIds.Count();
+				kingdomRealmShares[kingdomRealm.Id] = currentCount + county.CountyProvinceIds.Count;
 			}
 
 			if (kingdomRealmShares.Count == 0) {
@@ -1262,7 +1269,7 @@ internal sealed partial class Title {
 				var empireShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
-					var countyProvincesCount = county.CountyProvinceIds.Count();
+					var countyProvincesCount = county.CountyProvinceIds.Count;
 					kingdomProvincesCount += countyProvincesCount;
 
 					var empireRealm = county.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
@@ -1394,7 +1401,7 @@ internal sealed partial class Title {
 				var hegemonyShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
-					var countyProvincesCount = county.CountyProvinceIds.Count();
+					var countyProvincesCount = county.CountyProvinceIds.Count;
 					kingdomProvincesCount += countyProvincesCount;
 					
 					var hegemonyRealm = county.GetRealmOfRank(TitleRank.hegemony, ck3BookmarkDate);
@@ -2214,7 +2221,7 @@ internal sealed partial class Title {
 
 		public void RemoveLiegeEntriesFromReligiousHeadHistory(ReligionCollection religions) {
 			var religiousHeadTitleIds = religions.Faiths
-				.Select(f => f.ReligiousHeadTitleId)
+				.Select(f => f.HeadTitleId)
 				.Distinct()
 				.Where(id => id is not null)
 				.Select(id => id!);

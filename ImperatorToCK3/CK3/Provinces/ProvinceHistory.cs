@@ -21,10 +21,24 @@ internal sealed partial class Province {
 		var faithHistoryField = History.Fields["faith"];
 		faithHistoryField.RemoveAllEntries();
 		faithHistoryField.AddEntryToHistory(null, "faith", faithId);
+		History.Fields["rite"].RemoveAllEntries();
 	}
 	
 	public void SetFaithId(string faithId, Date? date) {
 		History.AddFieldValue(date, "faith", "faith", faithId);
+	}
+
+	public string? GetRiteId(Date date) {
+		var historyValue = History.GetFieldValue("rite", date);
+		return historyValue switch {
+			StringOfItem stringOfItem => stringOfItem.ToString(),
+			string riteStr => riteStr,
+			_ => null
+		};
+	}
+
+	public void SetRiteId(string riteId, Date? date) {
+		History.AddFieldValue(date, "rite", "rite", riteId);
 	}
 
 	public string? GetCultureId(Date date) {
@@ -86,6 +100,7 @@ internal sealed partial class Province {
 	private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
 		.WithSimpleField("culture", "culture", null)
 		.WithSimpleField("faith", ["faith", "religion"], null)
+		.WithSimpleField("rite", "rite", null)
 		.WithSimpleField("holding", "holding", "none")
 		.WithSimpleField("buildings", "buildings", new List<string>())
 		.WithSimpleField("special_building_slot", "special_building_slot", null)
