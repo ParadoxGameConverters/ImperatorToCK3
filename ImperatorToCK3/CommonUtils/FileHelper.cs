@@ -67,7 +67,7 @@ public static class FileHelper {
 			policy.Execute(() => writer = new StreamWriter(filePath, append: false, encoding));
 		} catch (IOException ex) when (IsFilesSharingViolation(ex)) {
 			Logger.Debug(ex.ToString());
-			throw new UserErrorException($"Failed to open \"{filePath}\" for writing. {CloseProgramsHint}");
+			throw new UserErrorException($"Failed to open \"{filePath}\" for writing. {CloseProgramsHint}", ex);
 		}
 
 		if (writer is null) {
@@ -96,7 +96,7 @@ public static class FileHelper {
 			policy.Execute(() => File.Delete(filePath));
 		} catch (IOException ex) when (IsFilesSharingViolation(ex)) {
 			Logger.Debug(ex.ToString());
-			throw new UserErrorException($"Failed to delete \"{filePath}\". {CloseProgramsHint}");
+			throw new UserErrorException($"Failed to delete \"{filePath}\". {CloseProgramsHint}", ex);
 		}
 	}
 
@@ -126,10 +126,10 @@ public static class FileHelper {
 			});
 		} catch (IOException ex) when (IsFilesSharingViolation(ex)) {
 			Logger.Debug(ex.ToString());
-			throw new UserErrorException($"Failed to delete directory \"{directoryPath}\". {CloseProgramsHint}");
+			throw new UserErrorException($"Failed to delete directory \"{directoryPath}\". {CloseProgramsHint}", ex);
 		} catch (UnauthorizedAccessException ex) {
 			Logger.Debug(ex.ToString());
-			throw new UserErrorException($"Failed to delete directory \"{directoryPath}\": {ex.Message}");
+			throw new UserErrorException($"Failed to delete directory \"{directoryPath}\": {ex.Message}", ex);
 		}
 	}
 
@@ -183,7 +183,7 @@ public static class FileHelper {
 			policy.Execute(() => Directory.CreateDirectory(directoryPath));
 		} catch (IOException ex) when (IsFilesSharingViolation(ex)) {
 			Logger.Debug(ex.ToString());
-			throw new UserErrorException($"Failed to create directory \"{directoryPath}\". {CloseProgramsHint}");
+			throw new UserErrorException($"Failed to create directory \"{directoryPath}\". {CloseProgramsHint}", ex);
 		}
 	}
 
@@ -206,7 +206,7 @@ public static class FileHelper {
 			policy.Execute(() => File.Move(sourceFilePath, destFilePath));
 		} catch (IOException ex) when (IsFilesSharingViolation(ex)) {
 			Logger.Debug(ex.ToString());
-			throw new UserErrorException($"Failed to move \"{sourceFilePath}\" to \"{destFilePath}\". {CloseProgramsHint}");
+			throw new UserErrorException($"Failed to move \"{sourceFilePath}\" to \"{destFilePath}\". {CloseProgramsHint}", ex);
 		}
 	}
 

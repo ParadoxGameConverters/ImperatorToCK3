@@ -82,7 +82,7 @@ public class PillarTests {
 		var result = pillar.Serialize(indent: "", withBraces: false);
 
 		// No outer braces: output starts with the type line, not "{".
-		Assert.True(result.TrimStart().StartsWith("type"));
+		Assert.StartsWith("type", result.TrimStart());
 		Assert.Contains("type=t", result);
 		Assert.Contains("color=", result);
 		Assert.DoesNotContain("parameters=", result);

@@ -1050,7 +1050,7 @@ internal partial class World {
 		} catch (IOException e) {
 			Logger.Debug($"Failed to open save file \"{saveGamePath}\": {e.Message}");
 			throw new UserErrorException("Could not open the save file! " +
-			                             "Close Imperator: Rome before running the converter.");
+			                             "Close Imperator: Rome before running the converter.", e);
 		}
 	}
 	private static BufferedReader ProcessCompressedEncodedSave(string saveGamePath) {

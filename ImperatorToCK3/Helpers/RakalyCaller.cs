@@ -97,11 +97,11 @@ public static class RakalyCaller {
 			LogWin32ExceptionDetails(e);
 			string absoluteRakalyPath = Path.Combine(Directory.GetCurrentDirectory(), RelativeRakalyPath);
 			throw new UserErrorException("Failed to run Rakaly because the antivirus blocked it.\n" +
-			                             $"Add an exclusion for \"{absoluteRakalyPath}\" to the antivirus and try again.");
+			                             $"Add an exclusion for \"{absoluteRakalyPath}\" to the antivirus and try again.", e);
 		} catch (Win32Exception e) when (IsFileNotFound(e)) {
 			LogWin32ExceptionDetails(e);
 			throw new UserErrorException("Failed to run Rakaly, it was probably removed by an antivirus.\n" +
-			                             "Resave the save in Imperator debug mode and try again.");
+			                             "Resave the save in Imperator debug mode and try again.", e);
 		}
 
 		int returnCode = process.ExitCode;
@@ -283,7 +283,7 @@ public static class RakalyCaller {
 				Thread.Sleep(delayMilliseconds);
 			} catch (Exception ex) when (FileHelper.IsFileInUseException(ex)) {
 				Logger.Debug($"Failed to open melted save \"{filePath}\": {ex.Message}");
-				throw new UserErrorException(couldNotOpenFileMessage);
+				throw new UserErrorException(couldNotOpenFileMessage, ex);
 			}
 		}
 
