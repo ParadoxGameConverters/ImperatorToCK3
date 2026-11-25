@@ -150,7 +150,7 @@ public class WarsOutputterTests {
 			Assert.Null(warWithoutCB.CasusBelli);
 			Assert.Equal("char_a", warWithCB.Attackers[0]);
 			Assert.Equal("char_b", warWithCB.Defenders[0]);
-			Assert.True(warWithCB.TargetedTitles.Contains("d_IRTOCK3_BRU")); // capital county fallback
+			Assert.Contains("d_IRTOCK3_BRU", (IEnumerable<string>)warWithCB.TargetedTitles); // capital county fallback
 			Assert.Equal(new Date(2, 1, 1), warWithoutCB.StartDate);
 
 			await WarsOutputter.OutputWars(tempDir, [warWithCB, warWithoutCB]);

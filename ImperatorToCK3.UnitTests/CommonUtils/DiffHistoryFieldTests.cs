@@ -5,6 +5,7 @@ using ImperatorToCK3.CommonUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CommonUtils;
@@ -174,5 +175,32 @@ public class DiffHistoryFieldTests {
 		field.DateToEntriesDict[new Date(100, 1, 1)].Add(new KeyValuePair<string, object>("remove", "item2"));
 		GetValueSet(field, new Date(100, 1, 1)).Should().BeEquivalentTo(["item1"]);
 		GetValueSet(clone, new Date(100, 1, 1)).Should().BeEquivalentTo(["item1", "item3", "item2"]);
+	}
+
+	[Fact]
+	public void Clone_OfEmptyFieldAllocatesNothingOnEitherInstance() {
+		var field = CreateField();
+
+		var clone = Assert.IsType<DiffHistoryField>(field.Clone());
+
+		// Cloning must not force allocations on the source instance...
+		Assert.Null(GetBackingFieldValue(field, "initialEntries"));
+		Assert.Null(GetBackingFieldValue(field, "dateToEntriesDict"));
+
+		// ...nor on the clone; both stay fully usable.
+		Assert.Null(GetBackingFieldValue(clone, "initialEntries"));
+		Assert.Null(GetBackingFieldValue(clone, "dateToEntriesDict"));
+		Assert.Empty(clone.InitialEntries);
+		Assert.Empty(clone.DateToEntriesDict);
+
+		clone.AddEntryToHistory(null, "insert", "item1");
+		GetValueSet(clone, null).Should().BeEquivalentTo(["item1"]);
+
+		// Using the clone leaves the source untouched.
+		Assert.Empty(field.InitialEntries);
+	}
+
+	private static object? GetBackingFieldValue(object target, string fieldName) {
+		return target.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(target);
 	}
 }

@@ -532,6 +532,30 @@ public class CharacterCollectionTests {
 	}
 
 	[Fact]
+	public void SuccessorsInheritRiteFromOldCharacter() {
+		Date ck3BookmarkDate = new(867, 1, 1);
+		Date irSaveDate = new(740, 1, 1);
+
+		var characters = new CharacterCollection();
+		var oldCharacter = new Character("old_rite", "Oldman", new Date(700, 1, 1), characters);
+		characters.Add(oldCharacter);
+		oldCharacter.SetFaithId("test_faith", null);
+		oldCharacter.SetRiteId("test_rite", null);
+
+		var landedTitles = new Title.LandedTitles();
+		var kingdom = landedTitles.Add("k_test_rite");
+		kingdom.SetHolder(oldCharacter, ck3BookmarkDate);
+
+		characters.GenerateSuccessorsForOldCharacters(landedTitles, CreateCultureCollectionWithMaleNames(), irSaveDate, ck3BookmarkDate, randomSeed: 42);
+
+		var successors = characters.Where(c => c.Id.StartsWith("irtock3_old_rite_successor_", StringComparison.Ordinal)).ToList();
+		Assert.NotEmpty(successors);
+		foreach (var successor in successors) {
+			Assert.Equal("test_rite", successor.GetRiteId(ck3BookmarkDate));
+		}
+	}
+
+	[Fact]
 	public void SuccessorMaleNamesFallBackToSpouseCultureWhenParentsHaveNoUsableCulture() {
 		Date ck3BookmarkDate = new(867, 1, 1);
 		Date irSaveDate = new(740, 1, 1);

@@ -34,11 +34,17 @@ internal interface IHistoryField : IIdentifiable<string> {
 	}
 
 	internal void RemoveHistoryPastDate(Date date) {
-		var keysToRemove = new List<Date>();
+		// Collect keys to remove without allocating unless necessary:
+		// most fields have no entries past the given date.
+		List<Date>? keysToRemove = null;
 		foreach (var key in DateToEntriesDict.Keys) {
 			if (key > date) {
-				keysToRemove.Add(key);
+				(keysToRemove ??= []).Add(key);
 			}
+		}
+
+		if (keysToRemove is null) {
+			return;
 		}
 
 		foreach (var key in keysToRemove) {

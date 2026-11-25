@@ -52,7 +52,7 @@ jobs:
           archive_extension: .tgz
           asset_content_type: application/gzip
         - build: osx-arm64
-          os: macos-14
+          os: macos-15
           archive_type: tar
           archive_extension: .tgz
           asset_content_type: application/gzip

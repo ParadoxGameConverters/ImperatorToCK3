@@ -1,0 +1,21 @@
+# This file contains CK3 rite types added by the converter.
+#
+# In CK3 1.20+ (By God Alone) the religious hierarchy is:
+#   religion -> faith -> rite
+#
+# A faith without any scripted rites gets a dynamically generated rite with a key
+# that cannot be referenced by script or history. The converter therefore creates a
+# "mainline" rite for every faith it adds, matching the faith's key, color, tenets
+# and doctrines. This file can be used to override or add rites with custom data.
+#
+# Structure (same as common/religion/rite_types in CK3):
+#
+# my_rite = {
+#     faith = my_faith           # Faith the rite belongs to. If omitted, the rite is not created at game start.
+#     color = rgb { 255 0 0 }    # Optional, defaults to the faith's color.
+#     icon = custom_icon         # Optional.
+#     tenets = { tenet_1 tenet_2 }
+#     doctrines = { doctrine_1 doctrine_2 }
+#     cultures = { culture_1 }
+#     localization = { ... }
+# }

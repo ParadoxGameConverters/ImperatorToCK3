@@ -1330,7 +1330,7 @@
 		# IRToCK3: Requires Rome to at least have elevated to hegemony rank, otherwise why would they be influential enough to mimic?
 		is_target_in_global_variable_list = {
 			name = unavailable_unique_decisions
-			target = flag:irtock3_elevate_roman_empire_decision
+			target = flag:irtock3_roman_empire_elevated
 		}
 		NOT = { culture = culture:greek }
 		NOT = { culture = culture:roman } # IRToCK3: Added roman as invalid culture
@@ -3789,11 +3789,11 @@ tgp_is_ceremonial_regent_trigger = {
 	OR = {
 		has_title = title:e_byzantium
 		has_title = title:h_roman_empire
-		has_title = title:h_eastern_roman_empire
+		#has_title = title:h_eastern_roman_empire
 		# IRToCK3: Added new titles from converter
-		has_title = title:h_western_roman_empire
+		#has_title = title:h_western_roman_empire
 		has_title = title:e_western_roman_empire
-		has_title = title:e_roman_empire
+		#has_title = title:e_roman_empire
 	}
 		}
 	}
@@ -3815,11 +3815,11 @@ tgp_is_ceremonial_regent_trigger = {
 	OR = {
 		primary_title ?= title:e_byzantium
 		primary_title ?= title:h_roman_empire
-		primary_title ?= title:h_eastern_roman_empire
+		#primary_title ?= title:h_eastern_roman_empire
 		# IRToCK3: Added new titles from converter
-		primary_title ?= title:h_western_roman_empire
+		#primary_title ?= title:h_western_roman_empire
 		primary_title ?= title:e_western_roman_empire
-		primary_title ?= title:e_roman_empire
+		#primary_title ?= title:e_roman_empire
 	}
 		}
 	}
@@ -3839,8 +3839,7 @@ tgp_is_ceremonial_regent_trigger = {
 		after = {
 	OR = {
 		has_title = title:h_roman_empire
-		has_title = title:h_eastern_roman_empire
-		has_title = title:h_western_roman_empire # IRToCK3: Added WRE
+		has_title = title:e_western_roman_empire # IRToCK3: Added WRE
 	}
 		}
 	}
@@ -3860,8 +3859,8 @@ tgp_is_ceremonial_regent_trigger = {
 		after = {
 	OR = {
 		primary_title ?= title:h_roman_empire
-		primary_title ?= title:h_eastern_roman_empire
-		primary_title ?= title:h_western_roman_empire # IRToCK3: Added WRE
+		#primary_title ?= title:h_eastern_roman_empire
+		primary_title ?= title:e_western_roman_empire # IRToCK3: Added WRE
 	}
 		}
 	}

@@ -19,7 +19,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [[self-hosted, windows], [self-hosted, linux], macos-14]
+        os: [[self-hosted, windows], [self-hosted, linux], macos-15]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     env:
@@ -79,8 +79,8 @@ jobs:
     - name: "Build converter backend"
       working-directory: ImperatorToCK3
       run: |
-        dotnet build
+        dotnet build ${{ runner.environment == 'self-hosted' && '-m:16' || '' }}
     - name: "Build docs generator"
       working-directory: DocsGenerator
       run: |
-        dotnet build
+        dotnet build ${{ runner.environment == 'self-hosted' && '-m:16' || '' }}

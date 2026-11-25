@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Xunit;
 
@@ -212,5 +213,32 @@ public class LiteralHistoryFieldTests {
 		field.InitialEntries.Add(new("name", "initial-late"));
 		Assert.Equal("initial-late", field.GetValue(null)?.ToString());
 		Assert.Equal("initial", clone.GetValue(null)?.ToString());
+	}
+
+	[Fact]
+	public void Clone_OfEmptyFieldAllocatesNothingOnEitherInstance() {
+		var field = new LiteralHistoryField("name", new OrderedSet<string> { "name" }, null);
+
+		var clone = Assert.IsType<LiteralHistoryField>(field.Clone());
+
+		// Cloning must not force allocations on the source instance...
+		Assert.Null(GetBackingFieldValue(field, "initialEntries"));
+		Assert.Null(GetBackingFieldValue(field, "dateToEntriesDict"));
+
+		// ...nor on the clone; both stay fully usable.
+		Assert.Null(GetBackingFieldValue(clone, "initialEntries"));
+		Assert.Null(GetBackingFieldValue(clone, "dateToEntriesDict"));
+		Assert.Empty(clone.InitialEntries);
+		Assert.Empty(clone.DateToEntriesDict);
+
+		clone.AddEntryToHistory(null, "name", "value");
+		Assert.Equal("value", clone.GetValue(null)?.ToString());
+
+		// Using the clone leaves the source untouched.
+		Assert.Empty(field.InitialEntries);
+	}
+
+	private static object? GetBackingFieldValue(object target, string fieldName) {
+		return target.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(target);
 	}
 }

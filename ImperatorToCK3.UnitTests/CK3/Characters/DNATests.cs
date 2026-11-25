@@ -36,8 +36,7 @@ public class DNATests {
 	}
 
 	[Fact]
-	public void IdPropertyReturnsSuppliedId() {
-		var dna = new DNA(
+	public void IdPropertyReturnsSuppliedId() {		var dna = new DNA(
 			"my_id",
 			new Dictionary<string, DNAColorGeneValue>(),
 			new Dictionary<string, DNAGeneValue>(),
@@ -137,5 +136,23 @@ public class DNATests {
 		Assert.Contains("\t\tgenes={", lines);
 		Assert.Contains("\t\t}", lines);
 		Assert.DoesNotContain(lines, l => l.StartsWith("\t\t\t"));
+	}
+
+	[Fact]
+	public void PaletteCoordinates_ParameterlessCtorYieldsZeros() {
+		// Note: the =128 property initializers are not executed by new(),
+		// so a default-constructed instance has 0 coordinates.
+		var coords = new DNA.PaletteCoordinates();
+
+		Assert.Equal(0, coords.X);
+		Assert.Equal(0, coords.Y);
+	}
+
+	[Fact]
+	public void PaletteCoordinates_CanBeInitializedWithValues() {
+		var coords = new DNA.PaletteCoordinates(10, 20);
+
+		Assert.Equal(10, coords.X);
+		Assert.Equal(20, coords.Y);
 	}
 }

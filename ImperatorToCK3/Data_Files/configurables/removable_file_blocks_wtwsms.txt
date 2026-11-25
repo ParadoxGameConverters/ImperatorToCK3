@@ -18,7 +18,7 @@
 
 
 "common/on_action/BP_on_actions/BP_game_starts/476/BP_476_start_feb.txt" = {
-	# Anachronistic character setup (Odoacer house head, hardcoded diarchies).
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
 	{
 BP_character_events_476_feb = {
 	effect = {
@@ -40,6 +40,8 @@ BP_character_events_476_feb = {
 			limit = { has_dlc_feature = coronations }
 			character:96054 = { add_realm_law_skip_effects = uncrowned }
 		}
+		#Give Romulus some influence so he can actually call some troops
+		character:96054 = { change_influence = romulus_augustulus_at_start_influence_value }
 		
 		#Entrench Diarchies and adjust senate approval
 		trigger_event = { id = BP_maintenance_events.1000 days = 1 }
@@ -129,7 +131,7 @@ BP_senate_476_feb = {
 	}
 }
 	} # end of block
-	# Roman-admin council assignment via hardcoded titles.
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
 	{
 BP_setup_roman_council_476_feb = {
 	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
@@ -145,18 +147,6 @@ BP_setup_roman_council_476_feb = {
 				POSITION = councillor_chancellor_roman
 			}
 		}
-		title:e_magister_offices_wre.holder = {
-			vassal_contract_set_obligation_level = {
-				type = roman_administrative_themes
-				level = roman_admin_theme_ministry_civilian_value
-			}
-		}
-		title:e_magister_military_wre.holder = {
-			vassal_contract_set_obligation_level = {
-				type = roman_administrative_themes
-				level = roman_admin_theme_ministry_military_value
-			}
-		}
 		
 		#ERE
 		title:h_eastern_roman_empire.holder = {
@@ -169,22 +159,10 @@ BP_setup_roman_council_476_feb = {
 				POSITION = councillor_chancellor_roman
 			}
 		}
-		title:e_magister_offices_ere.holder = {
-			vassal_contract_set_obligation_level = {
-				type = roman_administrative_themes
-				level = roman_admin_theme_ministry_civilian_value
-			}
-		}
-		title:e_magister_military_ere.holder = {
-			vassal_contract_set_obligation_level = {
-				type = roman_administrative_themes
-				level = roman_admin_theme_ministry_military_value
-			}
-		}
 	}
 }
 	} # end of block
-	# MAA regiments granted to hardcoded historical title holders.
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
 	{
 BP_set_armies_476_feb_DLC = {
 	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
@@ -292,33 +270,6 @@ BP_set_armies_476_feb_DLC = {
 				check_can_recruit = no
 				size = 5
 				title = title:e_magister_military_ere
-			}
-		}
-		title:k_soissons.holder = {
-			title:k_soissons = { every_title_maa_regiment = { destroy_maa_regiment = yes } }
-			create_maa_regiment = {
-				type = roman_heavy_infantry
-				check_can_recruit = no
-				size = 5
-				title = title:k_soissons
-			}
-			create_maa_regiment = {
-				type = roman_light_infantry
-				check_can_recruit = no
-				size = 5
-				title = title:k_soissons
-			}
-			create_maa_regiment = {
-				type = bowmen
-				check_can_recruit = no
-				size = 5
-				title = title:k_soissons
-			}
-			create_maa_regiment = {
-				type = pikemen_unit
-				check_can_recruit = no
-				size = 5
-				title = title:k_soissons
 			}
 		}
 	}
@@ -450,7 +401,7 @@ BP_senate_476_oct = {
 	}
 }
 	} # end of block
-	# Roman-admin council assignment via hardcoded titles/characters.
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
 	{
 BP_setup_roman_council_476_oct = {
 	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
@@ -461,12 +412,6 @@ BP_setup_roman_council_476_oct = {
 			add_more_wre_courtiers_effect = yes
 		}
 		title:h_western_roman_empire.holder = { fire_councillor_skip_effects = cp:councillor_chancellor_roman }
-		title:e_magister_military_wre.holder ?= {
-			vassal_contract_set_obligation_level = {
-				type = roman_administrative_themes
-				level = roman_admin_theme_ministry_military_value
-			}
-		}
 		
 		title:h_eastern_roman_empire.holder ?= {
 			make_councilor_of_type_if_not_already_effect = {
@@ -483,18 +428,6 @@ BP_setup_roman_council_476_oct = {
 				remove_existing_councillor = yes
 			}
 		}
-		title:e_magister_offices_ere.holder ?= {
-			vassal_contract_set_obligation_level = {
-				type = roman_administrative_themes
-				level = roman_admin_theme_ministry_civilian_value
-			}
-		}
-		title:e_magister_military_ere.holder ?= {
-			vassal_contract_set_obligation_level = {
-				type = roman_administrative_themes
-				level = roman_admin_theme_ministry_military_value
-			}
-		}
 		
 		#Italia
 		title:h_italy.holder = {
@@ -507,22 +440,10 @@ BP_setup_roman_council_476_oct = {
 				POSITION = councillor_marshal_roman
 			}
 		}
-		title:e_magister_offices_italy.holder ?= {
-			vassal_contract_set_obligation_level = {
-				type = roman_administrative_themes
-				level = roman_admin_theme_ministry_civilian_value
-			}
-		}
-		title:e_magister_military_italy.holder ?= {
-			vassal_contract_set_obligation_level = {
-				type = roman_administrative_themes
-				level = roman_admin_theme_ministry_military_value
-			}
-		}
 	}
 }
 	} # end of block
-	# MAA regiments granted to hardcoded historical title holders.
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
 	{
 BP_set_armies_476_oct_DLC = {
 	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
@@ -609,33 +530,6 @@ BP_set_armies_476_oct_DLC = {
 				check_can_recruit = no
 				size = 5
 				title = title:e_magister_military_ere
-			}
-		}
-		title:k_soissons.holder = {
-			title:k_soissons = { every_title_maa_regiment = { destroy_maa_regiment = yes } }
-			create_maa_regiment = {
-				type = roman_heavy_infantry
-				check_can_recruit = no
-				size = 5
-				title = title:k_soissons
-			}
-			create_maa_regiment = {
-				type = roman_light_infantry
-				check_can_recruit = no
-				size = 3
-				title = title:k_soissons
-			}
-			create_maa_regiment = {
-				type = bowmen
-				check_can_recruit = no
-				size = 2
-				title = title:k_soissons
-			}
-			create_maa_regiment = {
-				type = pikemen_unit
-				check_can_recruit = no
-				size = 2
-				title = title:k_soissons
 			}
 		}
 		title:e_magister_military_italy.holder = {
@@ -851,12 +745,175 @@ BP_remove_claims_476 = {
 	}
 }
 	} # end of block
-	# Theodoric's army spawning at a hardcoded location.
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
 	{
-BP_create_theodoric_armies_476 = {
+BP_create_armies_476 = {
 	effect = {
 		character:63 = {
 			create_theodoric_army_effect = { LOCATION = 3682 }
+		}
+		title:d_ovorkhangai.holder = {
+			if = { #Can't be dispatched to an effect for some reason
+				limit = { government_has_flag = government_is_nomadic }
+				create_maa_regiment = {
+					type = cataphract_archers
+					size = 2
+				}
+			}
+			else = {
+				create_maa_regiment = {
+					type = horse_archers
+					size = 2
+				}
+			}
+			create_maa_regiment = {
+				type = horse_archers
+				size = 2
+			}
+		}
+		title:e_bactria.holder = {
+			create_hephthalite_476_army_effect = { LOCATION = 4335 }
+			create_hephthalite_476_army_effect = { LOCATION = 4335 }
+			create_hephthalite_476_army_effect = { LOCATION = 4335 }
+			create_hephthalite_476_army_effect = { LOCATION = 4335 }
+			create_hepthalite_maa_476_effect = yes
+		}
+		#Army for Arbogast
+		title:d_belgica_prima.holder = {
+			every_maa_regiment = { destroy_maa_regiment = yes }
+			create_maa_regiment = {
+				type = roman_light_infantry
+				check_can_recruit = no
+				size = 3
+			}
+			create_maa_regiment = {
+				type = roman_heavy_infantry
+				check_can_recruit = no
+				size = 2
+			}
+			create_maa_regiment = {
+				type = bowmen
+				check_can_recruit = no
+				size = 2
+			}
+			create_maa_regiment = {
+				type = pikemen_unit
+				check_can_recruit = no
+				size = 1
+			}
+		}
+		#Army for Childeric
+		title:d_belgica_secunda.holder = {
+			every_maa_regiment = { destroy_maa_regiment = yes }
+			create_maa_regiment = {
+				type = armored_footmen
+				check_can_recruit = no
+				size = 1
+			}
+			create_maa_regiment = {
+				type = light_footmen
+				check_can_recruit = no
+				size = 2
+			}
+			create_maa_regiment = {
+				type = bowmen
+				check_can_recruit = no
+				size = 2
+			}
+		}
+	}
+}
+	} # end of block
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
+	{
+BP_setup_education_476 = {
+	effect = {
+		character:40 = {
+			set_sexuality = heterosexual
+			
+			#There's auto-assigned personality traits; have to clear and set
+			clear_traits = yes
+			add_trait = rowdy
+			add_trait = ambitious
+			add_trait = agile
+			add_trait = legendary_leader
+			
+			#Update the underlying education
+			set_focus = education_intrigue
+			set_variable = { name = education_intrigue_variable value = education_level_2 }
+			set_variable = { name = education_martial_variable value = education_level_2 }
+			remove_variable = diplomacy_previous_education
+			remove_variable = martial_previous_education
+			remove_variable = stewardship_previous_education
+			remove_variable = intrigue_previous_education
+			remove_variable = learning_previous_education
+		}
+	}
+}
+	} # end of block
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
+	{
+BP_setup_admin_troops_476_DLC = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		title:k_soissons.holder = {
+			title:k_soissons = { every_title_maa_regiment = { destroy_maa_regiment = yes } }
+			create_maa_regiment = {
+				type = roman_heavy_infantry
+				check_can_recruit = no
+				size = 3
+				title = title:k_soissons
+			}
+			create_maa_regiment = {
+				type = roman_light_infantry
+				check_can_recruit = no
+				size = 3
+				title = title:k_soissons
+			}
+			create_maa_regiment = {
+				type = bowmen
+				check_can_recruit = no
+				size = 3
+				title = title:k_soissons
+			}
+			create_maa_regiment = {
+				type = pikemen_unit
+				check_can_recruit = no
+				size = 3
+				title = title:k_soissons
+			}
+		}
+	}
+}
+	} # end of block
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
+	{
+BP_development_effects_476 = {
+	effect = {
+		#North Gaul is devastated
+		every_county = {
+			limit = {
+				OR = {
+					this.duchy = title:d_brittany
+					this.duchy = title:d_orleans
+					this.duchy = title:d_celtica
+					this.duchy = title:d_gallia
+					this.duchy = title:d_noviodunum
+					this.duchy = title:d_durocotorum
+					this.duchy = title:d_belgica_prima
+					this.duchy = title:d_mosania
+					this.duchy = title:d_belgica_secunda
+					this.duchy = title:d_germania_inferior
+					this.duchy = title:d_texandria
+					this.duchy = title:d_germania_superior
+					this.duchy = title:d_lugdunensis_tertia
+					this.duchy = title:d_verodunum
+				}
+			}
+			change_development_level = {
+				value = this.development_level
+				multiply = -0.50
+			}
 		}
 	}
 }
@@ -906,7 +963,7 @@ BP_setup_realm_laws_476 = {
 	}
 }
 	} # end of block
-	# Roman-admin realm laws applied to hardcoded historical states.
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
 	{
 BP_setup_realm_laws_476_DLC = {
 	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
@@ -950,7 +1007,7 @@ BP_setup_realm_laws_476_DLC = {
 			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_military_40 }
 			remove_variable = non_roman_minority_rule_law_cooldown
 		}
-		title:d_triveria.holder = {
+		title:d_belgica_prima.holder = {
 			add_law_if_not_has_it_propagate_minority_law_effect = { LAW = non_roman_minority_rule_law_4 }
 			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_salary_40 }
 			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_military_40 }
@@ -959,9 +1016,49 @@ BP_setup_realm_laws_476_DLC = {
 	}
 }
 	} # end of block
-	# Roman-admin theme obligations on hardcoded historical duchies.
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
 	{
-BP_setup_vassal_contracts_476_DLC = {
+BP_setup_vassal_contracts_476_nomad_DLC = {
+	trigger = { BP_has_dlc_necessary_for_great_steppe_situation_trigger = yes }
+	effect = {
+		#The Rouran are squeezing their vassals, as is their wont
+		title:e_mongolia.holder = {
+			every_vassal = {
+				limit = { government_has_flag = government_is_nomadic }
+				if = { #Gokturks and Fufuluo Tiele especially squeezed
+					limit = {
+						OR = {
+							this.primary_title = title:k_dzungaria
+							this.primary_title = title:d_ovorkhangai
+						}
+					}
+					vassal_contract_set_obligation_level = {
+						type = nomad_government_herd
+						level = herd_tax_extortionate
+					}
+					vassal_contract_set_obligation_level = {
+						type = nomad_government_taxes
+						level = nomad_tax_extortionate
+					}
+				}
+				else = {
+					vassal_contract_set_obligation_level = {
+						type = nomad_government_herd
+						level = herd_tax_high
+					}
+					vassal_contract_set_obligation_level = {
+						type = nomad_government_taxes
+						level = nomad_tax_high
+					}
+				}
+			}
+		}
+	}
+}
+	} # end of block
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
+	{
+BP_setup_vassal_contracts_476_rome_DLC = {
 	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
 	effect = {
 		#Remnant Limitanei
@@ -978,12 +1075,6 @@ BP_setup_vassal_contracts_476_DLC = {
 			}
 		}
 		title:d_verodunum.holder = {
-			vassal_contract_set_obligation_level = {
-				type = roman_administrative_themes
-				level = roman_admin_theme_limitanei_value
-			}
-		}
-		title:d_noviodunum.holder = {
 			vassal_contract_set_obligation_level = {
 				type = roman_administrative_themes
 				level = roman_admin_theme_limitanei_value
@@ -1092,12 +1183,15 @@ BP_setup_vassal_contracts_476_DLC = {
 	}
 }
 	} # end of block
-	# Capital county fix for a hardcoded historical title.
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
 	{
 BP_setup_capitals_476 = {
 	effect = {
 		title:d_werle = {
 			set_capital_county = title:c_mecklenburg
+		}
+		title:d_mosania.holder = {
+			set_realm_capital = title:c_cambray
 		}
 	}
 }
@@ -1208,7 +1302,7 @@ BP_setup_roman_border_troops_476_DLC = {
 	}
 }
 	} # end of block
-	# Federate MAA regiments on a hardcoded historical duchy.
+	# Anachronistic: history-keyed setup that conflicts with a converted world.
 	{
 BP_setup_federate_troops_476_DLC = {
 	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
@@ -1228,9 +1322,9 @@ BP_setup_federate_troops_476_DLC = {
 				title = title:d_orleans
 			}
 			create_maa_regiment = {
-				type = light_footmen
+				type = sarmatian_lancers
 				check_can_recruit = no
-				size = 2
+				size = 1
 				title = title:d_orleans
 			}
 		}
@@ -1442,7 +1536,7 @@ give_persian_hegemon_its_kingdoms = {
 	}
 }
 	} # end of block
-	# Historical capital changes for specific time periods; conflicts with conversion.
+	#Capital changes
 	{
 #Capital changes for specific time periods
 		title:k_ostrogoths.holder = {
@@ -1474,14 +1568,14 @@ give_persian_hegemon_its_kingdoms = {
 		}
 		title:k_kidarite.holder = {
 			if = { #Kidarite Rump Kingdom in Gandhara
-				limit = { current_date >= 467.1.1 }
-				set_realm_capital = title:c_udabhanda
+				limit = { current_date >= 465.1.1 }
+				set_realm_capital = title:c_lahur
 			}
 		}
-		title:e_hunnic_empire.holder = {
-			if = {
-				limit = { current_date > 469.1.1 }
-				set_realm_capital = title:c_odessa
+		title:k_gepidia.holder = {
+			if = { #Gepids move into Sirmium
+				limit = { current_date >= 473.1.1 }
+				set_realm_capital = title:c_szerem
 			}
 		}
 	} # end of block
@@ -1489,7 +1583,7 @@ give_persian_hegemon_its_kingdoms = {
 
 "common/on_action/BP_on_actions/000_BP_game_start.txt" = {
 	# Relics granted to holders of hardcoded historical titles.
-	# (also removes the generic Gurzil artifact branch - acceptable trade-off for simplicity)
+# (also removes the generic Gurzil artifact branch - acceptable trade-off for simplicity)
 	{
 create_BP_artifacts = {
 	effect = {
@@ -2011,15 +2105,5 @@ NOR = {
 				this = character:175110
 				this = character:145226
 			}
-	} # end of block
-}
-
-"common/decisions/BP_claim_kingdom_decisions.txt" = {
-	# Anachronistic AI modifier.
-	{
-modifier = { #AI Hazkert will not do this
-			add = -10000
-			root = character:159590
-		}
 	} # end of block
 }

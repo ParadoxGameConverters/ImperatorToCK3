@@ -95,7 +95,7 @@ internal static class BookmarkOutputter {
 		CharacterCollection characters,
 		CK3LocDB ck3LocDB,
 		(int X, int Y) position,
-		Configuration config
+			Configuration config
 	) {
 		var holder = characters[holderId];
 
@@ -139,9 +139,10 @@ internal static class BookmarkOutputter {
 		}
 
 		sb.AppendLine($"\t\tculture = {holder.GetCultureId(config.CK3BookmarkDate)}");
-		var faithId = holder.GetFaithId(config.CK3BookmarkDate);
-		if (!string.IsNullOrEmpty(faithId)) {
-			sb.AppendLine($"\t\treligion={faithId}");
+		// In CK3 1.20+ the bookmark "religion" field holds a rite ID.
+		var bookmarkReligionId = holder.GetRiteId(config.CK3BookmarkDate) ?? holder.GetFaithId(config.CK3BookmarkDate);
+		if (!string.IsNullOrEmpty(bookmarkReligionId)) {
+			sb.AppendLine($"\t\treligion={bookmarkReligionId}");
 		}
 		sb.AppendLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
 		sb.AppendLine($"\t\tposition = {{ {position.X} {position.Y} }}");

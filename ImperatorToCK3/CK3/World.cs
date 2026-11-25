@@ -73,6 +73,16 @@ internal sealed class World {
 	/// </summary>
 	public Date CorrectedDate { get; private set; } = new Date(2, 1, 1); // overwritten by DetermineCK3BookmarkDate
 
+	public void ConvertFaithHistoryToRites() {
+		Logger.Info("Converting faith history entries to rites...");
+		foreach (var character in Characters) {
+			Religions.ConvertFaithHistoryToRites(character.History);
+		}
+		foreach (var province in Provinces) {
+			Religions.ConvertFaithHistoryToRites(province.History);
+		}
+	}
+
 	internal World(Imperator.World impWorld, Configuration config, Thread? irCoaExtractThread) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
 
@@ -189,10 +199,16 @@ internal sealed class World {
 				Religions.LoadReligions(ModFS, ck3ColorFactory);
 				Logger.Info("Loaded CK3 religions.");
 				Logger.IncrementProgress();
+				Logger.Info("Loading converter religions...");
+				Religions.LoadConverterReligions("configurables/converter_religions.liquid", ck3ColorFactory, liquidVariables);
+				Logger.Info("Loaded converter religions.");
 				Logger.Info("Loading converter faiths...");
 				Religions.LoadConverterFaiths("configurables/converter_faiths.liquid", ck3ColorFactory, liquidVariables);
 				Logger.Info("Loaded converter faiths.");
 				Logger.IncrementProgress();
+				Logger.Info("Loading converter rites...");
+				Religions.LoadConverterRites("configurables/converter_rites.liquid", ck3ColorFactory, liquidVariables);
+				Logger.Info("Loaded converter rites.");
 				Religions.RemoveChristianAndIslamicSyncretismFromAllFaiths();
 				// Now that all the faiths are loaded, remove liege entries from the history of religious head titles.
 				LandedTitles.RemoveLiegeEntriesFromReligiousHeadHistory(Religions);
@@ -221,6 +237,11 @@ internal sealed class World {
 		);
 
 		var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, CK3RegionMapper);
+
+		// CK3 1.20+ character history uses rite instead of faith.
+		foreach (var character in Characters) {
+			Religions.ResolveRiteIdsInFaithHistory(character.History);
+		}
 
 		Parallel.Invoke(
 			() => Cultures.ImportTechnology(impWorld.Countries, cultureMapper, provinceMapper, impWorld.InventionsDB, impWorld.LocDB, liquidVariables),
@@ -512,7 +533,17 @@ internal sealed class World {
 
 		// Let's locate, verify and potentially update those mods immediately.
 		ModLoader modLoader = new();
-		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods, config.CK3Version, throwForOutOfDateMods: true);
+		string? parentDir = null;
+		try {
+			parentDir = Directory.GetParent(config.CK3ModsPath)?.FullName;
+		} catch (ArgumentException ex) {
+			Logger.Warn($"Invalid CK3 mods path: {config.CK3ModsPath}: {ex.Message}");
+		}
+		if (parentDir is null) {
+			Logger.Warn($"CK3 mods path has no parent: {config.CK3ModsPath}");
+			parentDir = config.CK3ModsPath;
+		}
+		modLoader.LoadMods(parentDir, incomingCK3Mods, config.CK3Version, throwForOutOfDateMods: true);
 		
 		// Add modLoader's UsableMods to LoadedMods.
 		LoadedMods.AddRange(modLoader.UsableMods);
@@ -551,6 +582,7 @@ internal sealed class World {
 
 		bool ck3HasRajasOfAsia = config.RajasOfAsiaEnabled;
 		bool ck3HasAEP = config.AsiaExpansionProjectEnabled;
+		bool ck3HasTFE = config.FallenEagleEnabled;
 
 		string mappingsToUse;
 		if (irHasTI && ck3HasRajasOfAsia) {
@@ -561,6 +593,8 @@ internal sealed class World {
 			mappingsToUse = "terra_indomita_to_vanilla_ck3";
 		} else if (config.WhenTheWorldStoppedMakingSenseEnabled) {
 			mappingsToUse = "invictus_to_wtwsms";
+		} else if (ck3HasTFE) {
+			mappingsToUse = "invictus_to_tfe";
 		} else if (config is {InvictusDetected: true, Invictus1_7Detected: true}) {
 			mappingsToUse = "invictus_1_7_to_vanilla_ck3";
 		} else if (config.InvictusDetected) {
@@ -609,7 +643,7 @@ internal sealed class World {
 		FrozenSet<Governorship> countyLevelGovernorshipsSet = countyLevelGovernorships.ToFrozenSet();
 
 		foreach (var county in LandedTitles.Counties) {
-			if (county.NobleFamily == true) {
+			if (county.NobleFamily == true || county.Landless == true) {
 				continue;
 			}
 			if (county.CapitalBaronyProvinceId is null) {
@@ -1085,9 +1119,29 @@ internal sealed class World {
 		}
 
 		var provincePositions = MapData.ProvincePositions;
-		var provincesWithValidFaith = Provinces
-			.Where(p => !provincesOfReligion.Contains(p) && p.GetFaithId(date) is not null && !MapData.IsImpassable(p.Id))
-			.ToArray();
+
+		// Resolve candidate positions once into parallel arrays to avoid
+		// per-pair dictionary lookups inside the distance loop (O(remaining x candidates)).
+		var candidateProvinces = new List<Province>();
+		var candidateXs = new List<double>();
+		var candidateYs = new List<double>();
+		foreach (var candidate in Provinces) {
+			if (provincesOfReligion.Contains(candidate)) {
+				continue;
+			}
+			if (candidate.GetFaithId(date) is null || MapData.IsImpassable(candidate.Id)) {
+				continue;
+			}
+			if (!provincePositions.TryGetValue(candidate.Id, out var candidatePosition)) {
+				Logger.Warn($"Province {candidate.Id} has no position defined!");
+				continue;
+			}
+
+			candidateProvinces.Add(candidate);
+			candidateXs.Add(candidatePosition.X);
+			candidateYs.Add(candidatePosition.Y);
+		}
+
 		foreach (var province in provincesOfReligion.ToArray()) {
 			if (!provincePositions.TryGetValue(province.Id, out var provincePosition)) {
 				Logger.Warn($"Province {province.Id} has no position defined!");
@@ -1096,21 +1150,16 @@ internal sealed class World {
 
 			Province? closestValidProvince = null;
 			double shortestDistanceSquared = double.MaxValue;
-			foreach (var candidateProvince in provincesWithValidFaith) {
-				if (!provincePositions.TryGetValue(candidateProvince.Id, out var candidatePosition)) {
-					Logger.Warn($"Province {candidateProvince.Id} has no position defined!");
-					continue;
-				}
-
-				var xDiff = provincePosition.X - candidatePosition.X;
-				var yDiff = provincePosition.Y - candidatePosition.Y;
+			for (var i = 0; i < candidateProvinces.Count; ++i) {
+				var xDiff = provincePosition.X - candidateXs[i];
+				var yDiff = provincePosition.Y - candidateYs[i];
 				var distanceSquared = (xDiff * xDiff) + (yDiff * yDiff);
 				if (distanceSquared == 0 || distanceSquared >= shortestDistanceSquared) {
 					continue;
 				}
 
 				shortestDistanceSquared = distanceSquared;
-				closestValidProvince = candidateProvince;
+				closestValidProvince = candidateProvinces[i];
 			}
 			if (closestValidProvince is null) {
 				continue;
@@ -1213,7 +1262,7 @@ internal sealed class World {
 		var date = config.CK3BookmarkDate;
 		List<Title> unheldCounties = [];
 		foreach (var county in LandedTitles.Counties) {
-			if (county.NobleFamily == true) {
+			if (county.NobleFamily == true || county.Landless == true) {
 				continue;
 			}
 
@@ -1505,6 +1554,7 @@ internal sealed class World {
 			{"dlc027.dlc", "celestial_court_attire"},
 			{"dlc028.dlc", "symbols_of_authority"},
 			{"dlc029.dlc", "songs_of_the_realm"},
+			{"dlc030.dlc", "by_god_alone"},
 		};
 		
 		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);
