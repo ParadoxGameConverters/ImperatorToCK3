@@ -109,10 +109,9 @@ internal sealed class TagTitleMapper {
 				continue;
 			}
 
-			// Currently we don't want to modify the de jure structure of h_china.
-			// So, if the given title ID belongs to h_china de jure hierarchy, we skip it and remove the mapping.
-			if (titles.TryGetValue(match, out var ck3Title) && ck3Title.GetDeJureLiegeOfRank(TitleRank.hegemony)?.Id == "h_china") {
-				Logger.Debug($"Governorship title {match} belongs to h_china de jure hierarchy! Skipping mapping for governorship in region {governorship.Region.Id} of country {country.Tag}.");
+			// Don't use titles whose de jure setup must be preserved for governorships.
+			if (TitleShouldBeSkippedForGovernorship(match, titles, provMapper)) {
+				Logger.Debug($"Skipping governorship mapping to {match} for governorship in region {governorship.Region.Id} of country {country.Tag}.");
 				titleMappings.RemoveAt(i);
 				// move back one index so we don't skip the element that shifted into this slot
 				--i;
@@ -127,6 +126,28 @@ internal sealed class TagTitleMapper {
 		var generatedTitle = GenerateNewTitleId(governorship.Region.Id, country.Tag, ck3LiegeTitle);
 		RegisterGovernorship(governorship.Region.Id, country.Tag, generatedTitle);
 		return generatedTitle;
+	}
+
+	private static bool TitleShouldBeSkippedForGovernorship(string titleId, Title.LandedTitles titles, ProvinceMapper provMapper) {
+		if (!titles.TryGetValue(titleId, out var title)) {
+			return false;
+		}
+
+		// Currently we don't want to modify the de jure structure of h_china.
+		if (title.GetDeJureLiegeOfRank(TitleRank.hegemony)?.Id == "h_china") {
+			Logger.Debug($"Governorship title {titleId} belongs to h_china de jure hierarchy!");
+			return true;
+		}
+
+		// Kingdoms whose de jure land is mostly outside the Imperator map keep their vanilla de jure setup.
+		// Assigning such a title to a governorship would overwrite its de jure liege with the country's title.
+		var kingdom = title.Rank == TitleRank.kingdom ? title : title.GetDeJureLiegeOfRank(TitleRank.kingdom);
+		if (kingdom is not null && Title.LandedTitles.HasMajorityOfProvincesOutsideImperatorMap(kingdom, provMapper)) {
+			Logger.Debug($"Governorship title {titleId} belongs to out-of-scope kingdom {kingdom.Id}!");
+			return true;
+		}
+
+		return false;
 	}
 
 	internal static Dictionary<string, List<Title>> BuildCountyByRegionIndex(

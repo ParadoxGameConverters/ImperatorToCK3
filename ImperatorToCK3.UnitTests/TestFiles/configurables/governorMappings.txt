@@ -76,3 +76,5 @@ link = { ir = rhaetia_region ck3 = k_bavaria rank = k }
 link = { ir = baetica_region ck3 = k_andalusia rank = k }
 link = { ir = scandinavia_region ck3 = k_sweden rank = k }
 link = { ir = scandinavia_region ck3 = d_svealand rank = d }
+
+link = { ir = fezzan_region ck3 = k_sahara rank = k }

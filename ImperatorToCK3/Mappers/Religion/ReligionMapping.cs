@@ -66,7 +66,7 @@ internal sealed class ReligionMapping {
 
 		if (ck3Religions.Rites.TryGetValue(ck3Id, out var rite)) {
 			if (rite.FaithId is null) {
-				Logger.Warn($"CK3 rite {ck3Id} has no faith and cannot be used in a religion mapping!");
+				Logger.Debug($"CK3 rite {ck3Id} has no faith; removing religion mapping link.");
 				return;
 			}
 
@@ -80,7 +80,7 @@ internal sealed class ReligionMapping {
 			return;
 		}
 
-		Logger.Warn($"CK3 rite or faith {ck3Id} not found for religion mapping!");
+		Logger.Debug($"CK3 rite or faith {ck3Id} not found; removing religion mapping link.");
 	}
 
 	public string? Match(
