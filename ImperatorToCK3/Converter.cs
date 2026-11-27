@@ -6,7 +6,6 @@ namespace ImperatorToCK3;
 internal static class Converter {
 	public static void ConvertImperatorToCK3(ConverterVersion converterVersion) {
 		Logger.Progress(0);
-		DebugInfo.LogEverything();
 		SystemUtils.TryCreateFolder("temp");
 		var config = new Configuration(converterVersion);
 
