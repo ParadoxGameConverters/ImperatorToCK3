@@ -1139,23 +1139,31 @@ internal sealed partial class Title {
 			return IsInChinaDeJureHierarchy(kingdom) || protectedKingdomIds.Contains(kingdom.Id);
 		}
 
-		private static bool DuchyShouldKeepExistingDeJureSetup(Title duchy, FrozenSet<string> protectedKingdomIds) {
+		private static bool DuchyShouldKeepExistingDeJureSetup(Title duchy, FrozenSet<string> protectedKingdomIds, ProvinceMapper provinceMapper) {
 			if (IsInChinaDeJureHierarchy(duchy)) {
 				return true;
 			}
 
 			var currentKingdom = duchy.GetDeJureLiegeOfRank(TitleRank.kingdom);
-			return currentKingdom is not null && protectedKingdomIds.Contains(currentKingdom.Id);
+			if (currentKingdom is null || !protectedKingdomIds.Contains(currentKingdom.Id)) {
+				return false;
+			}
+
+			// Only preserve the duchy's de jure setup if the duchy itself is mostly outside the Imperator map.
+			// An in-scope duchy under an out-of-scope kingdom should still be able to join a governorship title;
+			// otherwise that governorship would end up without any de jure land.
+			var (outsideCount, totalCount) = GetProvinceCountsOutsideImperatorMap(duchy, provinceMapper);
+			return totalCount == 0 || outsideCount * 2 > totalCount;
 		}
 
-		private void SetDeJureKingdoms(CK3LocDB ck3LocDB, Date ck3BookmarkDate, FrozenSet<string> protectedKingdomIds) {
+		private void SetDeJureKingdoms(CK3LocDB ck3LocDB, Date ck3BookmarkDate, FrozenSet<string> protectedKingdomIds, ProvinceMapper provinceMapper) {
 			Logger.Info("Setting de jure kingdoms...");
 
 			var duchies = this.Where(t => t.Rank == TitleRank.duchy).ToFrozenSet();
 			var duchiesWithDeJureVassals = duchies.Where(d => d.DeJureVassals.Count > 0).ToFrozenSet();
 
 			foreach (var duchy in duchiesWithDeJureVassals) {
-				if (DuchyShouldKeepExistingDeJureSetup(duchy, protectedKingdomIds)) {
+				if (DuchyShouldKeepExistingDeJureSetup(duchy, protectedKingdomIds, provinceMapper)) {
 					continue;
 				}
 
@@ -1876,7 +1884,7 @@ internal sealed partial class Title {
 
 		public void SetDeJureKingdomsAndAbove(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3RegionMapper ck3RegionMapper, CK3LocDB ck3LocDB, ProvinceMapper provinceMapper) {
 			var protectedKingdomIds = GetKingdomIdsWithMajorityOutsideImperatorMap(GetDeJureKingdoms(), provinceMapper);
-			SetDeJureKingdoms(ck3LocDB, ck3BookmarkDate, protectedKingdomIds);
+			SetDeJureKingdoms(ck3LocDB, ck3BookmarkDate, protectedKingdomIds, provinceMapper);
 			SetDeJureEmpiresAndHegemonies(ck3Cultures, ck3Characters, ck3MapData, ck3RegionMapper, ck3LocDB, ck3BookmarkDate, protectedKingdomIds);
 		}
 

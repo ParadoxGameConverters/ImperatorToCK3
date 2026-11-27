@@ -765,6 +765,41 @@ public class LandedTitlesTests {
 	}
 
 	[Fact]
+	public void InScopeDuchyOfProtectedKingdomCanJoinGovernorshipTitle() {
+		var date = new Date(867, 1, 1);
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(new BufferedReader(
+			"e_old = { k_protected = { " +
+			"d_outside = { c_out1 = { b_out1 = { province = 100 } } c_out2 = { b_out2 = { province = 101 } } c_out3 = { b_out3 = { province = 102 } } c_out4 = { b_out4 = { province = 103 } } } " +
+			"d_inside = { capital = c_in1 c_in1 = { b_in1 = { province = 1 } } c_in2 = { b_in2 = { province = 2 } } c_in3 = { b_in3 = { province = 3 } } } " +
+			"} }\n" +
+			"h_new = { e_new = { k_new = { } } }\n"
+		), colorFactory);
+
+		var characters = new CharacterCollection();
+		var holder = new Character("1", "Holder", new Date(800, 1, 1), characters);
+		characters.Add(holder);
+
+		foreach (var countyId in new[] { "c_in1", "c_in2", "c_in3" }) {
+			titles[countyId].SetHolder(holder, date);
+			titles[countyId].SetDeFactoLiege(titles["k_new"], date);
+		}
+		titles["k_new"].SetDeFactoLiege(titles["e_new"], date);
+		titles["e_new"].SetDeFactoLiege(titles["h_new"], date);
+
+		var provinceMapper = new ProvinceMapper();
+		provinceMapper.LoadMappings(provinceMappingsPath);
+
+		WithTemporaryHeritageEmpireMap(() =>
+			titles.SetDeJureKingdomsAndAbove(date, new TestCK3CultureCollection(), characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB(), provinceMapper)
+		);
+
+		Assert.Equal("k_new", titles["d_inside"].DeJureLiege?.Id);
+		Assert.Equal("k_protected", titles["d_outside"].DeJureLiege?.Id);
+		Assert.Equal("e_old", titles["k_protected"].DeJureLiege?.Id);
+	}
+
+	[Fact]
 	public void ProtectedKingdomIsNotExcludedFromDisconnectedEmpireSplitting() {
 		var date = new Date(867, 1, 1);
 		var titles = new Title.LandedTitles();
