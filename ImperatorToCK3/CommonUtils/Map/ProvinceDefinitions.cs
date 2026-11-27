@@ -37,7 +37,7 @@ internal sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDe
 			try {
 				ParseDefinitionLine(line);
 			} catch (Exception e) {
-				throw new FormatException($"Line: |{line}| is unparseable! Breaking. ({e})");
+				throw new FormatException($"Line: |{line}| is unparseable! Breaking.", e);
 			}
 		}
 	}
