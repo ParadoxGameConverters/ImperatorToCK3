@@ -2,6 +2,7 @@
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.States;
+using System;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Provinces;
@@ -52,6 +53,9 @@ internal partial class Province {
 		provinceParser.RegisterKeyword("buildings", reader => {
 			var buildingsList = reader.GetInts();
 			parsedProvince.BuildingCount = (uint)buildingsList.Sum();
+		});
+		provinceParser.RegisterKeyword("variables", reader => {
+			throw new NotImplementedException("TODO: convert variables to CK3");
 		});
 		provinceParser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 	}
